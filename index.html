@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AINavHub - AI Tools Navigator</title>
   <meta name="description" content="AINavHub：精选 AI 工具导航，支持分类筛选、搜索和排序。" />
-  <link rel="icon" type="image/png" href="./logo.png" />
+  <link rel="icon" type="image/png" href="./logo.png?v=2" />
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
@@ -13,30 +13,25 @@
     <div class="container">
       <div class="topbar">
         <div class="brand-wrap">
-          <img src="./logo.png" alt="AINavHub logo" class="brand-logo" />
-          <div>
-            <h1>AINavHub</h1>
-            
-          </div>
+          <img src="./logo.png?v=2" alt="AINavHub logo" class="brand-logo" />
+          <div><h1>AINavHub</h1></div>
         </div>
-
         <div class="top-actions">
           <a id="aboutEntry" class="submit-entry" href="./about.html">关于</a>
-          <a id="submitEntry" class="submit-entry" href="https://github.com/1225067131-dotcom/ainavhub/issues/new" target="_blank" rel="noopener noreferrer">提交工具</a><button id="langToggle" class="lang-toggle" type="button">EN</button>
+          <a id="submitEntry" class="submit-entry" href="https://github.com/1225067131-dotcom/ainavhub/issues/new" target="_blank" rel="noopener noreferrer">提交工具</a>
+          <button id="langToggle" class="lang-toggle" type="button">EN</button>
         </div>
       </div>
 
       <section class="hero">
         <h2 id="heroTitle" class="hero-main">发现好用的 <span class="accent">AI 工具</span></h2>
         <p id="heroSub" class="hero-sub">一站直达</p>
-        
-        
       </section>
 
       <div class="controls controls-3">
         <input id="searchInput" type="text" placeholder="搜索工具名、描述或标签..." />
         <select id="categorySelect"></select>
-        <select id="sortSelect"></select>
+        
       </div>
 
       <div class="quick-actions">
@@ -55,18 +50,23 @@
       <article class="metric"><span id="mCatsLabel">分类数</span><strong id="mCats">0</strong></article>
     </section>
 
-    <section id="stats" class="stats"></section>
+    <section class="list-toolbar">
+      <div id="stats" class="stats"></div>
+      <div class="view-controls">
+        <div class="view-segment" role="group" aria-label="Layout switch">
+          <button id="viewGridBtn" class="view-btn active" title="Grid view" aria-label="Grid view">▦</button>
+          <button id="viewListBtn" class="view-btn" title="List view" aria-label="List view">☰</button>
+        </div>
+        <select id="sortInline"></select>
+      </div>
+    </section>
+
     <section id="toolGrid" class="tool-grid"></section>
     <p id="emptyState" class="empty hidden">没有找到匹配工具，换个关键词试试。</p>
     <div id="emptyGuide" class="empty-guide hidden"></div>
   </main>
 
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <p>© <span id="year"></span> AINavHub</p>
-      <p><span id="submitLabel">提交工具</span>：<a href="https://github.com/1225067131-dotcom/ainavhub/issues/new" id="submitLink" target="_blank" rel="noopener noreferrer">GitHub Issue</a></p>
-    </div>
-  </footer>
+  <footer class="site-footer">`n    <div class="container footer-inner footer-center">`n      <p>© 2025 AINavHub. All rights reserved.</p>`n      <p><a href="mailto:hello@ainavhub.com">hello@ainavhub.com</a></p>`n    </div>`n  </footer>
 
   <button id="toTopBtn" class="to-top" type="button" aria-label="Back to top">↑</button>
 
@@ -74,22 +74,21 @@
     const toolGrid = document.getElementById('toolGrid');
     const searchInput = document.getElementById('searchInput');
     const categorySelect = document.getElementById('categorySelect');
-    const sortSelect = document.getElementById('sortSelect');
+    const sortInline = document.getElementById('sortInline');
+    const sortSelect = document.getElementById('sortSelect') || sortInline;
     const stats = document.getElementById('stats');
     const emptyState = document.getElementById('emptyState');
     const emptyGuide = document.getElementById('emptyGuide');
     const langToggle = document.getElementById('langToggle');
-    
     const submitEntry = document.getElementById('submitEntry');
     const aboutEntry = document.getElementById('aboutEntry');
-
     const chipAll = document.getElementById('chipAll');
     const chipFree = document.getElementById('chipFree');
     const chipFreemium = document.getElementById('chipFreemium');
     const chipReset = document.getElementById('chipReset');
     const chips = [chipAll, chipFree, chipFreemium];
-
     const heroTitle = document.getElementById('heroTitle');
+    const heroSub = document.getElementById('heroSub');
     const mTotalLabel = document.getElementById('mTotalLabel');
     const mFreeLabel = document.getElementById('mFreeLabel');
     const mCatsLabel = document.getElementById('mCatsLabel');
@@ -97,45 +96,44 @@
     const mFree = document.getElementById('mFree');
     const mCats = document.getElementById('mCats');
     const toTopBtn = document.getElementById('toTopBtn');
+    const viewGridBtn = document.getElementById('viewGridBtn');
+    const viewListBtn = document.getElementById('viewListBtn');
 
-    document.getElementById('year').textContent = new Date().getFullYear();
+    const yearEl = document.getElementById('year'); if (yearEl) yearEl.textContent = new Date().getFullYear();
 
     const I18N = {
       zh: {
-        langBtn: 'EN', subtitle: '快速找到好用 AI 工具。',
-        heroTitle: '发现好用 AI 工具，一站直达', heroDesc: '精选、分类、可搜索。每天节省你找工具的时间。',
-        explore: '浏览工具',
+        langBtn: 'EN',
+        heroLead: '发现好用的', heroAccent: 'AI 工具', heroSub: '一站直达',
         searchPlaceholder: '搜索工具名、描述或标签...',
         categories: ['全部', '对话', '绘图', '视频', '编程', '办公', '学习'],
-        sortLabel: ['默认排序','按名称 A-Z','免费优先'],
+        sortLabel: ['默认排序', '最新添加', '按名称'],
         chips: ['全部','仅免费','免费优先','重置筛选'],
         emptyHints: '试试：chat / image / free',
         stats: (n) => `当前显示 ${n} 个工具`,
         empty: '没有找到匹配工具，换个关键词试试。',
-        visit: '访问网站', submit: '提交工具', about: '关于',
+        submit: '提交工具', about: '关于',
         totalLabel: '总工具', freeLabel: '免费/部分免费', catsLabel: '分类数',
-        free: '免费', freemium: '部分免费', paid: '付费',
+        free: '免费', freemium: '部分免费', paid: '付费'
       },
       en: {
-        langBtn: '中', subtitle: 'Find useful AI tools fast.',
-        heroTitle: 'Discover useful AI tools in one place', heroDesc: 'Curated, categorized, searchable — save time every day.',
-        explore: 'Explore Tools',
+        langBtn: '中',
+        heroLead: 'Discover useful', heroAccent: 'AI tools', heroSub: 'All in one place',
         searchPlaceholder: 'Search by name, description, or tags...',
         categories: ['All', 'Chat', 'Image', 'Video', 'Coding', 'Office', 'Learning'],
-        sortLabel: ['Default','Name A-Z','Free First'],
+        sortLabel: ['Default', 'Latest Added', 'Name A-Z'],
         chips: ['All','Free Only','Free First','Reset Filters'],
         emptyHints: 'Try: chat / image / free',
         stats: (n) => `${n} tools shown`,
         empty: 'No tools found. Try another keyword.',
-        visit: 'Visit Website', submit: 'Submit Tool', about: 'About',
+        submit: 'Submit Tool', about: 'About',
         totalLabel: 'Total Tools', freeLabel: 'Free/Freemium', catsLabel: 'Categories',
-        free: 'Free', freemium: 'Freemium', paid: 'Paid',
+        free: 'Free', freemium: 'Freemium', paid: 'Paid'
       }
     };
 
     const categoryMap = { 对话:'Chat', 绘图:'Image', 视频:'Video', 编程:'Coding', 办公:'Office', 学习:'Learning' };
     const reverseCategoryMap = Object.fromEntries(Object.entries(categoryMap).map(([k,v]) => [v,k]));
-
     const categoryIcons = { 对话:'💬', 绘图:'🎨', 视频:'🎬', 编程:'💻', 办公:'🧩', 学习:'📚' };
 
     let tools = [];
@@ -143,79 +141,59 @@
     let quickMode = 'all';
 
     function setActiveChip(el){ chips.forEach(c=>c.classList.remove('active')); el.classList.add('active'); }
-    function localizedCategory(zhCategory) { return currentLang === 'zh' ? zhCategory : (categoryMap[zhCategory] || zhCategory); }
-    function toZhCategory(localCategory) { return currentLang === 'zh' ? localCategory : (reverseCategoryMap[localCategory] || localCategory); }
-    function badgeClass(freeType) { if (freeType === '免费') return 'badge free'; if (freeType === '部分免费') return 'badge freemium'; return 'badge paid'; }
-    function visitBtnClass(category) {
-      const map = { 对话:'visit-chat', 绘图:'visit-image', 视频:'visit-video', 编程:'visit-code' };
-      return map[category] || 'visit-default';
-    }
-    function categoryClass(category){
-      const map = { 对话:'cat-chat', 绘图:'cat-image', 视频:'cat-video', 编程:'cat-code', 写作:'cat-write' };
-      return map[category] || 'cat-default';
-    }
-    function getToolScreenshot(url){
-      try {
-        const u = new URL(url);
-        return `https://image.thum.io/get/width/800/noanimate/${u.origin}`;
-      } catch {
-        return '';
-      }
-    }
+    const localizedCategory = (zh) => currentLang === 'zh' ? zh : (categoryMap[zh] || zh);
+    const toZhCategory = (local) => currentLang === 'zh' ? local : (reverseCategoryMap[local] || local);
+    const badgeClass = (f) => f === '免费' ? 'badge free' : (f === '部分免费' ? 'badge freemium' : 'badge paid');
+    const categoryClass = (c) => ({对话:'cat-chat',绘图:'cat-image',视频:'cat-video',编程:'cat-code',写作:'cat-write'}[c] || 'cat-default');
+    const localizedTags = (tool) => currentLang === 'en' ? (tool.tagsEn || tool.tags || []) : (tool.tags || []);
+    const localizedDescription = (tool) => currentLang === 'en' ? (tool.descriptionEn || tool.description) : tool.description;
+    const localizedFreeType = (f) => currentLang === 'zh' ? f : (f === '免费' ? I18N.en.free : (f === '部分免费' ? I18N.en.freemium : I18N.en.paid));
+    const getToolScreenshot = (url) => { try { const u = new URL(url); return `https://image.thum.io/get/width/800/noanimate/${u.origin}`; } catch { return ''; } };
+    const getToolIcon = (url) => { try { const u = new URL(url); return `https://www.google.com/s2/favicons?sz=64&domain=${u.hostname}`; } catch { return './logo.png'; } };
 
-    function getToolIcon(url){
-      try {
-        const u = new URL(url);
-        const host = u.hostname;
-        return `https://www.google.com/s2/favicons?sz=64&domain=${host}`;
-      } catch {
-        return './logo.png';
-      }
-    }
-
-    function localizedFreeType(freeType) {
-      if (currentLang === 'zh') return freeType;
-      if (freeType === '免费') return I18N.en.free;
-      if (freeType === '部分免费') return I18N.en.freemium;
-      return I18N.en.paid;
-    }
-
-    function updateMetrics(allTools) {
+    function updateMetrics(allTools){
       mTotal.textContent = allTools.length;
       mFree.textContent = allTools.filter(t => t.freeType === '免费' || t.freeType === '部分免费').length;
       mCats.textContent = new Set(allTools.map(t => t.category)).size;
     }
 
-    function setCategoryOptions() {
+    function setCategoryOptions(){
       const labels = I18N[currentLang].categories;
-      const prevSelected = categorySelect.value;
-      categorySelect.innerHTML = labels.map(label => `<option value="${label}">${label}</option>`).join('');
-      if (labels.includes(prevSelected)) categorySelect.value = prevSelected;
-      else categorySelect.value = labels[0];
+      const prev = categorySelect.value;
+      categorySelect.innerHTML = labels.map(l => `<option value="${l}">${l}</option>`).join('');
+      categorySelect.value = labels.includes(prev) ? prev : labels[0];
     }
 
-    function setSortOptions() {
+    function setSortOptions(){
       const labels = I18N[currentLang].sortLabel;
-      const mapping = ['default','name','free'];
-      const prev = sortSelect.value || 'default';
-      sortSelect.innerHTML = labels.map((label, i) => `<option value="${mapping[i]}">${label}</option>`).join('');
+      const map = ['default','latest','name'];
+      const prev = sortInline.value || sortSelect.value || 'default';
+      const html = labels.map((l,i)=>`<option value="${map[i]}">${l}</option>`).join('');
+      sortSelect.innerHTML = html;
+      sortInline.innerHTML = html;
       sortSelect.value = prev;
+      sortInline.value = prev;
     }
 
-    function applySort(list) {
-      const mode = sortSelect.value;
+    function applySort(list){
+      const mode = sortInline.value || sortSelect.value || 'default';
       const cloned = [...list];
-      if (mode === 'name') cloned.sort((a,b) => a.name.localeCompare(b.name));
-      if (mode === 'free') {
-        const rank = (f) => (f === '免费' ? 0 : f === '部分免费' ? 1 : 2);
-        cloned.sort((a,b) => rank(a.freeType) - rank(b.freeType) || a.name.localeCompare(b.name));
-      }
+      if (mode === 'name') cloned.sort((a,b)=>a.name.localeCompare(b.name));
+      if (mode === 'latest') cloned.reverse();
       return cloned;
     }
 
-    function render(list) {
+    function render(list){
       toolGrid.innerHTML = '';
-      if (!list.length) { emptyState.classList.remove('hidden'); emptyGuide.classList.remove('hidden'); emptyGuide.textContent = I18N[currentLang].emptyHints; } else { emptyState.classList.add('hidden'); emptyGuide.classList.add('hidden'); }
+      if (!list.length) {
+        emptyState.classList.remove('hidden');
+        emptyGuide.classList.remove('hidden');
+        emptyGuide.textContent = I18N[currentLang].emptyHints;
+      } else {
+        emptyState.classList.add('hidden');
+        emptyGuide.classList.add('hidden');
+      }
+
       list.forEach(tool => {
         const card = document.createElement('article');
         card.className = 'card';
@@ -223,32 +201,27 @@
         card.setAttribute('tabindex','0');
         card.addEventListener('click', () => window.open(tool.url, '_blank', 'noopener,noreferrer'));
         card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.open(tool.url, '_blank', 'noopener,noreferrer'); } });
-        const tags = (tool.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
+
+        const tags = localizedTags(tool).map(t => `<span class="tag">${t}</span>`).join('');
         card.innerHTML = `
           <div class="card-media">
             <img class="tool-shot" src="${getToolScreenshot(tool.url)}" alt="${tool.name} screenshot" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <div class="tool-shot-fallback" style="display:none;">
-              <img class="tool-logo-large" src="${getToolIcon(tool.url)}" alt="${tool.name} logo" loading="lazy" referrerpolicy="no-referrer" />
-            </div>
+            <div class="tool-shot-fallback" style="display:none;"><img class="tool-logo-large" src="${getToolIcon(tool.url)}" alt="${tool.name} logo" loading="lazy" referrerpolicy="no-referrer" /></div>
           </div>
           <div class="card-top">
-            <div class="tool-head">
-              <img class="tool-icon" src="${getToolIcon(tool.url)}" alt="${tool.name} icon" loading="lazy" referrerpolicy="no-referrer" />
-              <h3>${tool.name}</h3>
-            </div>
+            <div class="tool-head"><img class="tool-icon" src="${getToolIcon(tool.url)}" alt="${tool.name} icon" loading="lazy" referrerpolicy="no-referrer" /><h3>${tool.name}</h3></div>
             <span class="${badgeClass(tool.freeType)}">${localizedFreeType(tool.freeType)}</span>
           </div>
-          <p class="desc">${tool.description}</p>
-          <div class="meta"><span class="cat ${categoryClass(tool.category)}">${categoryIcons[tool.category] || "✨"} ${localizedCategory(tool.category)}</span></div>
-          <div class="tags">${tags}</div>
-          
-        `;
+          <p class="desc">${localizedDescription(tool)}</p>
+          <div class="meta"><span class="cat ${categoryClass(tool.category)}">${categoryIcons[tool.category] || '✨'} ${localizedCategory(tool.category)}</span></div>
+          <div class="tags">${tags}</div>`;
+
         toolGrid.appendChild(card);
       });
       stats.textContent = I18N[currentLang].stats(list.length);
     }
 
-    function filterTools() {
+    function filterTools(){
       const keyword = searchInput.value.trim().toLowerCase();
       const selectedCategory = categorySelect.value;
       const allLabel = I18N[currentLang].categories[0];
@@ -257,23 +230,24 @@
       let filtered = tools.filter(tool => {
         const matchCategory = selectedCategory === allLabel || tool.category === selectedZhCategory;
         const matchKeyword = tool.name.toLowerCase().includes(keyword)
-          || tool.description.toLowerCase().includes(keyword)
-          || (tool.tags || []).join(' ').toLowerCase().includes(keyword);
+          || localizedDescription(tool).toLowerCase().includes(keyword)
+          || localizedTags(tool).join(' ').toLowerCase().includes(keyword);
         return matchCategory && matchKeyword;
       });
 
       if (quickMode === 'freeOnly') filtered = filtered.filter(t => t.freeType === '免费');
-      if (quickMode === 'freeFirst') sortSelect.value = 'free';
-
+      if (quickMode === 'freeFirst') sortInline.value = sortSelect.value = 'default';
       render(applySort(filtered));
     }
 
-    function applyLanguage() {
+    function applyLanguage(){
       document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : 'en';
       const lang = I18N[currentLang];
-      langToggle.textContent = lang.langBtn;      searchInput.placeholder = lang.searchPlaceholder;
+      langToggle.textContent = lang.langBtn;
+      heroTitle.innerHTML = `${lang.heroLead} <span class="accent">${lang.heroAccent}</span>`;
+      heroSub.textContent = lang.heroSub;
+      searchInput.placeholder = lang.searchPlaceholder;
       emptyState.textContent = lang.empty;
-      
       submitEntry.textContent = lang.submit;
       aboutEntry.textContent = lang.about;
       mTotalLabel.textContent = lang.totalLabel;
@@ -288,45 +262,52 @@
       filterTools();
     }
 
-    async function init() {
+    function toggleViewMode(){
+      const isList = toolGrid.classList.contains('list-mode');
+      if (isList) {
+        toolGrid.classList.remove('list-mode');
+        viewGridBtn.classList.add('active');
+        viewListBtn.classList.remove('active');
+      } else {
+        toolGrid.classList.add('list-mode');
+        viewListBtn.classList.add('active');
+        viewGridBtn.classList.remove('active');
+      }
+    }
+
+    async function init(){
       try {
         const res = await fetch('./tools.json');
         tools = await res.json();
         updateMetrics(tools);
         applyLanguage();
       } catch (err) {
-        toolGrid.innerHTML = '<p>Data load failed. Please check tools.json.</p>';
+        toolGrid.innerHTML = `<p>Data load failed: ${err?.message || err}</p>`;
         console.error(err);
       }
     }
 
-    chipAll.addEventListener('click', () => { quickMode='all'; setActiveChip(chipAll); filterTools(); });
-    chipFree.addEventListener('click', () => { quickMode='freeOnly'; setActiveChip(chipFree); filterTools(); });
-    chipFreemium.addEventListener('click', () => { quickMode='freeFirst'; setActiveChip(chipFreemium); filterTools(); });
-    chipReset.addEventListener('click', () => {
-      quickMode='all';
-      setActiveChip(chipAll);
-      searchInput.value='';
-      categorySelect.value=I18N[currentLang].categories[0];
-      sortSelect.value='default';
-      filterTools();
-    });
+    chipAll.addEventListener('click', ()=>{ quickMode='all'; setActiveChip(chipAll); filterTools(); });
+    chipFree.addEventListener('click', ()=>{ quickMode='freeOnly'; setActiveChip(chipFree); filterTools(); });
+    chipFreemium.addEventListener('click', ()=>{ quickMode='freeFirst'; setActiveChip(chipFreemium); filterTools(); });
+    chipReset.addEventListener('click', ()=>{ quickMode='all'; setActiveChip(chipAll); searchInput.value=''; categorySelect.value=I18N[currentLang].categories[0]; sortSelect.value='default'; sortInline.value='default'; filterTools(); });
 
     searchInput.addEventListener('input', filterTools);
     categorySelect.addEventListener('change', filterTools);
-    sortSelect.addEventListener('change', filterTools);
-    langToggle.addEventListener('click', () => { currentLang = currentLang === 'zh' ? 'en' : 'zh'; applyLanguage(); });
+    sortSelect.addEventListener('change', ()=>{ sortInline.value = sortSelect.value; filterTools(); });
+    sortInline.addEventListener('change', ()=>{ sortSelect.value = sortInline.value; filterTools(); });
+    viewGridBtn.addEventListener('click', toggleViewMode);
+    viewListBtn.addEventListener('click', toggleViewMode);
+    langToggle.addEventListener('click', ()=>{ currentLang = currentLang === 'zh' ? 'en' : 'zh'; applyLanguage(); });
 
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 300) toTopBtn.classList.add('show');
-      else toTopBtn.classList.remove('show');
-    });
-    toTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    window.addEventListener('scroll', ()=>{ if (window.scrollY > 300) toTopBtn.classList.add('show'); else toTopBtn.classList.remove('show'); });
+    toTopBtn.addEventListener('click', ()=> window.scrollTo({ top: 0, behavior: 'smooth' }));
 
     init();
   </script>
 </body>
 </html>
+
 
 
 

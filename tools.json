@@ -2,145 +2,181 @@
   {
     "name": "ChatGPT",
     "description": "通用 AI 助手，适合写作、问答、学习与头脑风暴。",
+    "descriptionEn": "General AI assistant for writing, Q&A, learning, and brainstorming.",
     "url": "https://chat.openai.com",
     "category": "对话",
     "freeType": "部分免费",
-    "tags": ["多用途", "写作", "问答"]
+    "tags": ["多用途", "写作", "问答"],
+    "tagsEn": ["Multi-purpose", "Writing", "Q&A"]
   },
   {
     "name": "Claude",
     "description": "长文本与总结表现优秀，适合文档处理。",
+    "descriptionEn": "Excellent at long-context reading and summarization for document work.",
     "url": "https://claude.ai",
     "category": "对话",
     "freeType": "部分免费",
-    "tags": ["长文本", "总结", "对话"]
+    "tags": ["长文本", "总结", "对话"],
+    "tagsEn": ["Long Context", "Summarization", "Chat"]
   },
   {
     "name": "Gemini",
     "description": "Google 的 AI 助手，支持多模态能力。",
+    "descriptionEn": "Google AI assistant with multimodal capabilities.",
     "url": "https://gemini.google.com",
     "category": "对话",
     "freeType": "部分免费",
-    "tags": ["多模态", "Google", "助手"]
+    "tags": ["多模态", "Google", "助手"],
+    "tagsEn": ["Multimodal", "Google", "Assistant"]
   },
   {
     "name": "Midjourney",
     "description": "高质量 AI 绘图工具，风格化能力强。",
+    "descriptionEn": "High-quality AI image generation with strong stylization.",
     "url": "https://www.midjourney.com",
     "category": "绘图",
     "freeType": "付费",
-    "tags": ["图像生成", "艺术风格", "高质量"]
+    "tags": ["图像生成", "艺术风格", "高质量"],
+    "tagsEn": ["Image Generation", "Art Style", "High Quality"]
   },
   {
     "name": "Leonardo AI",
     "description": "适合快速出图与风格尝试的绘图平台。",
+    "descriptionEn": "Image platform for fast generation and style exploration.",
     "url": "https://leonardo.ai",
     "category": "绘图",
     "freeType": "部分免费",
-    "tags": ["出图", "模型", "创作"]
+    "tags": ["出图", "模型", "创作"],
+    "tagsEn": ["Image Output", "Models", "Creative"]
   },
   {
     "name": "Canva AI",
     "description": "设计工具内置 AI 功能，适合海报与社媒图。",
+    "descriptionEn": "Design platform with built-in AI, great for posters and social media graphics.",
     "url": "https://www.canva.com",
     "category": "绘图",
     "freeType": "部分免费",
-    "tags": ["设计", "海报", "新手友好"]
+    "tags": ["设计", "海报", "新手友好"],
+    "tagsEn": ["Design", "Posters", "Beginner-friendly"]
   },
   {
     "name": "Runway",
     "description": "AI 视频生成与编辑，适合短视频创作。",
+    "descriptionEn": "AI video generation and editing for short-form content.",
     "url": "https://runwayml.com",
     "category": "视频",
     "freeType": "部分免费",
-    "tags": ["视频生成", "剪辑", "创作"]
+    "tags": ["视频生成", "剪辑", "创作"],
+    "tagsEn": ["Video Generation", "Editing", "Creative"]
   },
   {
     "name": "Pika",
     "description": "文本转视频工具，上手快、适合创意内容。",
+    "descriptionEn": "Text-to-video tool that is easy to use for creative content.",
     "url": "https://pika.art",
     "category": "视频",
     "freeType": "部分免费",
-    "tags": ["文本转视频", "创意", "短视频"]
+    "tags": ["文本转视频", "创意", "短视频"],
+    "tagsEn": ["Text-to-Video", "Creative", "Short Video"]
   },
   {
     "name": "CapCut",
     "description": "剪映国际版，含多种 AI 视频功能。",
+    "descriptionEn": "CapCut global edition with multiple AI video features.",
     "url": "https://www.capcut.com",
     "category": "视频",
     "freeType": "部分免费",
-    "tags": ["剪辑", "模板", "AI视频"]
+    "tags": ["剪辑", "模板", "AI视频"],
+    "tagsEn": ["Editing", "Templates", "AI Video"]
   },
   {
     "name": "GitHub Copilot",
     "description": "代码补全与编程辅助，支持主流 IDE。",
+    "descriptionEn": "Code completion and programming assistance for major IDEs.",
     "url": "https://github.com/features/copilot",
     "category": "编程",
     "freeType": "部分免费",
-    "tags": ["代码补全", "开发", "IDE"]
+    "tags": ["代码补全", "开发", "IDE"],
+    "tagsEn": ["Code Completion", "Development", "IDE"]
   },
   {
     "name": "Codeium",
     "description": "免费的 AI 编程助手，支持多语言。",
+    "descriptionEn": "Free AI coding assistant with multi-language support.",
     "url": "https://codeium.com",
     "category": "编程",
     "freeType": "免费",
-    "tags": ["免费", "代码补全", "开发效率"]
+    "tags": ["免费", "代码补全", "开发效率"],
+    "tagsEn": ["Free", "Code Completion", "Productivity"]
   },
   {
     "name": "Replit AI",
     "description": "在线开发平台 + AI 编程能力。",
+    "descriptionEn": "Online development platform with AI coding capabilities.",
     "url": "https://replit.com",
     "category": "编程",
     "freeType": "部分免费",
-    "tags": ["在线IDE", "编程", "协作"]
+    "tags": ["在线IDE", "编程", "协作"],
+    "tagsEn": ["Online IDE", "Coding", "Collaboration"]
   },
   {
     "name": "Notion AI",
     "description": "文档写作、总结与知识管理场景常用。",
+    "descriptionEn": "Commonly used for writing, summarization, and knowledge management.",
     "url": "https://www.notion.so/product/ai",
     "category": "办公",
     "freeType": "部分免费",
-    "tags": ["文档", "总结", "知识管理"]
+    "tags": ["文档", "总结", "知识管理"],
+    "tagsEn": ["Docs", "Summarization", "Knowledge Management"]
   },
   {
     "name": "Grammarly",
     "description": "英文写作润色与语法检查工具。",
+    "descriptionEn": "English writing enhancement and grammar checking tool.",
     "url": "https://www.grammarly.com",
     "category": "办公",
     "freeType": "部分免费",
-    "tags": ["写作", "语法", "润色"]
+    "tags": ["写作", "语法", "润色"],
+    "tagsEn": ["Writing", "Grammar", "Polish"]
   },
   {
     "name": "Tome",
     "description": "AI 生成演示文稿与提案内容。",
+    "descriptionEn": "AI-generated presentations and proposal content.",
     "url": "https://tome.app",
     "category": "办公",
     "freeType": "部分免费",
-    "tags": ["PPT", "演示", "提案"]
+    "tags": ["PPT", "演示", "提案"],
+    "tagsEn": ["Slides", "Presentation", "Proposal"]
   },
   {
     "name": "Khanmigo",
     "description": "学习辅导型 AI，适合学生与自学。",
+    "descriptionEn": "Learning-focused AI tutor for students and self-learners.",
     "url": "https://www.khanacademy.org/khan-labs",
     "category": "学习",
     "freeType": "部分免费",
-    "tags": ["学习", "辅导", "教育"]
+    "tags": ["学习", "辅导", "教育"],
+    "tagsEn": ["Learning", "Tutoring", "Education"]
   },
   {
     "name": "Perplexity",
     "description": "AI 搜索与答案整合，适合快速查资料。",
+    "descriptionEn": "AI search and answer synthesis for fast research.",
     "url": "https://www.perplexity.ai",
     "category": "学习",
     "freeType": "部分免费",
-    "tags": ["搜索", "资料", "研究"]
+    "tags": ["搜索", "资料", "研究"],
+    "tagsEn": ["Search", "Research Material", "Research"]
   },
   {
     "name": "Elicit",
     "description": "面向研究与论文检索的 AI 工具。",
+    "descriptionEn": "AI tool for research and academic paper discovery.",
     "url": "https://elicit.com",
     "category": "学习",
     "freeType": "部分免费",
-    "tags": ["论文", "研究", "检索"]
+    "tags": ["论文", "研究", "检索"],
+    "tagsEn": ["Papers", "Research", "Discovery"]
   }
 ]
