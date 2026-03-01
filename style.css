@@ -1,0 +1,243 @@
+:root {
+--bg: #0b1020;
+--panel: #131a2d;
+--text: #edf2ff;
+--muted: #a8b3cf;
+--line: #24304d;
+--primary: #6aa6ff;
+--primary-hover: #8ab9ff;
+--free: #24c47e;
+--freemium: #f0b429;
+--paid: #ef476f;
+}
+:thumbsup:
+点击反应
+:100:
+点击反应
+:laughing:
+点击反应
+添加反应
+回复
+转发
+更多
+[19:33]2026年3月1日 19:33
+* { box-sizing: border-box; }
+body {
+margin: 0;
+background: linear-gradient(180deg, #0a0f1f 0%, #0b1020 100%);
+color: var(--text);
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+.container {
+width: min(1100px, 92%);
+margin: 0 auto;
+}
+.site-header {
+padding: 36px 0 20px;
+}
+:thumbsup:
+点击反应
+:100:
+点击反应
+:laughing:
+点击反应
+添加反应
+回复
+转发
+更多
+[19:33]2026年3月1日 19:33
+h1 {
+margin: 0;
+font-size: 2rem;
+}
+.subtitle {
+color: var(--muted);
+margin: 8px 0 20px;
+}
+.controls {
+display: grid;
+grid-template-columns: 1fr 180px;
+gap: 12px;
+}
+input, select {
+width: 100%;
+:thumbsup:
+点击反应
+:100:
+点击反应
+:laughing:
+点击反应
+添加反应
+回复
+转发
+更多
+[19:33]2026年3月1日 19:33
+border: 1px solid var(--line);
+background: var(--panel);
+color: var(--text);
+border-radius: 10px;
+padding: 11px 12px;
+outline: none;
+}
+input:focus, select:focus {
+border-color: var(--primary);
+}
+
+.stats {
+margin: 10px 0 14px;
+color: var(--muted);
+}
+:thumbsup:
+点击反应
+:100:
+点击反应
+:laughing:
+点击反应
+添加反应
+回复
+转发
+更多
+[19:33]2026年3月1日 19:33
+.tool-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+gap: 14px;
+padding-bottom: 28px;
+}
+.card {
+background: rgba(19, 26, 45, 0.95);
+border: 1px solid var(--line);
+border-radius: 14px;
+padding: 14px;
+display: flex;
+flex-direction: column;
+gap: 10px;
+}
+:thumbsup:
+点击反应
+:100:
+点击反应
+:laughing:
+点击反应
+添加反应
+回复
+转发
+更多
+[19:33]2026年3月1日 19:33
+.card-top {
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 10px;
+}
+.card h3 {
+margin: 0;
+font-size: 1.02rem;
+}
+.desc {
+margin: 0;
+color: var(--muted);
+min-height: 42px;
+}
+[19:33]2026年3月1日 19:33
+.meta .cat {
+font-size: 0.86rem;
+color: #c6d3f5;
+border: 1px solid var(--line);
+border-radius: 999px;
+padding: 4px 10px;
+}
+.tags {
+display: flex;
+flex-wrap: wrap;
+gap: 7px;
+}
+.tag {
+font-size: 0.78rem;
+color: #c8d6ff;
+:thumbsup:
+点击反应
+:100:
+点击反应
+:laughing:
+点击反应
+添加反应
+回复
+转发
+更多
+[19:33]2026年3月1日 19:33
+background: #1d2740;
+border: 1px solid #2b395d;
+border-radius: 999px;
+padding: 3px 8px;
+}
+.badge {
+font-size: 0.76rem;
+font-weight: 700;
+border-radius: 999px;
+padding: 4px 8px;
+color: #fff;
+}
+.badge.free { background: var(--free); }
+.badge.freemium { background: var(--freemium); color: #1b1b1b; }
+.badge.paid { background: var(--paid); }
+[19:33]2026年3月1日 19:33
+.visit {
+margin-top: auto;
+text-decoration: none;
+text-align: center;
+background: var(--primary);
+color: #06112b;
+font-weight: 700;
+border-radius: 10px;
+padding: 10px;
+}
+.visit:hover {
+background: var(--primary-hover);
+}
+.site-footer {
+:thumbsup:
+点击反应
+:100:
+点击反应
+:laughing:
+点击反应
+添加反应
+回复
+转发
+更多
+[19:33]2026年3月1日 19:33
+border-top: 1px solid var(--line);
+color: var(--muted);
+padding: 16px 0 26px;
+}
+.footer-inner {
+display: flex;
+justify-content: space-between;
+gap: 8px;
+flex-wrap: wrap;
+}
+.empty {
+text-align: center;
+color: var(--muted);
+}
+.hidden {
+:thumbsup:
+点击反应
+:100:
+点击反应
+:laughing:
+点击反应
+添加反应
+回复
+转发
+更多
+[19:33]2026年3月1日 19:33
+display: none;
+}
+
+@media (max-width: 700px) {
+.controls {
+grid-template-columns: 1fr;
+}
+}
