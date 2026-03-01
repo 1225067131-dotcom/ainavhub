@@ -1,182 +1,126 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>AINavHub - AI Tools Navigator</title>
-<meta name="description" content="AINavHub：精选 AI 工具导航，支持分类筛选与搜索，持续更新。" />
-:thumbsup:
-点击反应
-:100:
-点击反应
-:laughing:
-点击反应
-添加反应
-回复
-转发
-更多
-[19:33]2026年3月1日 19:33
-<link rel="stylesheet" href="./style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AINavHub - AI Tools Navigator</title>
+  <meta name="description" content="AINavHub：精选 AI 工具导航，支持分类筛选与搜索，持续更新。" />
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-<header class="site-header">
-<div class="container">
-<h1>AINavHub</h1>
-<p class="subtitle">Find useful AI tools fast.</p>
-<div class="controls">
-<input id="searchInput" type="text" placeholder="搜索工具名、描述或标签..." />
-<select id="categorySelect">
-<option value="全部">全部分类</option>
-<option value="对话">对话</option>
-<option value="绘图">绘图</option>
-<option value="视频">视频</option>
-<option value="编程">编程</option>
-:thumbsup:
-点击反应
-:100:
-点击反应
-:laughing:
-点击反应
-添加反应
-回复
-转发
-更多
-[19:33]2026年3月1日 19:33
-<option value="办公">办公</option>
-<option value="学习">学习</option>
-</select>
-</div>
-</div>
-</header>
+  <header class="site-header">
+    <div class="container">
+      <h1>AINavHub</h1>
+      <p class="subtitle">Find useful AI tools fast.</p>
+      <div class="controls">
+        <input id="searchInput" type="text" placeholder="搜索工具名、描述或标签..." />
+        <select id="categorySelect">
+          <option value="全部">全部分类</option>
+          <option value="对话">对话</option>
+          <option value="绘图">绘图</option>
+          <option value="视频">视频</option>
+          <option value="编程">编程</option>
+          <option value="办公">办公</option>
+          <option value="学习">学习</option>
+        </select>
+      </div>
+    </div>
+  </header>
 
-<main class="container">
-<section id="stats" class="stats"></section>
-<section id="toolGrid" class="tool-grid"></section>
-<p id="emptyState" class="empty hidden">没有找到匹配工具，换个关键词试试。</p>
-</main>
+  <main class="container">
+    <section id="stats" class="stats"></section>
+    <section id="toolGrid" class="tool-grid"></section>
+    <p id="emptyState" class="empty hidden">没有找到匹配工具，换个关键词试试。</p>
+  </main>
 
-<footer class="site-footer">
-<div class="container footer-inner">
-:thumbsup:
-点击反应
-:100:
-点击反应
-:laughing:
-点击反应
-添加反应
-回复
-转发
-更多
-[19:33]2026年3月1日 19:33
-<p>© <span id="year"></span> AINavHub</p>
-<p>Submit your tool: <a href="#" id="submitLink">Coming Soon</a></p>
-</div>
-</footer>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> AINavHub</p>
+      <p>Submit your tool: <a href="#" id="submitLink">Coming Soon</a></p>
+    </div>
+  </footer>
 
-<script>
-const toolGrid = document.getElementById('toolGrid');
-const searchInput = document.getElementById('searchInput');
-const categorySelect = document.getElementById('categorySelect');
-const stats = document.getElementById('stats');
-const emptyState = document.getElementById('emptyState');
-document.getElementById('year').textContent = new Date().getFullYear();
+  <script>
+    const toolGrid = document.getElementById('toolGrid');
+    const searchInput = document.getElementById('searchInput');
+    const categorySelect = document.getElementById('categorySelect');
+    const stats = document.getElementById('stats');
+    const emptyState = document.getElementById('emptyState');
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-let tools = [];
-[19:33]2026年3月1日 19:33
-function badgeClass(freeType) {
-if (freeType === "免费") return "badge free";
-if (freeType === "部分免费") return "badge freemium";
-return "badge paid";
-}
+    let tools = [];
 
-function render(list) {
-toolGrid.innerHTML = "";
+    function badgeClass(freeType) {
+      if (freeType === "免费") return "badge free";
+      if (freeType === "部分免费") return "badge freemium";
+      return "badge paid";
+    }
 
-if (!list.length) {
-emptyState.classList.remove("hidden");
-} else {
-emptyState.classList.add("hidden");
-}
-[19:33]2026年3月1日 19:33
-list.forEach(tool => {
-const card = document.createElement('article');
-card.className = 'card';
+    function render(list) {
+      toolGrid.innerHTML = "";
 
-const tags = (tool.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
+      if (!list.length) {
+        emptyState.classList.remove("hidden");
+      } else {
+        emptyState.classList.add("hidden");
+      }
 
-card.innerHTML = `
-<div class="card-top">
-<h3>${tool.name}</h3>
-<span class="${badgeClass(tool.freeType)}">${tool.freeType}</span>
-</div>
-<p class="desc">${tool.description}</p>
-<div class="meta">
-<span class="cat">${tool.category}</span>
-</div>
-[19:33]2026年3月1日 19:33
-<div class="tags">${tags}</div>
-<a class="visit" href="${tool.url}" target="_blank" rel="noopener noreferrer">访问网站</a>
-`;
-toolGrid.appendChild(card);
-});
+      list.forEach(tool => {
+        const card = document.createElement('article');
+        card.className = 'card';
 
-stats.textContent = `共 ${list.length} 个工具`;
-}
+        const tags = (tool.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
 
-function filterTools() {
-const keyword = searchInput.value.trim().toLowerCase();
-const selectedCategory = categorySelect.value;
+        card.innerHTML = `
+          <div class="card-top">
+            <h3>${tool.name}</h3>
+            <span class="${badgeClass(tool.freeType)}">${tool.freeType}</span>
+          </div>
+          <p class="desc">${tool.description}</p>
+          <div class="meta">
+            <span class="cat">${tool.category}</span>
+          </div>
+          <div class="tags">${tags}</div>
+          <a class="visit" href="${tool.url}" target="_blank" rel="noopener noreferrer">访问网站</a>
+        `;
+        toolGrid.appendChild(card);
+      });
 
-const filtered = tools.filter(tool => {
-const matchCategory = selectedCategory === "全部" || tool.category === selectedCategory;
-:thumbsup:
-点击反应
-:100:
-点击反应
-:laughing:
-点击反应
-添加反应
-回复
-转发
-更多
-[19:33]2026年3月1日 19:33
-const matchKeyword =
-tool.name.toLowerCase().includes(keyword) ||
-tool.description.toLowerCase().includes(keyword) ||
-(tool.tags || []).join(' ').toLowerCase().includes(keyword);
+      stats.textContent = `共 ${list.length} 个工具`;
+    }
 
-return matchCategory && matchKeyword;
-});
+    function filterTools() {
+      const keyword = searchInput.value.trim().toLowerCase();
+      const selectedCategory = categorySelect.value;
 
-render(filtered);
-}
+      const filtered = tools.filter(tool => {
+        const matchCategory = selectedCategory === "全部" || tool.category === selectedCategory;
+        const matchKeyword =
+          tool.name.toLowerCase().includes(keyword) ||
+          tool.description.toLowerCase().includes(keyword) ||
+          (tool.tags || []).join(' ').toLowerCase().includes(keyword);
 
-async function init() {
-try {
-const res = await fetch('./tools.json');
-tools = await res.json();
-:thumbsup:
-点击反应
-:100:
-点击反应
-:laughing:
-点击反应
-添加反应
-回复
-转发
-更多
-[19:33]2026年3月1日 19:33
-render(tools);
-} catch (err) {
-toolGrid.innerHTML = '<p>数据加载失败，请检查 tools.json 是否存在。</p>';
-console.error(err);
-}
-}
+        return matchCategory && matchKeyword;
+      });
 
-searchInput.addEventListener('input', filterTools);
-categorySelect.addEventListener('change', filterTools);
+      render(filtered);
+    }
 
-init();
-</script>
+    async function init() {
+      try {
+        const res = await fetch('./tools.json');
+        tools = await res.json();
+        render(tools);
+      } catch (err) {
+        toolGrid.innerHTML = '<p>数据加载失败，请检查 tools.json 是否存在。</p>';
+        console.error(err);
+      }
+    }
+
+    searchInput.addEventListener('input', filterTools);
+    categorySelect.addEventListener('change', filterTools);
+
+    init();
+  </script>
 </body>
 </html>

@@ -1,256 +1,146 @@
-[
-:thumbsup:
-点击反应
-:100:
-点击反应
-:laughing:
-点击反应
-添加反应
-回复
-转发
-更多
-[19:33]2026年3月1日 19:33
-{
-"name": "ChatGPT",
-"description": "通用 AI 助手，适合写作、问答、学习与头脑风暴。",
-"url": "https://chat.openai.com",
-"category": "对话",
-"freeType": "部分免费",
-"tags": ["多用途", "写作", "问答"]
-},
-{
-"name": "Claude",
-"description": "长文本与总结表现优秀，适合文档处理。",
-"url": "https://claude.ai",
-"category": "对话",
-"freeType": "部分免费",
-"tags": ["长文本", "总结", "对话"]
-:thumbsup:
-点击反应
-:100:
-点击反应
-:laughing:
-点击反应
-添加反应
-回复
-转发
-更多
-[19:33]2026年3月1日 19:33
-},
-{
-"name": "Gemini",
-"description": "Google 的 AI 助手，支持多模态能力。",
-"url": "https://gemini.google.com",
-"category": "对话",
-"freeType": "部分免费",
-"tags": ["多模态", "Google", "助手"]
-},
-{
-"name": "Midjourney",
-"description": "高质量 AI 绘图工具，风格化能力强。",
-"url": "https://www.midjourney.com",
-"category": "绘图",
-"freeType": "付费",
-:thumbsup:
-点击反应
-:100:
-点击反应
-:laughing:
-点击反应
-添加反应
-回复
-转发
-更多
-[19:33]2026年3月1日 19:33
-"tags": ["图像生成", "艺术风格", "高质量"]
-},
-{
-"name": "Leonardo AI",
-"description": "适合快速出图与风格尝试的绘图平台。",
-"url": "https://leonardo.ai",
-"category": "绘图",
-"freeType": "部分免费",
-"tags": ["出图", "模型", "创作"]
-},
-{
-"name": "Canva AI",
-"description": "设计工具内置 AI 功能，适合海报与社媒图。",
-"url": "https://www.canva.com",
-"category": "绘图",
-:thumbsup:
-点击反应
-:100:
-点击反应
-:laughing:
-点击反应
-添加反应
-回复
-转发
-更多
-[19:33]2026年3月1日 19:33
-"freeType": "部分免费",
-"tags": ["设计", "海报", "新手友好"]
-},
-{
-"name": "Runway",
-"description": "AI 视频生成与编辑，适合短视频创作。",
-"url": "https://runwayml.com",
-"category": "视频",
-"freeType": "部分免费",
-"tags": ["视频生成", "剪辑", "创作"]
-},
-{
-"name": "Pika",
-"description": "文本转视频工具，上手快、适合创意内容。",
-"url": "https://pika.art",
-:thumbsup:
-点击反应
-:100:
-点击反应
-:laughing:
-点击反应
-添加反应
-回复
-转发
-更多
-[19:33]2026年3月1日 19:33
-"category": "视频",
-"freeType": "部分免费",
-"tags": ["文本转视频", "创意", "短视频"]
-},
-{
-"name": "CapCut",
-"description": "剪映国际版，含多种 AI 视频功能。",
-"url": "https://www.capcut.com",
-"category": "视频",
-"freeType": "部分免费",
-"tags": ["剪辑", "模板", "AI视频"]
-},
-{
-"name": "GitHub Copilot",
-"description": "代码补全与编程辅助，支持主流 IDE。",
-:thumbsup:
-点击反应
-:100:
-点击反应
-:laughing:
-点击反应
-添加反应
-回复
-转发
-更多
-[19:33]2026年3月1日 19:33
-"url": "https://github.com/features/copilot",
-"category": "编程",
-"freeType": "部分免费",
-"tags": ["代码补全", "开发", "IDE"]
-},
-{
-"name": "Codeium",
-"description": "免费的 AI 编程助手，支持多语言。",
-"url": "https://codeium.com",
-"category": "编程",
-"freeType": "免费",
-"tags": ["免费", "代码补全", "开发效率"]
-},
-{
-"name": "Replit AI",
-:thumbsup:
-点击反应
-:100:
-点击反应
-:laughing:
-点击反应
-添加反应
-回复
-转发
-更多
-[19:33]2026年3月1日 19:33
-"description": "在线开发平台 + AI 编程能力。",
-"url": "https://replit.com",
-"category": "编程",
-"freeType": "部分免费",
-"tags": ["在线IDE", "编程", "协作"]
-},
-{
-"name": "Notion AI",
-"description": "文档写作、总结与知识管理场景常用。",
-"url": "https://www.notion.so/product/ai",
-"category": "办公",
-"freeType": "部分免费",
-"tags": ["文档", "总结", "知识管理"]
-},
-{
-:thumbsup:
-点击反应
-:100:
-点击反应
-:laughing:
-点击反应
-添加反应
-回复
-转发
-更多
-[19:33]2026年3月1日 19:33
-"name": "Grammarly",
-"description": "英文写作润色与语法检查工具。",
-"url": "https://www.grammarly.com",
-"category": "办公",
-"freeType": "部分免费",
-"tags": ["写作", "语法", "润色"]
-},
-{
-"name": "Tome",
-"description": "AI 生成演示文稿与提案内容。",
-"url": "https://tome.app",
-"category": "办公",
-"freeType": "部分免费",
-"tags": ["PPT", "演示", "提案"]
-},
-:thumbsup:
-点击反应
-:100:
-点击反应
-:laughing:
-点击反应
-添加反应
-回复
-转发
-更多
-[19:33]2026年3月1日 19:33
-{
-"name": "Khanmigo",
-"description": "学习辅导型 AI，适合学生与自学。",
-"url": "https://www.khanacademy.org/khan-labs",
-"category": "学习",
-"freeType": "部分免费",
-"tags": ["学习", "辅导", "教育"]
-},
-{
-"name": "Perplexity",
-"description": "AI 搜索与答案整合，适合快速查资料。",
-"url": "https://www.perplexity.ai",
-"category": "学习",
-"freeType": "部分免费",
-"tags": ["搜索", "资料", "研究"]
-:thumbsup:
-点击反应
-:100:
-点击反应
-:laughing:
-点击反应
-添加反应
-回复
-转发
-更多
-[19:33]2026年3月1日 19:33
-},
-{
-"name": "Elicit",
-"description": "面向研究与论文检索的 AI 工具。",
-"url": "https://elicit.com",
-"category": "学习",
-"freeType": "部分免费",
-"tags": ["论文", "研究", "检索"]
-}
+﻿[
+  {
+    "name": "ChatGPT",
+    "description": "通用 AI 助手，适合写作、问答、学习与头脑风暴。",
+    "url": "https://chat.openai.com",
+    "category": "对话",
+    "freeType": "部分免费",
+    "tags": ["多用途", "写作", "问答"]
+  },
+  {
+    "name": "Claude",
+    "description": "长文本与总结表现优秀，适合文档处理。",
+    "url": "https://claude.ai",
+    "category": "对话",
+    "freeType": "部分免费",
+    "tags": ["长文本", "总结", "对话"]
+  },
+  {
+    "name": "Gemini",
+    "description": "Google 的 AI 助手，支持多模态能力。",
+    "url": "https://gemini.google.com",
+    "category": "对话",
+    "freeType": "部分免费",
+    "tags": ["多模态", "Google", "助手"]
+  },
+  {
+    "name": "Midjourney",
+    "description": "高质量 AI 绘图工具，风格化能力强。",
+    "url": "https://www.midjourney.com",
+    "category": "绘图",
+    "freeType": "付费",
+    "tags": ["图像生成", "艺术风格", "高质量"]
+  },
+  {
+    "name": "Leonardo AI",
+    "description": "适合快速出图与风格尝试的绘图平台。",
+    "url": "https://leonardo.ai",
+    "category": "绘图",
+    "freeType": "部分免费",
+    "tags": ["出图", "模型", "创作"]
+  },
+  {
+    "name": "Canva AI",
+    "description": "设计工具内置 AI 功能，适合海报与社媒图。",
+    "url": "https://www.canva.com",
+    "category": "绘图",
+    "freeType": "部分免费",
+    "tags": ["设计", "海报", "新手友好"]
+  },
+  {
+    "name": "Runway",
+    "description": "AI 视频生成与编辑，适合短视频创作。",
+    "url": "https://runwayml.com",
+    "category": "视频",
+    "freeType": "部分免费",
+    "tags": ["视频生成", "剪辑", "创作"]
+  },
+  {
+    "name": "Pika",
+    "description": "文本转视频工具，上手快、适合创意内容。",
+    "url": "https://pika.art",
+    "category": "视频",
+    "freeType": "部分免费",
+    "tags": ["文本转视频", "创意", "短视频"]
+  },
+  {
+    "name": "CapCut",
+    "description": "剪映国际版，含多种 AI 视频功能。",
+    "url": "https://www.capcut.com",
+    "category": "视频",
+    "freeType": "部分免费",
+    "tags": ["剪辑", "模板", "AI视频"]
+  },
+  {
+    "name": "GitHub Copilot",
+    "description": "代码补全与编程辅助，支持主流 IDE。",
+    "url": "https://github.com/features/copilot",
+    "category": "编程",
+    "freeType": "部分免费",
+    "tags": ["代码补全", "开发", "IDE"]
+  },
+  {
+    "name": "Codeium",
+    "description": "免费的 AI 编程助手，支持多语言。",
+    "url": "https://codeium.com",
+    "category": "编程",
+    "freeType": "免费",
+    "tags": ["免费", "代码补全", "开发效率"]
+  },
+  {
+    "name": "Replit AI",
+    "description": "在线开发平台 + AI 编程能力。",
+    "url": "https://replit.com",
+    "category": "编程",
+    "freeType": "部分免费",
+    "tags": ["在线IDE", "编程", "协作"]
+  },
+  {
+    "name": "Notion AI",
+    "description": "文档写作、总结与知识管理场景常用。",
+    "url": "https://www.notion.so/product/ai",
+    "category": "办公",
+    "freeType": "部分免费",
+    "tags": ["文档", "总结", "知识管理"]
+  },
+  {
+    "name": "Grammarly",
+    "description": "英文写作润色与语法检查工具。",
+    "url": "https://www.grammarly.com",
+    "category": "办公",
+    "freeType": "部分免费",
+    "tags": ["写作", "语法", "润色"]
+  },
+  {
+    "name": "Tome",
+    "description": "AI 生成演示文稿与提案内容。",
+    "url": "https://tome.app",
+    "category": "办公",
+    "freeType": "部分免费",
+    "tags": ["PPT", "演示", "提案"]
+  },
+  {
+    "name": "Khanmigo",
+    "description": "学习辅导型 AI，适合学生与自学。",
+    "url": "https://www.khanacademy.org/khan-labs",
+    "category": "学习",
+    "freeType": "部分免费",
+    "tags": ["学习", "辅导", "教育"]
+  },
+  {
+    "name": "Perplexity",
+    "description": "AI 搜索与答案整合，适合快速查资料。",
+    "url": "https://www.perplexity.ai",
+    "category": "学习",
+    "freeType": "部分免费",
+    "tags": ["搜索", "资料", "研究"]
+  },
+  {
+    "name": "Elicit",
+    "description": "面向研究与论文检索的 AI 工具。",
+    "url": "https://elicit.com",
+    "category": "学习",
+    "freeType": "部分免费",
+    "tags": ["论文", "研究", "检索"]
+  }
 ]
