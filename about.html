@@ -51,6 +51,17 @@
         <a class="btn btn-primary" href="https://github.com/1225067131-dotcom/ainavhub/issues/new" target="_blank" rel="noopener noreferrer" id="submitBtn">提交工具</a>
       </div>
     </section>
+
+    <section class="stats-cards" style="margin-top:14px">
+      <article class="metric">
+        <span id="uTitle">最近更新时间</span>
+        <strong id="uValue">2026-03-01</strong>
+      </article>
+      <article class="metric" style="grid-column: span 2;">
+        <span id="cTitle">联系方式</span>
+        <strong id="cValue">GitHub Issues: 1225067131-dotcom/ainavhub</strong>
+      </article>
+    </section>
   </main>
 
   <footer class="site-footer">
@@ -70,14 +81,20 @@
         m1t:'定位',m1v:'AI 工具导航',m2t:'特点',m2v:'双语 / 搜索 / 筛选 / 排序',m3t:'更新方式',m3v:'持续收录与优化',
         ct:'收录标准',cx:'优先收录：可访问、体验稳定、有实际价值的 AI 工具。会逐步补充分类、标签和简评。',
         wt:'收录流程',wx:'提交工具 → 人工初审 → 补充分类/标签 → 上线展示。后续根据反馈持续优化信息质量。',
-        submit:'提交工具'
+        submit:'提交工具',
+        ut:'最近更新时间',
+        cv:'GitHub Issues: 1225067131-dotcom/ainavhub',
+        ct2:'联系方式'
       },
       en: {
         sub:'About this project', btn:'中', back:'Back Home', title:'About AINavHub', desc:'AINavHub helps you discover, filter and compare useful AI tools faster.',
         m1t:'Positioning',m1v:'AI Tools Directory',m2t:'Features',m2v:'Bilingual / Search / Filter / Sort',m3t:'Update',m3v:'Continuously curated',
         ct:'Inclusion Criteria',cx:'We prioritize accessible, stable, and practical AI tools, then enrich with categories, tags, and concise notes.',
         wt:'Curation Workflow',wx:'Submit tool → Manual review → Add category/tags → Publish. We keep refining quality based on feedback.',
-        submit:'Submit Tool'
+        submit:'Submit Tool',
+        ut:'Last Updated',
+        cv:'GitHub Issues: 1225067131-dotcom/ainavhub',
+        ct2:'Contact'
       }
     };
     function apply(){
@@ -96,6 +113,9 @@
       document.getElementById('workflowTitle').textContent=s.wt;
       document.getElementById('workflowText').textContent=s.wx;
       document.getElementById('submitBtn').textContent=s.submit;
+      document.getElementById('uTitle').textContent=s.ut;
+      document.getElementById('cTitle').textContent=s.ct2;
+      document.getElementById('cValue').textContent=s.cv;
       langToggle.textContent=s.btn;
     }
     langToggle.addEventListener('click',()=>{lang=lang==='zh'?'en':'zh';apply();});
