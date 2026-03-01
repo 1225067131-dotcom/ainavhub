@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AINavHub - AI Tools Navigator</title>
-  <meta name="description" content="AINavHub：精选 AI 工具导航，支持分类筛选与搜索，持续更新。" />
+  <meta name="description" content="AINavHub：精选 AI 工具导航，支持分类筛选、搜索和排序。" />
   <link rel="icon" type="image/png" href="./logo.png" />
   <link rel="stylesheet" href="./style.css" />
 </head>
@@ -15,18 +15,19 @@
         <div class="brand-wrap">
           <img src="./logo.png" alt="AINavHub logo" class="brand-logo" />
           <div>
-            <h1 id="siteTitle">AINavHub</h1>
+            <h1>AINavHub</h1>
             <p id="siteSubtitle" class="subtitle">Find useful AI tools fast.</p>
           </div>
         </div>
 
         <div class="top-actions">
+          <a id="aboutEntry" class="submit-entry" href="./about.html">关于</a>
           <a id="submitEntry" class="submit-entry" href="https://github.com/1225067131-dotcom/ainavhub/issues/new" target="_blank" rel="noopener noreferrer">提交工具</a>
           <button id="langToggle" class="lang-toggle" type="button">EN</button>
         </div>
       </div>
 
-      <section class="hero" id="heroSection">
+      <section class="hero">
         <h2 id="heroTitle">发现好用 AI 工具，一站直达</h2>
         <p id="heroDesc">精选、分类、可搜索。每天节省你找工具的时间。</p>
         <div class="hero-actions">
@@ -35,15 +36,23 @@
         </div>
       </section>
 
-      <div class="controls">
+      <div class="controls controls-3">
         <input id="searchInput" type="text" placeholder="搜索工具名、描述或标签..." />
         <select id="categorySelect"></select>
+        <select id="sortSelect"></select>
+      </div>
+
+      <div class="quick-actions">
+        <button class="chip active" id="chipAll" type="button">全部</button>
+        <button class="chip" id="chipFree" type="button">仅免费</button>
+        <button class="chip" id="chipFreemium" type="button">免费优先</button>
+        <button class="chip" id="chipReset" type="button">重置筛选</button>
       </div>
     </div>
   </header>
 
   <main class="container">
-    <section class="stats-cards" id="statsCards">
+    <section class="stats-cards">
       <article class="metric"><span id="mTotalLabel">总工具</span><strong id="mTotal">0</strong></article>
       <article class="metric"><span id="mFreeLabel">免费/部分免费</span><strong id="mFree">0</strong></article>
       <article class="metric"><span id="mCatsLabel">分类数</span><strong id="mCats">0</strong></article>
@@ -61,16 +70,26 @@
     </div>
   </footer>
 
+  <button id="toTopBtn" class="to-top" type="button" aria-label="Back to top">↑</button>
+
   <script>
     const toolGrid = document.getElementById('toolGrid');
     const searchInput = document.getElementById('searchInput');
     const categorySelect = document.getElementById('categorySelect');
+    const sortSelect = document.getElementById('sortSelect');
     const stats = document.getElementById('stats');
     const emptyState = document.getElementById('emptyState');
     const langToggle = document.getElementById('langToggle');
     const submitLabel = document.getElementById('submitLabel');
     const submitEntry = document.getElementById('submitEntry');
+    const aboutEntry = document.getElementById('aboutEntry');
     const siteSubtitle = document.getElementById('siteSubtitle');
+
+    const chipAll = document.getElementById('chipAll');
+    const chipFree = document.getElementById('chipFree');
+    const chipFreemium = document.getElementById('chipFreemium');
+    const chipReset = document.getElementById('chipReset');
+    const chips = [chipAll, chipFree, chipFreemium];
 
     const heroTitle = document.getElementById('heroTitle');
     const heroDesc = document.getElementById('heroDesc');
@@ -82,79 +101,52 @@
     const mTotal = document.getElementById('mTotal');
     const mFree = document.getElementById('mFree');
     const mCats = document.getElementById('mCats');
+    const toTopBtn = document.getElementById('toTopBtn');
 
     document.getElementById('year').textContent = new Date().getFullYear();
 
     const I18N = {
       zh: {
-        langBtn: 'EN',
-        subtitle: '快速找到好用 AI 工具。',
-        heroTitle: '发现好用 AI 工具，一站直达',
-        heroDesc: '精选、分类、可搜索。每天节省你找工具的时间。',
+        langBtn: 'EN', subtitle: '快速找到好用 AI 工具。',
+        heroTitle: '发现好用 AI 工具，一站直达', heroDesc: '精选、分类、可搜索。每天节省你找工具的时间。',
         explore: '浏览工具',
         searchPlaceholder: '搜索工具名、描述或标签...',
         categories: ['全部', '对话', '绘图', '视频', '编程', '办公', '学习'],
+        sortLabel: ['默认排序','按名称 A-Z','免费优先'],
+        chips: ['全部','仅免费','免费优先','重置筛选'],
         stats: (n) => `当前显示 ${n} 个工具`,
         empty: '没有找到匹配工具，换个关键词试试。',
-        visit: '访问网站',
-        submit: '提交工具',
-        totalLabel: '总工具',
-        freeLabel: '免费/部分免费',
-        catsLabel: '分类数',
-        free: '免费',
-        freemium: '部分免费',
-        paid: '付费',
+        visit: '访问网站', submit: '提交工具', about: '关于',
+        totalLabel: '总工具', freeLabel: '免费/部分免费', catsLabel: '分类数',
+        free: '免费', freemium: '部分免费', paid: '付费',
       },
       en: {
-        langBtn: '中',
-        subtitle: 'Find useful AI tools fast.',
-        heroTitle: 'Discover useful AI tools in one place',
-        heroDesc: 'Curated, categorized, searchable — save time every day.',
+        langBtn: '中', subtitle: 'Find useful AI tools fast.',
+        heroTitle: 'Discover useful AI tools in one place', heroDesc: 'Curated, categorized, searchable — save time every day.',
         explore: 'Explore Tools',
         searchPlaceholder: 'Search by name, description, or tags...',
         categories: ['All', 'Chat', 'Image', 'Video', 'Coding', 'Office', 'Learning'],
+        sortLabel: ['Default','Name A-Z','Free First'],
+        chips: ['All','Free Only','Free First','Reset Filters'],
         stats: (n) => `${n} tools shown`,
         empty: 'No tools found. Try another keyword.',
-        visit: 'Visit Website',
-        submit: 'Submit Tool',
-        totalLabel: 'Total Tools',
-        freeLabel: 'Free/Freemium',
-        catsLabel: 'Categories',
-        free: 'Free',
-        freemium: 'Freemium',
-        paid: 'Paid',
+        visit: 'Visit Website', submit: 'Submit Tool', about: 'About',
+        totalLabel: 'Total Tools', freeLabel: 'Free/Freemium', catsLabel: 'Categories',
+        free: 'Free', freemium: 'Freemium', paid: 'Paid',
       }
     };
 
-    const categoryMap = {
-      对话: 'Chat',
-      绘图: 'Image',
-      视频: 'Video',
-      编程: 'Coding',
-      办公: 'Office',
-      学习: 'Learning'
-    };
-
-    const reverseCategoryMap = Object.fromEntries(Object.entries(categoryMap).map(([k, v]) => [v, k]));
+    const categoryMap = { 对话:'Chat', 绘图:'Image', 视频:'Video', 编程:'Coding', 办公:'Office', 学习:'Learning' };
+    const reverseCategoryMap = Object.fromEntries(Object.entries(categoryMap).map(([k,v]) => [v,k]));
 
     let tools = [];
     let currentLang = 'zh';
+    let quickMode = 'all';
 
-    function localizedCategory(zhCategory) {
-      return currentLang === 'zh' ? zhCategory : (categoryMap[zhCategory] || zhCategory);
-    }
-
-    function toZhCategory(localCategory) {
-      if (currentLang === 'zh') return localCategory;
-      return reverseCategoryMap[localCategory] || localCategory;
-    }
-
-    function badgeClass(freeType) {
-      if (freeType === '免费') return 'badge free';
-      if (freeType === '部分免费') return 'badge freemium';
-      return 'badge paid';
-    }
-
+    function setActiveChip(el){ chips.forEach(c=>c.classList.remove('active')); el.classList.add('active'); }
+    function localizedCategory(zhCategory) { return currentLang === 'zh' ? zhCategory : (categoryMap[zhCategory] || zhCategory); }
+    function toZhCategory(localCategory) { return currentLang === 'zh' ? localCategory : (reverseCategoryMap[localCategory] || localCategory); }
+    function badgeClass(freeType) { if (freeType === '免费') return 'badge free'; if (freeType === '部分免费') return 'badge freemium'; return 'badge paid'; }
     function localizedFreeType(freeType) {
       if (currentLang === 'zh') return freeType;
       if (freeType === '免费') return I18N.en.free;
@@ -176,33 +168,44 @@
       else categorySelect.value = labels[0];
     }
 
+    function setSortOptions() {
+      const labels = I18N[currentLang].sortLabel;
+      const mapping = ['default','name','free'];
+      const prev = sortSelect.value || 'default';
+      sortSelect.innerHTML = labels.map((label, i) => `<option value="${mapping[i]}">${label}</option>`).join('');
+      sortSelect.value = prev;
+    }
+
+    function applySort(list) {
+      const mode = sortSelect.value;
+      const cloned = [...list];
+      if (mode === 'name') cloned.sort((a,b) => a.name.localeCompare(b.name));
+      if (mode === 'free') {
+        const rank = (f) => (f === '免费' ? 0 : f === '部分免费' ? 1 : 2);
+        cloned.sort((a,b) => rank(a.freeType) - rank(b.freeType) || a.name.localeCompare(b.name));
+      }
+      return cloned;
+    }
+
     function render(list) {
       toolGrid.innerHTML = '';
-
-      if (!list.length) emptyState.classList.remove('hidden');
-      else emptyState.classList.add('hidden');
-
+      if (!list.length) emptyState.classList.remove('hidden'); else emptyState.classList.add('hidden');
       list.forEach(tool => {
         const card = document.createElement('article');
         card.className = 'card';
-
         const tags = (tool.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
-
         card.innerHTML = `
           <div class="card-top">
             <h3>${tool.name}</h3>
             <span class="${badgeClass(tool.freeType)}">${localizedFreeType(tool.freeType)}</span>
           </div>
           <p class="desc">${tool.description}</p>
-          <div class="meta">
-            <span class="cat">${localizedCategory(tool.category)}</span>
-          </div>
+          <div class="meta"><span class="cat">${localizedCategory(tool.category)}</span></div>
           <div class="tags">${tags}</div>
           <a class="visit" href="${tool.url}" target="_blank" rel="noopener noreferrer">${I18N[currentLang].visit}</a>
         `;
         toolGrid.appendChild(card);
       });
-
       stats.textContent = I18N[currentLang].stats(list.length);
     }
 
@@ -212,16 +215,18 @@
       const allLabel = I18N[currentLang].categories[0];
       const selectedZhCategory = toZhCategory(selectedCategory);
 
-      const filtered = tools.filter(tool => {
+      let filtered = tools.filter(tool => {
         const matchCategory = selectedCategory === allLabel || tool.category === selectedZhCategory;
-        const matchKeyword =
-          tool.name.toLowerCase().includes(keyword) ||
-          tool.description.toLowerCase().includes(keyword) ||
-          (tool.tags || []).join(' ').toLowerCase().includes(keyword);
+        const matchKeyword = tool.name.toLowerCase().includes(keyword)
+          || tool.description.toLowerCase().includes(keyword)
+          || (tool.tags || []).join(' ').toLowerCase().includes(keyword);
         return matchCategory && matchKeyword;
       });
 
-      render(filtered);
+      if (quickMode === 'freeOnly') filtered = filtered.filter(t => t.freeType === '免费');
+      if (quickMode === 'freeFirst') sortSelect.value = 'free';
+
+      render(applySort(filtered));
     }
 
     function applyLanguage() {
@@ -237,10 +242,16 @@
       emptyState.textContent = lang.empty;
       submitLabel.textContent = lang.submit;
       submitEntry.textContent = lang.submit;
+      aboutEntry.textContent = lang.about;
       mTotalLabel.textContent = lang.totalLabel;
       mFreeLabel.textContent = lang.freeLabel;
       mCatsLabel.textContent = lang.catsLabel;
+      chipAll.textContent = lang.chips[0];
+      chipFree.textContent = lang.chips[1];
+      chipFreemium.textContent = lang.chips[2];
+      chipReset.textContent = lang.chips[3];
       setCategoryOptions();
+      setSortOptions();
       filterTools();
     }
 
@@ -256,12 +267,28 @@
       }
     }
 
+    chipAll.addEventListener('click', () => { quickMode='all'; setActiveChip(chipAll); filterTools(); });
+    chipFree.addEventListener('click', () => { quickMode='freeOnly'; setActiveChip(chipFree); filterTools(); });
+    chipFreemium.addEventListener('click', () => { quickMode='freeFirst'; setActiveChip(chipFreemium); filterTools(); });
+    chipReset.addEventListener('click', () => {
+      quickMode='all';
+      setActiveChip(chipAll);
+      searchInput.value='';
+      categorySelect.value=I18N[currentLang].categories[0];
+      sortSelect.value='default';
+      filterTools();
+    });
+
     searchInput.addEventListener('input', filterTools);
     categorySelect.addEventListener('change', filterTools);
-    langToggle.addEventListener('click', () => {
-      currentLang = currentLang === 'zh' ? 'en' : 'zh';
-      applyLanguage();
+    sortSelect.addEventListener('change', filterTools);
+    langToggle.addEventListener('click', () => { currentLang = currentLang === 'zh' ? 'en' : 'zh'; applyLanguage(); });
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) toTopBtn.classList.add('show');
+      else toTopBtn.classList.remove('show');
     });
+    toTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
     init();
   </script>

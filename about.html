@@ -1,0 +1,94 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About - AINavHub</title>
+  <meta name="description" content="About AINavHub" />
+  <link rel="icon" type="image/png" href="./logo.png" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="topbar">
+        <div class="brand-wrap">
+          <img src="./logo.png" alt="AINavHub logo" class="brand-logo" />
+          <div>
+            <h1>AINavHub</h1>
+            <p id="aboutSub" class="subtitle">About this project</p>
+          </div>
+        </div>
+        <div class="top-actions">
+          <a id="backHome" class="submit-entry" href="./index.html">返回首页</a>
+          <button id="langToggle" class="lang-toggle" type="button">EN</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h2 id="title">关于 AINavHub</h2>
+      <p id="desc">这是一个 AI 工具导航站，帮助你更快发现、筛选、比较常用 AI 工具。</p>
+    </section>
+
+    <section class="stats-cards">
+      <article class="metric"><span id="m1t">定位</span><strong id="m1v">AI 工具导航</strong></article>
+      <article class="metric"><span id="m2t">特点</span><strong id="m2v">双语 / 搜索 / 筛选 / 排序</strong></article>
+      <article class="metric"><span id="m3t">更新方式</span><strong id="m3v">持续收录与优化</strong></article>
+    </section>
+
+    <section class="hero" style="margin-top:14px">
+      <h3 id="criteriaTitle">收录标准</h3>
+      <p id="criteriaText">优先收录：可访问、体验稳定、有实际价值的 AI 工具。会逐步补充分类、标签和简评。</p>
+      <div class="hero-actions" style="margin-top:12px">
+        <a class="btn btn-primary" href="https://github.com/1225067131-dotcom/ainavhub/issues/new" target="_blank" rel="noopener noreferrer" id="submitBtn">提交工具</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> AINavHub</p>
+      <p><a href="./index.html" id="backFooter">返回首页</a></p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const langToggle = document.getElementById('langToggle');
+    let lang = 'zh';
+    const t = {
+      zh: {
+        sub:'About this project', btn:'EN', back:'返回首页', title:'关于 AINavHub', desc:'这是一个 AI 工具导航站，帮助你更快发现、筛选、比较常用 AI 工具。',
+        m1t:'定位',m1v:'AI 工具导航',m2t:'特点',m2v:'双语 / 搜索 / 筛选 / 排序',m3t:'更新方式',m3v:'持续收录与优化',
+        ct:'收录标准',cx:'优先收录：可访问、体验稳定、有实际价值的 AI 工具。会逐步补充分类、标签和简评。',submit:'提交工具'
+      },
+      en: {
+        sub:'About this project', btn:'中', back:'Back Home', title:'About AINavHub', desc:'AINavHub helps you discover, filter and compare useful AI tools faster.',
+        m1t:'Positioning',m1v:'AI Tools Directory',m2t:'Features',m2v:'Bilingual / Search / Filter / Sort',m3t:'Update',m3v:'Continuously curated',
+        ct:'Inclusion Criteria',cx:'We prioritize accessible, stable, and practical AI tools, then enrich with categories, tags, and concise notes.',submit:'Submit Tool'
+      }
+    };
+    function apply(){
+      const s=t[lang];
+      document.documentElement.lang = lang==='zh' ? 'zh-CN':'en';
+      document.getElementById('aboutSub').textContent=s.sub;
+      document.getElementById('backHome').textContent=s.back;
+      document.getElementById('backFooter').textContent=s.back;
+      document.getElementById('title').textContent=s.title;
+      document.getElementById('desc').textContent=s.desc;
+      document.getElementById('m1t').textContent=s.m1t; document.getElementById('m1v').textContent=s.m1v;
+      document.getElementById('m2t').textContent=s.m2t; document.getElementById('m2v').textContent=s.m2v;
+      document.getElementById('m3t').textContent=s.m3t; document.getElementById('m3v').textContent=s.m3v;
+      document.getElementById('criteriaTitle').textContent=s.ct;
+      document.getElementById('criteriaText').textContent=s.cx;
+      document.getElementById('submitBtn').textContent=s.submit;
+      langToggle.textContent=s.btn;
+    }
+    langToggle.addEventListener('click',()=>{lang=lang==='zh'?'en':'zh';apply();});
+    apply();
+  </script>
+</body>
+</html>
