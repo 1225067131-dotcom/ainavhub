@@ -26,6 +26,15 @@
         </div>
       </div>
 
+      <section class="hero" id="heroSection">
+        <h2 id="heroTitle">发现好用 AI 工具，一站直达</h2>
+        <p id="heroDesc">精选、分类、可搜索。每天节省你找工具的时间。</p>
+        <div class="hero-actions">
+          <a href="#toolGrid" class="btn btn-primary" id="btnExplore">浏览工具</a>
+          <a href="https://github.com/1225067131-dotcom/ainavhub/issues/new" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" id="btnSubmit">提交工具</a>
+        </div>
+      </section>
+
       <div class="controls">
         <input id="searchInput" type="text" placeholder="搜索工具名、描述或标签..." />
         <select id="categorySelect"></select>
@@ -34,6 +43,12 @@
   </header>
 
   <main class="container">
+    <section class="stats-cards" id="statsCards">
+      <article class="metric"><span id="mTotalLabel">总工具</span><strong id="mTotal">0</strong></article>
+      <article class="metric"><span id="mFreeLabel">免费/部分免费</span><strong id="mFree">0</strong></article>
+      <article class="metric"><span id="mCatsLabel">分类数</span><strong id="mCats">0</strong></article>
+    </section>
+
     <section id="stats" class="stats"></section>
     <section id="toolGrid" class="tool-grid"></section>
     <p id="emptyState" class="empty hidden">没有找到匹配工具，换个关键词试试。</p>
@@ -56,18 +71,36 @@
     const submitLabel = document.getElementById('submitLabel');
     const submitEntry = document.getElementById('submitEntry');
     const siteSubtitle = document.getElementById('siteSubtitle');
+
+    const heroTitle = document.getElementById('heroTitle');
+    const heroDesc = document.getElementById('heroDesc');
+    const btnExplore = document.getElementById('btnExplore');
+    const btnSubmit = document.getElementById('btnSubmit');
+    const mTotalLabel = document.getElementById('mTotalLabel');
+    const mFreeLabel = document.getElementById('mFreeLabel');
+    const mCatsLabel = document.getElementById('mCatsLabel');
+    const mTotal = document.getElementById('mTotal');
+    const mFree = document.getElementById('mFree');
+    const mCats = document.getElementById('mCats');
+
     document.getElementById('year').textContent = new Date().getFullYear();
 
     const I18N = {
       zh: {
         langBtn: 'EN',
         subtitle: '快速找到好用 AI 工具。',
+        heroTitle: '发现好用 AI 工具，一站直达',
+        heroDesc: '精选、分类、可搜索。每天节省你找工具的时间。',
+        explore: '浏览工具',
         searchPlaceholder: '搜索工具名、描述或标签...',
         categories: ['全部', '对话', '绘图', '视频', '编程', '办公', '学习'],
-        stats: (n) => `共 ${n} 个工具`,
+        stats: (n) => `当前显示 ${n} 个工具`,
         empty: '没有找到匹配工具，换个关键词试试。',
         visit: '访问网站',
         submit: '提交工具',
+        totalLabel: '总工具',
+        freeLabel: '免费/部分免费',
+        catsLabel: '分类数',
         free: '免费',
         freemium: '部分免费',
         paid: '付费',
@@ -75,12 +108,18 @@
       en: {
         langBtn: '中',
         subtitle: 'Find useful AI tools fast.',
+        heroTitle: 'Discover useful AI tools in one place',
+        heroDesc: 'Curated, categorized, searchable — save time every day.',
+        explore: 'Explore Tools',
         searchPlaceholder: 'Search by name, description, or tags...',
         categories: ['All', 'Chat', 'Image', 'Video', 'Coding', 'Office', 'Learning'],
-        stats: (n) => `${n} tools`,
+        stats: (n) => `${n} tools shown`,
         empty: 'No tools found. Try another keyword.',
         visit: 'Visit Website',
         submit: 'Submit Tool',
+        totalLabel: 'Total Tools',
+        freeLabel: 'Free/Freemium',
+        catsLabel: 'Categories',
         free: 'Free',
         freemium: 'Freemium',
         paid: 'Paid',
@@ -111,9 +150,9 @@
     }
 
     function badgeClass(freeType) {
-      if (freeType === "免费") return "badge free";
-      if (freeType === "部分免费") return "badge freemium";
-      return "badge paid";
+      if (freeType === '免费') return 'badge free';
+      if (freeType === '部分免费') return 'badge freemium';
+      return 'badge paid';
     }
 
     function localizedFreeType(freeType) {
@@ -123,26 +162,25 @@
       return I18N.en.paid;
     }
 
+    function updateMetrics(allTools) {
+      mTotal.textContent = allTools.length;
+      mFree.textContent = allTools.filter(t => t.freeType === '免费' || t.freeType === '部分免费').length;
+      mCats.textContent = new Set(allTools.map(t => t.category)).size;
+    }
+
     function setCategoryOptions() {
       const labels = I18N[currentLang].categories;
       const prevSelected = categorySelect.value;
       categorySelect.innerHTML = labels.map(label => `<option value="${label}">${label}</option>`).join('');
-
-      if (labels.includes(prevSelected)) {
-        categorySelect.value = prevSelected;
-      } else {
-        categorySelect.value = labels[0];
-      }
+      if (labels.includes(prevSelected)) categorySelect.value = prevSelected;
+      else categorySelect.value = labels[0];
     }
 
     function render(list) {
-      toolGrid.innerHTML = "";
+      toolGrid.innerHTML = '';
 
-      if (!list.length) {
-        emptyState.classList.remove("hidden");
-      } else {
-        emptyState.classList.add("hidden");
-      }
+      if (!list.length) emptyState.classList.remove('hidden');
+      else emptyState.classList.add('hidden');
 
       list.forEach(tool => {
         const card = document.createElement('article');
@@ -180,7 +218,6 @@
           tool.name.toLowerCase().includes(keyword) ||
           tool.description.toLowerCase().includes(keyword) ||
           (tool.tags || []).join(' ').toLowerCase().includes(keyword);
-
         return matchCategory && matchKeyword;
       });
 
@@ -189,12 +226,20 @@
 
     function applyLanguage() {
       document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : 'en';
-      langToggle.textContent = I18N[currentLang].langBtn;
-      siteSubtitle.textContent = I18N[currentLang].subtitle;
-      searchInput.placeholder = I18N[currentLang].searchPlaceholder;
-      emptyState.textContent = I18N[currentLang].empty;
-      submitLabel.textContent = I18N[currentLang].submit;
-      submitEntry.textContent = I18N[currentLang].submit;
+      const lang = I18N[currentLang];
+      langToggle.textContent = lang.langBtn;
+      siteSubtitle.textContent = lang.subtitle;
+      heroTitle.textContent = lang.heroTitle;
+      heroDesc.textContent = lang.heroDesc;
+      btnExplore.textContent = lang.explore;
+      btnSubmit.textContent = lang.submit;
+      searchInput.placeholder = lang.searchPlaceholder;
+      emptyState.textContent = lang.empty;
+      submitLabel.textContent = lang.submit;
+      submitEntry.textContent = lang.submit;
+      mTotalLabel.textContent = lang.totalLabel;
+      mFreeLabel.textContent = lang.freeLabel;
+      mCatsLabel.textContent = lang.catsLabel;
       setCategoryOptions();
       filterTools();
     }
@@ -203,6 +248,7 @@
       try {
         const res = await fetch('./tools.json');
         tools = await res.json();
+        updateMetrics(tools);
         applyLanguage();
       } catch (err) {
         toolGrid.innerHTML = '<p>Data load failed. Please check tools.json.</p>';
