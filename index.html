@@ -10,19 +10,17 @@
 <body>
   <header class="site-header">
     <div class="container">
-      <h1>AINavHub</h1>
-      <p class="subtitle">Find useful AI tools fast.</p>
+      <div class="topbar">
+        <div>
+          <h1 id="siteTitle">AINavHub</h1>
+          <p id="siteSubtitle" class="subtitle">Find useful AI tools fast.</p>
+        </div>
+        <button id="langToggle" class="lang-toggle" type="button">EN</button>
+      </div>
+
       <div class="controls">
         <input id="searchInput" type="text" placeholder="搜索工具名、描述或标签..." />
-        <select id="categorySelect">
-          <option value="全部">全部分类</option>
-          <option value="对话">对话</option>
-          <option value="绘图">绘图</option>
-          <option value="视频">视频</option>
-          <option value="编程">编程</option>
-          <option value="办公">办公</option>
-          <option value="学习">学习</option>
-        </select>
+        <select id="categorySelect"></select>
       </div>
     </div>
   </header>
@@ -36,7 +34,7 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <p>© <span id="year"></span> AINavHub</p>
-      <p>Submit your tool: <a href="#" id="submitLink">Coming Soon</a></p>
+      <p><span id="submitLabel">提交工具</span>：<a href="#" id="submitLink">Coming Soon</a></p>
     </div>
   </footer>
 
@@ -46,14 +44,86 @@
     const categorySelect = document.getElementById('categorySelect');
     const stats = document.getElementById('stats');
     const emptyState = document.getElementById('emptyState');
+    const langToggle = document.getElementById('langToggle');
+    const submitLabel = document.getElementById('submitLabel');
+    const siteSubtitle = document.getElementById('siteSubtitle');
     document.getElementById('year').textContent = new Date().getFullYear();
 
+    const I18N = {
+      zh: {
+        langBtn: 'EN',
+        subtitle: '快速找到好用 AI 工具。',
+        searchPlaceholder: '搜索工具名、描述或标签...',
+        categories: ['全部', '对话', '绘图', '视频', '编程', '办公', '学习'],
+        stats: (n) => `共 ${n} 个工具`,
+        empty: '没有找到匹配工具，换个关键词试试。',
+        visit: '访问网站',
+        submit: '提交工具',
+        free: '免费',
+        freemium: '部分免费',
+        paid: '付费',
+      },
+      en: {
+        langBtn: '中',
+        subtitle: 'Find useful AI tools fast.',
+        searchPlaceholder: 'Search by name, description, or tags...',
+        categories: ['All', 'Chat', 'Image', 'Video', 'Coding', 'Office', 'Learning'],
+        stats: (n) => `${n} tools`,
+        empty: 'No tools found. Try another keyword.',
+        visit: 'Visit Website',
+        submit: 'Submit Tool',
+        free: 'Free',
+        freemium: 'Freemium',
+        paid: 'Paid',
+      }
+    };
+
+    const categoryMap = {
+      对话: 'Chat',
+      绘图: 'Image',
+      视频: 'Video',
+      编程: 'Coding',
+      办公: 'Office',
+      学习: 'Learning'
+    };
+
+    const reverseCategoryMap = Object.fromEntries(Object.entries(categoryMap).map(([k, v]) => [v, k]));
+
     let tools = [];
+    let currentLang = 'zh';
+
+    function localizedCategory(zhCategory) {
+      return currentLang === 'zh' ? zhCategory : (categoryMap[zhCategory] || zhCategory);
+    }
+
+    function toZhCategory(localCategory) {
+      if (currentLang === 'zh') return localCategory;
+      return reverseCategoryMap[localCategory] || localCategory;
+    }
 
     function badgeClass(freeType) {
       if (freeType === "免费") return "badge free";
       if (freeType === "部分免费") return "badge freemium";
       return "badge paid";
+    }
+
+    function localizedFreeType(freeType) {
+      if (currentLang === 'zh') return freeType;
+      if (freeType === '免费') return I18N.en.free;
+      if (freeType === '部分免费') return I18N.en.freemium;
+      return I18N.en.paid;
+    }
+
+    function setCategoryOptions() {
+      const labels = I18N[currentLang].categories;
+      const prevSelected = categorySelect.value;
+      categorySelect.innerHTML = labels.map(label => `<option value="${label}">${label}</option>`).join('');
+
+      if (labels.includes(prevSelected)) {
+        categorySelect.value = prevSelected;
+      } else {
+        categorySelect.value = labels[0];
+      }
     }
 
     function render(list) {
@@ -74,27 +144,29 @@
         card.innerHTML = `
           <div class="card-top">
             <h3>${tool.name}</h3>
-            <span class="${badgeClass(tool.freeType)}">${tool.freeType}</span>
+            <span class="${badgeClass(tool.freeType)}">${localizedFreeType(tool.freeType)}</span>
           </div>
           <p class="desc">${tool.description}</p>
           <div class="meta">
-            <span class="cat">${tool.category}</span>
+            <span class="cat">${localizedCategory(tool.category)}</span>
           </div>
           <div class="tags">${tags}</div>
-          <a class="visit" href="${tool.url}" target="_blank" rel="noopener noreferrer">访问网站</a>
+          <a class="visit" href="${tool.url}" target="_blank" rel="noopener noreferrer">${I18N[currentLang].visit}</a>
         `;
         toolGrid.appendChild(card);
       });
 
-      stats.textContent = `共 ${list.length} 个工具`;
+      stats.textContent = I18N[currentLang].stats(list.length);
     }
 
     function filterTools() {
       const keyword = searchInput.value.trim().toLowerCase();
       const selectedCategory = categorySelect.value;
+      const allLabel = I18N[currentLang].categories[0];
+      const selectedZhCategory = toZhCategory(selectedCategory);
 
       const filtered = tools.filter(tool => {
-        const matchCategory = selectedCategory === "全部" || tool.category === selectedCategory;
+        const matchCategory = selectedCategory === allLabel || tool.category === selectedZhCategory;
         const matchKeyword =
           tool.name.toLowerCase().includes(keyword) ||
           tool.description.toLowerCase().includes(keyword) ||
@@ -106,19 +178,34 @@
       render(filtered);
     }
 
+    function applyLanguage() {
+      document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : 'en';
+      langToggle.textContent = I18N[currentLang].langBtn;
+      siteSubtitle.textContent = I18N[currentLang].subtitle;
+      searchInput.placeholder = I18N[currentLang].searchPlaceholder;
+      emptyState.textContent = I18N[currentLang].empty;
+      submitLabel.textContent = I18N[currentLang].submit;
+      setCategoryOptions();
+      filterTools();
+    }
+
     async function init() {
       try {
         const res = await fetch('./tools.json');
         tools = await res.json();
-        render(tools);
+        applyLanguage();
       } catch (err) {
-        toolGrid.innerHTML = '<p>数据加载失败，请检查 tools.json 是否存在。</p>';
+        toolGrid.innerHTML = '<p>Data load failed. Please check tools.json.</p>';
         console.error(err);
       }
     }
 
     searchInput.addEventListener('input', filterTools);
     categorySelect.addEventListener('change', filterTools);
+    langToggle.addEventListener('click', () => {
+      currentLang = currentLang === 'zh' ? 'en' : 'zh';
+      applyLanguage();
+    });
 
     init();
   </script>
