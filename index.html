@@ -16,24 +16,20 @@
           <img src="./logo.png" alt="AINavHub logo" class="brand-logo" />
           <div>
             <h1>AINavHub</h1>
-            <p id="siteSubtitle" class="subtitle">Find useful AI tools fast.</p>
+            
           </div>
         </div>
 
         <div class="top-actions">
           <a id="aboutEntry" class="submit-entry" href="./about.html">关于</a>
-          <a id="submitEntry" class="submit-entry" href="https://github.com/1225067131-dotcom/ainavhub/issues/new" target="_blank" rel="noopener noreferrer">提交工具</a>
-          <button id="langToggle" class="lang-toggle" type="button">EN</button>
+          <a id="submitEntry" class="submit-entry" href="https://github.com/1225067131-dotcom/ainavhub/issues/new" target="_blank" rel="noopener noreferrer">提交工具</a><button id="langToggle" class="lang-toggle" type="button">EN</button>
         </div>
       </div>
 
       <section class="hero">
         <h2 id="heroTitle">发现好用 AI 工具，一站直达</h2>
         <p id="heroDesc">精选、分类、可搜索。每天节省你找工具的时间。</p>
-        <div class="hero-actions">
-          <a href="#toolGrid" class="btn btn-primary" id="btnExplore">浏览工具</a>
-          <a href="https://github.com/1225067131-dotcom/ainavhub/issues/new" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" id="btnSubmit">提交工具</a>
-        </div>
+        
       </section>
 
       <div class="controls controls-3">
@@ -80,10 +76,9 @@
     const stats = document.getElementById('stats');
     const emptyState = document.getElementById('emptyState');
     const langToggle = document.getElementById('langToggle');
-    const submitLabel = document.getElementById('submitLabel');
+    
     const submitEntry = document.getElementById('submitEntry');
     const aboutEntry = document.getElementById('aboutEntry');
-    const siteSubtitle = document.getElementById('siteSubtitle');
 
     const chipAll = document.getElementById('chipAll');
     const chipFree = document.getElementById('chipFree');
@@ -93,8 +88,6 @@
 
     const heroTitle = document.getElementById('heroTitle');
     const heroDesc = document.getElementById('heroDesc');
-    const btnExplore = document.getElementById('btnExplore');
-    const btnSubmit = document.getElementById('btnSubmit');
     const mTotalLabel = document.getElementById('mTotalLabel');
     const mFreeLabel = document.getElementById('mFreeLabel');
     const mCatsLabel = document.getElementById('mCatsLabel');
@@ -233,14 +226,11 @@
       document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : 'en';
       const lang = I18N[currentLang];
       langToggle.textContent = lang.langBtn;
-      siteSubtitle.textContent = lang.subtitle;
       heroTitle.textContent = lang.heroTitle;
       heroDesc.textContent = lang.heroDesc;
-      btnExplore.textContent = lang.explore;
-      btnSubmit.textContent = lang.submit;
       searchInput.placeholder = lang.searchPlaceholder;
       emptyState.textContent = lang.empty;
-      submitLabel.textContent = lang.submit;
+      
       submitEntry.textContent = lang.submit;
       aboutEntry.textContent = lang.about;
       mTotalLabel.textContent = lang.totalLabel;
@@ -294,3 +284,7 @@
   </script>
 </body>
 </html>
+
+
+
+

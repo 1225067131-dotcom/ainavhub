@@ -42,6 +42,11 @@
     <section class="hero" style="margin-top:14px">
       <h3 id="criteriaTitle">收录标准</h3>
       <p id="criteriaText">优先收录：可访问、体验稳定、有实际价值的 AI 工具。会逐步补充分类、标签和简评。</p>
+    </section>
+
+    <section class="hero" style="margin-top:14px">
+      <h3 id="workflowTitle">收录流程</h3>
+      <p id="workflowText">提交工具 → 人工初审 → 补充分类/标签 → 上线展示。后续根据反馈持续优化信息质量。</p>
       <div class="hero-actions" style="margin-top:12px">
         <a class="btn btn-primary" href="https://github.com/1225067131-dotcom/ainavhub/issues/new" target="_blank" rel="noopener noreferrer" id="submitBtn">提交工具</a>
       </div>
@@ -61,14 +66,18 @@
     let lang = 'zh';
     const t = {
       zh: {
-        sub:'About this project', btn:'EN', back:'返回首页', title:'关于 AINavHub', desc:'这是一个 AI 工具导航站，帮助你更快发现、筛选、比较常用 AI 工具。',
+        sub:'关于项目', btn:'EN', back:'返回首页', title:'关于 AINavHub', desc:'这是一个 AI 工具导航站，帮助你更快发现、筛选、比较常用 AI 工具。',
         m1t:'定位',m1v:'AI 工具导航',m2t:'特点',m2v:'双语 / 搜索 / 筛选 / 排序',m3t:'更新方式',m3v:'持续收录与优化',
-        ct:'收录标准',cx:'优先收录：可访问、体验稳定、有实际价值的 AI 工具。会逐步补充分类、标签和简评。',submit:'提交工具'
+        ct:'收录标准',cx:'优先收录：可访问、体验稳定、有实际价值的 AI 工具。会逐步补充分类、标签和简评。',
+        wt:'收录流程',wx:'提交工具 → 人工初审 → 补充分类/标签 → 上线展示。后续根据反馈持续优化信息质量。',
+        submit:'提交工具'
       },
       en: {
         sub:'About this project', btn:'中', back:'Back Home', title:'About AINavHub', desc:'AINavHub helps you discover, filter and compare useful AI tools faster.',
         m1t:'Positioning',m1v:'AI Tools Directory',m2t:'Features',m2v:'Bilingual / Search / Filter / Sort',m3t:'Update',m3v:'Continuously curated',
-        ct:'Inclusion Criteria',cx:'We prioritize accessible, stable, and practical AI tools, then enrich with categories, tags, and concise notes.',submit:'Submit Tool'
+        ct:'Inclusion Criteria',cx:'We prioritize accessible, stable, and practical AI tools, then enrich with categories, tags, and concise notes.',
+        wt:'Curation Workflow',wx:'Submit tool → Manual review → Add category/tags → Publish. We keep refining quality based on feedback.',
+        submit:'Submit Tool'
       }
     };
     function apply(){
@@ -84,6 +93,8 @@
       document.getElementById('m3t').textContent=s.m3t; document.getElementById('m3v').textContent=s.m3v;
       document.getElementById('criteriaTitle').textContent=s.ct;
       document.getElementById('criteriaText').textContent=s.cx;
+      document.getElementById('workflowTitle').textContent=s.wt;
+      document.getElementById('workflowText').textContent=s.wx;
       document.getElementById('submitBtn').textContent=s.submit;
       langToggle.textContent=s.btn;
     }
