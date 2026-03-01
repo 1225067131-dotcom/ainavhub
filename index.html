@@ -5,17 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AINavHub - AI Tools Navigator</title>
   <meta name="description" content="AINavHub：精选 AI 工具导航，支持分类筛选与搜索，持续更新。" />
+  <link rel="icon" type="image/png" href="./logo.png" />
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
   <header class="site-header">
     <div class="container">
       <div class="topbar">
-        <div>
-          <h1 id="siteTitle">AINavHub</h1>
-          <p id="siteSubtitle" class="subtitle">Find useful AI tools fast.</p>
+        <div class="brand-wrap">
+          <img src="./logo.png" alt="AINavHub logo" class="brand-logo" />
+          <div>
+            <h1 id="siteTitle">AINavHub</h1>
+            <p id="siteSubtitle" class="subtitle">Find useful AI tools fast.</p>
+          </div>
         </div>
-        <button id="langToggle" class="lang-toggle" type="button">EN</button>
+
+        <div class="top-actions">
+          <a id="submitEntry" class="submit-entry" href="https://github.com/1225067131-dotcom/ainavhub/issues/new" target="_blank" rel="noopener noreferrer">提交工具</a>
+          <button id="langToggle" class="lang-toggle" type="button">EN</button>
+        </div>
       </div>
 
       <div class="controls">
@@ -34,7 +42,7 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <p>© <span id="year"></span> AINavHub</p>
-      <p><span id="submitLabel">提交工具</span>：<a href="#" id="submitLink">Coming Soon</a></p>
+      <p><span id="submitLabel">提交工具</span>：<a href="https://github.com/1225067131-dotcom/ainavhub/issues/new" id="submitLink" target="_blank" rel="noopener noreferrer">GitHub Issue</a></p>
     </div>
   </footer>
 
@@ -46,6 +54,7 @@
     const emptyState = document.getElementById('emptyState');
     const langToggle = document.getElementById('langToggle');
     const submitLabel = document.getElementById('submitLabel');
+    const submitEntry = document.getElementById('submitEntry');
     const siteSubtitle = document.getElementById('siteSubtitle');
     document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -185,6 +194,7 @@
       searchInput.placeholder = I18N[currentLang].searchPlaceholder;
       emptyState.textContent = I18N[currentLang].empty;
       submitLabel.textContent = I18N[currentLang].submit;
+      submitEntry.textContent = I18N[currentLang].submit;
       setCategoryOptions();
       filterTools();
     }
