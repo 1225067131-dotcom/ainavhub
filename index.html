@@ -27,7 +27,8 @@
       </div>
 
       <section class="hero">
-        <h2 id="heroTitle">发现好用 AI 工具，一站直达</h2>
+        <h2 id="heroTitle" class="hero-main">发现好用的 <span class="accent">AI 工具</span></h2>
+        <p id="heroSub" class="hero-sub">一站直达</p>
         
         
       </section>
@@ -145,6 +146,33 @@
     function localizedCategory(zhCategory) { return currentLang === 'zh' ? zhCategory : (categoryMap[zhCategory] || zhCategory); }
     function toZhCategory(localCategory) { return currentLang === 'zh' ? localCategory : (reverseCategoryMap[localCategory] || localCategory); }
     function badgeClass(freeType) { if (freeType === '免费') return 'badge free'; if (freeType === '部分免费') return 'badge freemium'; return 'badge paid'; }
+    function visitBtnClass(category) {
+      const map = { 对话:'visit-chat', 绘图:'visit-image', 视频:'visit-video', 编程:'visit-code' };
+      return map[category] || 'visit-default';
+    }
+    function categoryClass(category){
+      const map = { 对话:'cat-chat', 绘图:'cat-image', 视频:'cat-video', 编程:'cat-code', 写作:'cat-write' };
+      return map[category] || 'cat-default';
+    }
+    function getToolScreenshot(url){
+      try {
+        const u = new URL(url);
+        return `https://image.thum.io/get/width/800/noanimate/${u.origin}`;
+      } catch {
+        return '';
+      }
+    }
+
+    function getToolIcon(url){
+      try {
+        const u = new URL(url);
+        const host = u.hostname;
+        return `https://www.google.com/s2/favicons?sz=64&domain=${host}`;
+      } catch {
+        return './logo.png';
+      }
+    }
+
     function localizedFreeType(freeType) {
       if (currentLang === 'zh') return freeType;
       if (freeType === '免费') return I18N.en.free;
@@ -191,16 +219,29 @@
       list.forEach(tool => {
         const card = document.createElement('article');
         card.className = 'card';
+        card.setAttribute('role','link');
+        card.setAttribute('tabindex','0');
+        card.addEventListener('click', () => window.open(tool.url, '_blank', 'noopener,noreferrer'));
+        card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.open(tool.url, '_blank', 'noopener,noreferrer'); } });
         const tags = (tool.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
         card.innerHTML = `
+          <div class="card-media">
+            <img class="tool-shot" src="${getToolScreenshot(tool.url)}" alt="${tool.name} screenshot" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="tool-shot-fallback" style="display:none;">
+              <img class="tool-logo-large" src="${getToolIcon(tool.url)}" alt="${tool.name} logo" loading="lazy" referrerpolicy="no-referrer" />
+            </div>
+          </div>
           <div class="card-top">
-            <h3>${tool.name}</h3>
+            <div class="tool-head">
+              <img class="tool-icon" src="${getToolIcon(tool.url)}" alt="${tool.name} icon" loading="lazy" referrerpolicy="no-referrer" />
+              <h3>${tool.name}</h3>
+            </div>
             <span class="${badgeClass(tool.freeType)}">${localizedFreeType(tool.freeType)}</span>
           </div>
           <p class="desc">${tool.description}</p>
-          <div class="meta"><span class="cat">${categoryIcons[tool.category] || "✨"} ${localizedCategory(tool.category)}</span></div>
+          <div class="meta"><span class="cat ${categoryClass(tool.category)}">${categoryIcons[tool.category] || "✨"} ${localizedCategory(tool.category)}</span></div>
           <div class="tags">${tags}</div>
-          <a class="visit" href="${tool.url}" target="_blank" rel="noopener noreferrer">${I18N[currentLang].visit}</a>
+          
         `;
         toolGrid.appendChild(card);
       });
@@ -230,9 +271,7 @@
     function applyLanguage() {
       document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : 'en';
       const lang = I18N[currentLang];
-      langToggle.textContent = lang.langBtn;
-      heroTitle.textContent = lang.heroTitle;
-      searchInput.placeholder = lang.searchPlaceholder;
+      langToggle.textContent = lang.langBtn;      searchInput.placeholder = lang.searchPlaceholder;
       emptyState.textContent = lang.empty;
       
       submitEntry.textContent = lang.submit;

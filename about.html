@@ -55,7 +55,7 @@
     <section class="stats-cards" style="margin-top:14px">
       <article class="metric">
         <span id="uTitle">最近更新时间</span>
-        <strong id="uValue">2026-03-01</strong>
+        <strong id="uValue"></strong>
       </article>
       <article class="metric" style="grid-column: span 2;">
         <span id="cTitle">联系方式</span>
@@ -97,6 +97,9 @@
         ct2:'Contact'
       }
     };
+    const today = new Date();
+    const dateText = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+
     function apply(){
       const s=t[lang];
       document.documentElement.lang = lang==='zh' ? 'zh-CN':'en';
@@ -114,6 +117,7 @@
       document.getElementById('workflowText').textContent=s.wx;
       document.getElementById('submitBtn').textContent=s.submit;
       document.getElementById('uTitle').textContent=s.ut;
+      document.getElementById('uValue').textContent=dateText;
       document.getElementById('cTitle').textContent=s.ct2;
       document.getElementById('cValue').textContent=s.cv;
       langToggle.textContent=s.btn;
