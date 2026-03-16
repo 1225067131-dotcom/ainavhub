@@ -1,10 +1,10 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AINavHub - AI Tools Navigator</title>
-  <meta name="description" content="AINavHub：精选 AI 工具导航，支持分类筛选、搜索和排序。" />
+  <meta name="description" content="AINavHub精选 AI 工具的导航，支持分类筛选与智能搜索" />
   <link rel="icon" type="image/png" href="./logo.png?v=2" />
   <link rel="stylesheet" href="./style.css" />
 </head>
@@ -29,16 +29,37 @@
       </section>
 
       <div class="controls controls-3">
-        <input id="searchInput" type="text" placeholder="搜索工具名、描述或标签..." />
-        <select id="categorySelect"></select>
-        
+        <input id="searchInput" type="text" placeholder="按名称、描述、标签搜索..." />
       </div>
 
-      <div class="quick-actions">
-        <button class="chip active" id="chipAll" type="button">全部</button>
-        <button class="chip" id="chipFree" type="button">仅免费</button>
-        <button class="chip" id="chipFreemium" type="button">免费优先</button>
-        <button class="chip" id="chipReset" type="button">重置筛选</button>
+      <div id="categoryTagRow" class="category-tags">
+        <button class="category-tag-btn" data-key="Art" data-i18n-key="art" type="button">Art</button>
+        <button class="category-tag-btn" data-key="Browser Extensions" data-i18n-key="browserExtensions" type="button">Browser Extensions</button>
+        <button class="category-tag-btn" data-key="Data" data-i18n-key="data" type="button">Data</button>
+        <button class="category-tag-btn" data-key="Design" data-i18n-key="design" type="button">Design</button>
+        <button class="category-tag-btn" data-key="Development" data-i18n-key="development" type="button">Development</button>
+        <button class="category-tag-btn" data-key="Education" data-i18n-key="education" type="button">Education</button>
+        <button class="category-tag-btn" data-key="Entertainment" data-i18n-key="entertainment" type="button">Entertainment</button>
+        <button class="category-tag-btn" data-key="Finance" data-i18n-key="finance" type="button">Finance</button>
+        <button class="category-tag-btn" data-key="Games" data-i18n-key="games" type="button">Games</button>
+        <button class="category-tag-btn" data-key="Generative Art" data-i18n-key="generativeArt" type="button">Generative Art</button>
+        <button class="category-tag-btn" data-key="More" data-i18n-key="more" data-toggle="more" type="button">More</button>
+        <button class="category-tag-btn category-tag-extra hidden" data-key="Marketing" data-i18n-key="marketing" type="button">Marketing</button>
+        <button class="category-tag-btn category-tag-extra hidden" data-key="Messaging" data-i18n-key="messaging" type="button">Messaging</button>
+        <button class="category-tag-btn category-tag-extra hidden" data-key="Music" data-i18n-key="music" type="button">Music</button>
+        <button class="category-tag-btn category-tag-extra hidden" data-key="News" data-i18n-key="news" type="button">News</button>
+        <button class="category-tag-btn category-tag-extra hidden" data-key="Other" data-i18n-key="other" type="button">Other</button>
+        <button class="category-tag-btn category-tag-extra hidden" data-key="Research" data-i18n-key="research" type="button">Research</button>
+        <button class="category-tag-btn category-tag-extra hidden" data-key="SEO" data-i18n-key="seo" type="button">SEO</button>
+        <button class="category-tag-btn category-tag-extra hidden" data-key="Shopping" data-i18n-key="shopping" type="button">Shopping</button>
+        <button class="category-tag-btn category-tag-extra hidden" data-key="Social" data-i18n-key="social" type="button">Social</button>
+        <button class="category-tag-btn category-tag-extra hidden" data-key="Software Development" data-i18n-key="softwareDevelopment" type="button">Software Development</button>
+        <button class="category-tag-btn category-tag-extra hidden" data-key="Tasks" data-i18n-key="tasks" type="button">Tasks</button>
+        <button class="category-tag-btn category-tag-extra hidden" data-key="Text" data-i18n-key="text" type="button">Text</button>
+        <button class="category-tag-btn category-tag-extra hidden" data-key="Travel" data-i18n-key="travel" type="button">Travel</button>
+        <button class="category-tag-btn category-tag-extra hidden" data-key="User Experience" data-i18n-key="userExperience" type="button">User Experience</button>
+        <button class="category-tag-btn category-tag-extra hidden" data-key="Wireframing" data-i18n-key="wireframing" type="button">Wireframing</button>
+        <button class="category-tag-btn category-tag-extra hidden" data-key="Writing" data-i18n-key="writing" type="button">Writing</button>
       </div>
     </div>
   </header>
@@ -46,47 +67,50 @@
   <main class="container">
     <section class="stats-cards">
       <article class="metric"><span id="mTotalLabel">总工具</span><strong id="mTotal">0</strong></article>
-      <article class="metric"><span id="mFreeLabel">免费/部分免费</span><strong id="mFree">0</strong></article>
+      <article class="metric"><span id="mFreeLabel">免费/免费试用</span><strong id="mFree">0</strong></article>
       <article class="metric"><span id="mCatsLabel">分类数</span><strong id="mCats">0</strong></article>
     </section>
 
     <section class="list-toolbar">
-      <div id="stats" class="stats"></div>
+      <div class="stats-row">
+        <select id="priceFilter" class="price-filter"></select>
+        <div id="stats" class="stats"></div>
+      </div>
       <div class="view-controls">
         <div class="view-segment" role="group" aria-label="Layout switch">
           <button id="viewGridBtn" class="view-btn active" title="Grid view" aria-label="Grid view">▦</button>
-          <button id="viewListBtn" class="view-btn" title="List view" aria-label="List view">☰</button>
+          <button id="viewListBtn" class="view-btn" title="List view" aria-label="List view">≡</button>
         </div>
         <select id="sortInline"></select>
       </div>
     </section>
 
     <section id="toolGrid" class="tool-grid"></section>
-    <p id="emptyState" class="empty hidden">没有找到匹配工具，换个关键词试试。</p>
+    <p id="emptyState" class="empty hidden">没有找到匹配工具，请尝试其它关键词。</p>
     <div id="emptyGuide" class="empty-guide hidden"></div>
   </main>
 
-  <footer class="site-footer">   <div class="container footer-inner footer-center">     <p>© 2025 AINavHub. All rights reserved.</p>     <p><a href="mailto:hello@ainavhub.com">hello@ainavhub.com</a></p>   </div> </footer>
+  <footer class="site-footer">
+    <div class="container footer-inner footer-center">
+      <p>© 2025 AINavHub. All rights reserved.</p>
+      <p><a href="mailto:hello@ainavhub.com">hello@ainavhub.com</a></p>
+    </div>
+  </footer>
 
   <button id="toTopBtn" class="to-top" type="button" aria-label="Back to top">↑</button>
 
   <script>
     const toolGrid = document.getElementById('toolGrid');
     const searchInput = document.getElementById('searchInput');
-    const categorySelect = document.getElementById('categorySelect');
     const sortInline = document.getElementById('sortInline');
     const sortSelect = document.getElementById('sortSelect') || sortInline;
+    const priceFilter = document.getElementById('priceFilter');
     const stats = document.getElementById('stats');
     const emptyState = document.getElementById('emptyState');
     const emptyGuide = document.getElementById('emptyGuide');
     const langToggle = document.getElementById('langToggle');
     const submitEntry = document.getElementById('submitEntry');
     const aboutEntry = document.getElementById('aboutEntry');
-    const chipAll = document.getElementById('chipAll');
-    const chipFree = document.getElementById('chipFree');
-    const chipFreemium = document.getElementById('chipFreemium');
-    const chipReset = document.getElementById('chipReset');
-    const chips = [chipAll, chipFree, chipFreemium];
     const heroTitle = document.getElementById('heroTitle');
     const heroSub = document.getElementById('heroSub');
     const mTotalLabel = document.getElementById('mTotalLabel');
@@ -98,6 +122,7 @@
     const toTopBtn = document.getElementById('toTopBtn');
     const viewGridBtn = document.getElementById('viewGridBtn');
     const viewListBtn = document.getElementById('viewListBtn');
+    const categoryTagRow = document.getElementById('categoryTagRow');
 
     const yearEl = document.getElementById('year'); if (yearEl) yearEl.textContent = new Date().getFullYear();
 
@@ -105,16 +130,59 @@
       zh: {
         langBtn: 'EN',
         heroLead: '发现好用的', heroAccent: 'AI 工具', heroSub: '一站直达',
-        searchPlaceholder: '搜索工具名、描述或标签...',
-        categories: ['全部', '对话', '绘图', '视频', '编程', '办公', '学习'],
-        sortLabel: ['默认排序', '最新添加', '按名称'],
+        searchPlaceholder: '按名称、描述、标签搜索...',
+        categories: ['全部', '对话', '作图', '视频', '编程', '办公', '学习'],
+        sortLabel: ['默认排序', '最新添加', '名称排序'],
         chips: ['全部','仅免费','免费优先','重置筛选'],
         emptyHints: '试试：chat / image / free',
         stats: (n) => `当前显示 ${n} 个工具`,
-        empty: '没有找到匹配工具，换个关键词试试。',
+        empty: '没有找到匹配工具，请尝试其它关键词。',
         submit: '提交工具', about: '关于',
-        totalLabel: '总工具', freeLabel: '免费/部分免费', catsLabel: '分类数',
-        free: '免费', freemium: '部分免费', paid: '付费'
+        totalLabel: '总工具', freeLabel: '免费/免费试用', catsLabel: '分类数',
+        free: '免费', freemium: '免费试用', paid: '付费',
+        priceFilterLabels: {
+          all: '所有资源',
+          free: '免费',
+          freemium: '部分免费',
+          opensource: '开源',
+          paid: '付费'
+        },
+        priceFilterIcons: {
+          all: '📚',
+          free: '🟢',
+          freemium: '🌓',
+          opensource: '🧩',
+          paid: '💳'
+        },
+        tagLabels: {
+          art: '艺术',
+          browserExtensions: '浏览器扩展',
+          data: '数据',
+          design: '设计',
+          development: '开发',
+          education: '教育',
+          entertainment: '娱乐',
+          finance: '金融',
+          games: '游戏',
+          generativeArt: '生成艺术',
+          more: '更多',
+          marketing: '营销',
+          messaging: '消息',
+          music: '音乐',
+          news: '资讯',
+          other: '其它',
+          research: '研究',
+          seo: 'SEO',
+          shopping: '购物',
+          social: '社交',
+          softwareDevelopment: '软件开发',
+          tasks: '任务',
+          text: '文本',
+          travel: '旅行',
+          userExperience: '用户体验',
+          wireframing: '线框图',
+          writing: '写作'
+        }
       },
       en: {
         langBtn: '中',
@@ -128,40 +196,77 @@
         empty: 'No tools found. Try another keyword.',
         submit: 'Submit Tool', about: 'About',
         totalLabel: 'Total Tools', freeLabel: 'Free/Freemium', catsLabel: 'Categories',
-        free: 'Free', freemium: 'Freemium', paid: 'Paid'
+        free: 'Free', freemium: 'Freemium', paid: 'Paid',
+        priceFilterLabels: {
+          all: 'All Resources',
+          free: 'Free',
+          freemium: 'Freemium',
+          opensource: 'Open Source',
+          paid: 'Paid'
+        },
+        priceFilterIcons: {
+          all: '📚',
+          free: '🟢',
+          freemium: '🌓',
+          opensource: '🧩',
+          paid: '💳'
+        },
+        tagLabels: {
+          art: 'Art',
+          browserExtensions: 'Browser Extensions',
+          data: 'Data',
+          design: 'Design',
+          development: 'Development',
+          education: 'Education',
+          entertainment: 'Entertainment',
+          finance: 'Finance',
+          games: 'Games',
+          generativeArt: 'Generative Art',
+          more: 'More',
+          marketing: 'Marketing',
+          messaging: 'Messaging',
+          music: 'Music',
+          news: 'News',
+          other: 'Other',
+          research: 'Research',
+          seo: 'SEO',
+          shopping: 'Shopping',
+          social: 'Social',
+          softwareDevelopment: 'Software Development',
+          tasks: 'Tasks',
+          text: 'Text',
+          travel: 'Travel',
+          userExperience: 'User Experience',
+          wireframing: 'Wireframing',
+          writing: 'Writing'
+        }
       }
     };
 
-    const categoryMap = { 对话:'Chat', 绘图:'Image', 视频:'Video', 编程:'Coding', 办公:'Office', 学习:'Learning' };
+    const categoryMap = { 对话:'Chat', 作图:'Image', 视频:'Video', 编程:'Coding', 办公:'Office', 学习:'Learning' };
     const reverseCategoryMap = Object.fromEntries(Object.entries(categoryMap).map(([k,v]) => [v,k]));
-    const categoryIcons = { 对话:'💬', 绘图:'🎨', 视频:'🎬', 编程:'💻', 办公:'🧩', 学习:'📚' };
+    const categoryIcons = { 对话:'💬', 作图:'🖼️', 视频:'🎬', 编程:'💻', 办公:'🧾', 学习:'📚' };
 
     let tools = [];
     let currentLang = 'zh';
-    let quickMode = 'all';
+    let moreExpanded = false;
+    let activeTagKey = '';
+    let priceMode = 'all';
 
-    function setActiveChip(el){ chips.forEach(c=>c.classList.remove('active')); el.classList.add('active'); }
     const localizedCategory = (zh) => currentLang === 'zh' ? zh : (categoryMap[zh] || zh);
-    const toZhCategory = (local) => currentLang === 'zh' ? local : (reverseCategoryMap[local] || local);
-    const badgeClass = (f) => f === '免费' ? 'badge free' : (f === '部分免费' ? 'badge freemium' : 'badge paid');
-    const categoryClass = (c) => ({对话:'cat-chat',绘图:'cat-image',视频:'cat-video',编程:'cat-code',写作:'cat-write'}[c] || 'cat-default');
+    const badgeClass = (f) => f === '免费' ? 'badge free' : (f === '免费试用' ? 'badge freemium' : 'badge paid');
+    const categoryClass = (c) => ({对话:'cat-chat',作图:'cat-image',视频:'cat-video',编程:'cat-code',办公:'cat-write'}[c] || 'cat-default');
     const localizedTags = (tool) => currentLang === 'en' ? (tool.tagsEn || tool.tags || []) : (tool.tags || []);
     const localizedDescription = (tool) => currentLang === 'en' ? (tool.descriptionEn || tool.description) : tool.description;
-    const localizedFreeType = (f) => currentLang === 'zh' ? f : (f === '免费' ? I18N.en.free : (f === '部分免费' ? I18N.en.freemium : I18N.en.paid));
+    const localizedFreeType = (f) => currentLang === 'zh' ? f : (f === '免费' ? I18N.en.free : (f === '免费试用' ? I18N.en.freemium : I18N.en.paid));
     const getToolScreenshot = (url) => { try { const u = new URL(url); return `https://image.thum.io/get/width/800/noanimate/${u.origin}`; } catch { return ''; } };
+    const getToolLogo = (url) => { try { const u = new URL(url); return `https://www.google.com/s2/favicons?sz=96&domain=${u.hostname}`; } catch { return './logo.png'; } };
     const getToolIcon = (url) => { try { const u = new URL(url); return `https://www.google.com/s2/favicons?sz=64&domain=${u.hostname}`; } catch { return './logo.png'; } };
 
     function updateMetrics(allTools){
       mTotal.textContent = allTools.length;
-      mFree.textContent = allTools.filter(t => t.freeType === '免费' || t.freeType === '部分免费').length;
+      mFree.textContent = allTools.filter(t => t.freeType === '免费' || t.freeType === '免费试用').length;
       mCats.textContent = new Set(allTools.map(t => t.category)).size;
-    }
-
-    function setCategoryOptions(){
-      const labels = I18N[currentLang].categories;
-      const prev = categorySelect.value;
-      categorySelect.innerHTML = labels.map(l => `<option value="${l}">${l}</option>`).join('');
-      categorySelect.value = labels.includes(prev) ? prev : labels[0];
     }
 
     function setSortOptions(){
@@ -173,6 +278,41 @@
       sortInline.innerHTML = html;
       sortSelect.value = prev;
       sortInline.value = prev;
+    }
+
+    function setPriceFilterOptions(){
+      if (!priceFilter) return;
+      const lang = I18N[currentLang];
+      if (!lang || !lang.priceFilterLabels) return;
+      const prev = priceFilter.value || priceMode || 'all';
+      const order = ['all','free','freemium','opensource','paid'];
+      priceFilter.innerHTML = order.map((key) => {
+        const label = lang.priceFilterLabels[key];
+        if (!label) return '';
+        const icon = (lang.priceFilterIcons && lang.priceFilterIcons[key]) || '';
+        const text = icon ? `${icon} ${label}` : label;
+        return `<option value="${key}">${text}</option>`;
+      }).join('');
+      priceFilter.value = order.includes(prev) ? prev : 'all';
+      priceMode = priceFilter.value;
+    }
+
+    function matchesPriceFilter(tool){
+      if (!priceMode || priceMode === 'all') return true;
+      const ft = tool.freeType || '';
+      if (priceMode === 'free') return ft === '免费';
+      if (priceMode === 'freemium') return ft === '部分免费' || ft === '免费试用';
+      if (priceMode === 'paid') return ft === '付费';
+      if (priceMode === 'opensource') {
+        const text = [
+          ...(tool.tags || []),
+          ...(tool.tagsEn || []),
+          tool.description || '',
+          tool.descriptionEn || ''
+        ].join(' ').toLowerCase();
+        return text.includes('开源') || text.includes('open source');
+      }
+      return true;
     }
 
     function applySort(list){
@@ -205,15 +345,15 @@
         const tags = localizedTags(tool).map(t => `<span class="tag">${t}</span>`).join('');
         card.innerHTML = `
           <div class="card-media">
-            <img class="tool-shot" src="${getToolScreenshot(tool.url)}" alt="${tool.name} screenshot" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <div class="tool-shot-fallback" style="display:none;"><img class="tool-logo-large" src="${getToolIcon(tool.url)}" alt="${tool.name} logo" loading="lazy" referrerpolicy="no-referrer" /></div>
+            <img class="tool-shot" src="${getToolScreenshot(tool.url)}" alt="${tool.name} screenshot" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" onload="if(!this.naturalWidth || !this.naturalHeight){ this.style.display='none'; this.nextElementSibling.style.display='flex'; }" />
+            <div class="tool-shot-fallback" style="display:none;"><img class="tool-logo-large" src="${getToolLogo(tool.url)}" alt="${tool.name} logo" loading="lazy" referrerpolicy="no-referrer" /></div>
           </div>
           <div class="card-top">
             <div class="tool-head"><img class="tool-icon" src="${getToolIcon(tool.url)}" alt="${tool.name} icon" loading="lazy" referrerpolicy="no-referrer" /><h3>${tool.name}</h3></div>
             <span class="${badgeClass(tool.freeType)}">${localizedFreeType(tool.freeType)}</span>
           </div>
           <p class="desc">${localizedDescription(tool)}</p>
-          <div class="meta"><span class="cat ${categoryClass(tool.category)}">${categoryIcons[tool.category] || '✨'} ${localizedCategory(tool.category)}</span></div>
+          <div class="meta"><span class="cat ${categoryClass(tool.category)}">${categoryIcons[tool.category] || '•'} ${localizedCategory(tool.category)}</span></div>
           <div class="tags">${tags}</div>`;
 
         toolGrid.appendChild(card);
@@ -222,21 +362,28 @@
     }
 
     function filterTools(){
-      const keyword = searchInput.value.trim().toLowerCase();
-      const selectedCategory = categorySelect.value;
-      const allLabel = I18N[currentLang].categories[0];
-      const selectedZhCategory = toZhCategory(selectedCategory);
+      const rawKeyword = searchInput.value.trim().toLowerCase();
+      // 有激活的分类标签时，优先按标签筛选，不强制关键字匹配
+      const keyword = activeTagKey ? '' : rawKeyword;
 
       let filtered = tools.filter(tool => {
-        const matchCategory = selectedCategory === allLabel || tool.category === selectedZhCategory;
-        const matchKeyword = tool.name.toLowerCase().includes(keyword)
-          || localizedDescription(tool).toLowerCase().includes(keyword)
-          || localizedTags(tool).join(' ').toLowerCase().includes(keyword);
-        return matchCategory && matchKeyword;
+        const nameDescTags = [
+          tool.name,
+          localizedDescription(tool),
+          localizedTags(tool).join(' ')
+        ].join(' ').toLowerCase();
+
+        const allTagsText = [
+          ...(tool.tags || []),
+          ...(tool.tagsEn || [])
+        ].join(' ').toLowerCase();
+
+        const matchKeyword = !keyword || nameDescTags.includes(keyword) || allTagsText.includes(keyword);
+        const matchTag = !activeTagKey || allTagsText.includes(activeTagKey);
+        const matchPrice = matchesPriceFilter(tool);
+        return matchKeyword && matchTag && matchPrice;
       });
 
-      if (quickMode === 'freeOnly') filtered = filtered.filter(t => t.freeType === '免费');
-      if (quickMode === 'freeFirst') sortInline.value = sortSelect.value = 'default';
       render(applySort(filtered));
     }
 
@@ -253,13 +400,53 @@
       mTotalLabel.textContent = lang.totalLabel;
       mFreeLabel.textContent = lang.freeLabel;
       mCatsLabel.textContent = lang.catsLabel;
-      chipAll.textContent = lang.chips[0];
-      chipFree.textContent = lang.chips[1];
-      chipFreemium.textContent = lang.chips[2];
-      chipReset.textContent = lang.chips[3];
-      setCategoryOptions();
+      if (categoryTagRow && lang.tagLabels) {
+        const buttons = categoryTagRow.querySelectorAll('.category-tag-btn');
+        buttons.forEach(btn => {
+          const key = btn.dataset.i18nKey;
+          if (key && lang.tagLabels[key]) {
+            btn.textContent = lang.tagLabels[key];
+          }
+        });
+      }
+      updateMoreButtonLabel();
       setSortOptions();
+      setPriceFilterOptions();
       filterTools();
+    }
+
+    function updateMoreButtonLabel(){
+      if (!categoryTagRow) return;
+      const btn = categoryTagRow.querySelector('[data-i18n-key="more"]');
+      if (!btn) return;
+      const lang = I18N[currentLang];
+      if (!lang || !lang.tagLabels) return;
+      if (moreExpanded) {
+        const label = currentLang === 'zh' ? '收起' : 'Less';
+        btn.innerHTML = `<span class="more-icon">⊖</span><span class="more-label">${label}</span>`;
+      } else {
+        btn.innerHTML = `<span class="more-icon">⊕</span><span class="more-label">${lang.tagLabels.more}</span>`;
+      }
+    }
+
+    function setMoreExpanded(expanded){
+      moreExpanded = expanded;
+      if (!categoryTagRow) return;
+      const extraButtons = categoryTagRow.querySelectorAll('.category-tag-extra');
+      extraButtons.forEach(btn => {
+        btn.classList.toggle('hidden', !expanded);
+      });
+      updateMoreButtonLabel();
+      const moreBtn = categoryTagRow.querySelector('[data-i18n-key="more"]');
+      if (!moreBtn) return;
+      if (expanded) {
+        categoryTagRow.appendChild(moreBtn);
+      } else {
+        const extras = categoryTagRow.querySelectorAll('.category-tag-extra');
+        if (extras.length) {
+          categoryTagRow.insertBefore(moreBtn, extras[0]);
+        }
+      }
     }
 
     function toggleViewMode(){
@@ -287,18 +474,48 @@
       }
     }
 
-    chipAll.addEventListener('click', ()=>{ quickMode='all'; setActiveChip(chipAll); filterTools(); });
-    chipFree.addEventListener('click', ()=>{ quickMode='freeOnly'; setActiveChip(chipFree); filterTools(); });
-    chipFreemium.addEventListener('click', ()=>{ quickMode='freeFirst'; setActiveChip(chipFreemium); filterTools(); });
-    chipReset.addEventListener('click', ()=>{ quickMode='all'; setActiveChip(chipAll); searchInput.value=''; categorySelect.value=I18N[currentLang].categories[0]; sortSelect.value='default'; sortInline.value='default'; filterTools(); });
-
-    searchInput.addEventListener('input', filterTools);
-    categorySelect.addEventListener('change', filterTools);
+    searchInput.addEventListener('input', () => {
+      activeTagKey = '';
+      filterTools();
+    });
     sortSelect.addEventListener('change', ()=>{ sortInline.value = sortSelect.value; filterTools(); });
     sortInline.addEventListener('change', ()=>{ sortSelect.value = sortInline.value; filterTools(); });
     viewGridBtn.addEventListener('click', toggleViewMode);
     viewListBtn.addEventListener('click', toggleViewMode);
     langToggle.addEventListener('click', ()=>{ currentLang = currentLang === 'zh' ? 'en' : 'zh'; applyLanguage(); });
+
+    if (priceFilter) {
+      priceFilter.addEventListener('change', () => {
+        priceMode = priceFilter.value || 'all';
+        filterTools();
+      });
+    }
+
+    if (categoryTagRow) {
+      categoryTagRow.addEventListener('click', (event) => {
+        const target = event.target.closest('button');
+        if (!target) return;
+        const i18nKey = target.dataset.i18nKey;
+        if (i18nKey === 'more') {
+          setMoreExpanded(!moreExpanded);
+          return;
+        }
+        const rawKey = (target.dataset.key || '').trim();
+        const displayText = (target.textContent || '').trim();
+        const keyForMatch = (rawKey || displayText).toLowerCase();
+        if (!keyForMatch) return;
+        // 再次点击同一个标签则清空筛选
+        if (activeTagKey === keyForMatch) {
+          activeTagKey = '';
+          searchInput.value = '';
+        } else {
+          activeTagKey = keyForMatch;
+          // 搜索框始终显示当前语言下的标签文本
+          searchInput.value = displayText;
+        }
+        filterTools();
+      });
+    }
 
     window.addEventListener('scroll', ()=>{ if (window.scrollY > 300) toTopBtn.classList.add('show'); else toTopBtn.classList.remove('show'); });
     toTopBtn.addEventListener('click', ()=> window.scrollTo({ top: 0, behavior: 'smooth' }));
@@ -307,9 +524,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-

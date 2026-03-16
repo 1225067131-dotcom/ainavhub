@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "name": "ChatGPT",
     "description": "通用 AI 助手，适合写作、问答、学习与头脑风暴。",
@@ -36,8 +36,8 @@
     "url": "https://www.midjourney.com",
     "category": "绘图",
     "freeType": "付费",
-    "tags": ["图像生成", "艺术风格", "高质量"],
-    "tagsEn": ["Image Generation", "Art Style", "High Quality"]
+    "tags": ["图像生成", "艺术风格", "高质量", "艺术"],
+    "tagsEn": ["Image Generation", "Art Style", "High Quality", "Art", "Generative Art"]
   },
   {
     "name": "Leonardo AI",
@@ -46,8 +46,8 @@
     "url": "https://leonardo.ai",
     "category": "绘图",
     "freeType": "部分免费",
-    "tags": ["出图", "模型", "创作"],
-    "tagsEn": ["Image Output", "Models", "Creative"]
+    "tags": ["出图", "模型", "创作", "艺术"],
+    "tagsEn": ["Image Output", "Models", "Creative", "Art", "Generative Art"]
   },
   {
     "name": "Canva AI",
@@ -56,8 +56,8 @@
     "url": "https://www.canva.com",
     "category": "绘图",
     "freeType": "部分免费",
-    "tags": ["设计", "海报", "新手友好"],
-    "tagsEn": ["Design", "Posters", "Beginner-friendly"]
+    "tags": ["设计", "海报", "新手友好", "艺术"],
+    "tagsEn": ["Design", "Posters", "Beginner-friendly", "Art"]
   },
   {
     "name": "Runway",
@@ -96,8 +96,8 @@
     "url": "https://github.com/features/copilot",
     "category": "编程",
     "freeType": "部分免费",
-    "tags": ["代码补全", "开发", "IDE"],
-    "tagsEn": ["Code Completion", "Development", "IDE"]
+    "tags": ["代码补全", "开发", "IDE", "软件开发"],
+    "tagsEn": ["Code Completion", "Development", "IDE", "Software Development"]
   },
   {
     "name": "Codeium",
@@ -106,8 +106,8 @@
     "url": "https://codeium.com",
     "category": "编程",
     "freeType": "免费",
-    "tags": ["免费", "代码补全", "开发效率"],
-    "tagsEn": ["Free", "Code Completion", "Productivity"]
+    "tags": ["免费", "代码补全", "开发效率", "软件开发"],
+    "tagsEn": ["Free", "Code Completion", "Productivity", "Software Development"]
   },
   {
     "name": "Replit AI",
@@ -116,8 +116,8 @@
     "url": "https://replit.com",
     "category": "编程",
     "freeType": "部分免费",
-    "tags": ["在线IDE", "编程", "协作"],
-    "tagsEn": ["Online IDE", "Coding", "Collaboration"]
+    "tags": ["在线IDE", "编程", "协作", "软件开发"],
+    "tagsEn": ["Online IDE", "Coding", "Collaboration", "Software Development"]
   },
   {
     "name": "Notion AI",
@@ -166,8 +166,8 @@
     "url": "https://www.perplexity.ai",
     "category": "学习",
     "freeType": "部分免费",
-    "tags": ["搜索", "资料", "研究"],
-    "tagsEn": ["Search", "Research Material", "Research"]
+    "tags": ["搜索", "资料", "研究", "数据"],
+    "tagsEn": ["Search", "Research Material", "Research", "Data"]
   },
   {
     "name": "Elicit",
@@ -176,7 +176,177 @@
     "url": "https://elicit.com",
     "category": "学习",
     "freeType": "部分免费",
-    "tags": ["论文", "研究", "检索"],
-    "tagsEn": ["Papers", "Research", "Discovery"]
+    "tags": ["论文", "研究", "检索", "数据"],
+    "tagsEn": ["Papers", "Research", "Discovery", "Data"]
+  },
+  {
+    "name": "DeepSeek",
+    "description": "国产大语言模型与对话助手，支持多轮对话与代码能力。",
+    "descriptionEn": "Chinese large language model and chat assistant with strong reasoning and coding capabilities.",
+    "url": "https://www.deepseek.com",
+    "category": "对话",
+    "freeType": "部分免费",
+    "tags": ["对话", "大模型", "代码", "开发"],
+    "tagsEn": ["Chat", "LLM", "Coding", "Development", "Software Development"]
+  },
+  {
+    "name": "Cursor",
+    "description": "面向开发者的 AI 编程编辑器，支持智能补全、重构与对话协作。",
+    "descriptionEn": "AI-powered code editor for developers with intelligent completion, refactoring, and chat assistance.",
+    "url": "https://www.cursor.com",
+    "category": "编程",
+    "freeType": "部分免费",
+    "tags": ["IDE", "代码补全", "重构", "开发"],
+    "tagsEn": ["IDE", "Code Completion", "Refactoring", "Development", "Software Development"]
+  },
+  {
+    "name": "Suno",
+    "description": "AI 音乐生成平台，一键生成完整歌曲与伴奏。",
+    "descriptionEn": "AI music generation platform for creating full songs and instrumentals from text.",
+    "url": "https://www.suno.ai",
+    "category": "视频",
+    "freeType": "部分免费",
+    "tags": ["音乐生成", "音频", "创作"],
+    "tagsEn": ["Music Generation", "Audio", "Creative"]
+  },
+  {
+    "name": "Sora",
+    "description": "OpenAI 推出的文本转视频模型，可根据描述生成高质量视频。",
+    "descriptionEn": "Text-to-video model from OpenAI that generates high-quality videos from descriptions.",
+    "url": "https://openai.com/sora",
+    "category": "视频",
+    "freeType": "部分免费",
+    "tags": ["文本转视频", "视频生成", "创作"],
+    "tagsEn": ["Text-to-Video", "Video Generation", "Creative"]
+  },
+  {
+    "name": "Stable Diffusion",
+    "description": "开源文生图模型，广泛用于 AI 绘画与自建出图服务。",
+    "descriptionEn": "Open-source text-to-image model widely used for AI art and self-hosted image generation.",
+    "url": "https://stability.ai/stable-diffusion",
+    "category": "绘图",
+    "freeType": "免费",
+    "tags": ["开源", "图像生成", "模型", "艺术"],
+    "tagsEn": ["Open Source", "Image Generation", "Model", "Art", "Generative Art"]
+  },
+  {
+    "name": "ElevenLabs",
+    "description": "高质量 AI 语音合成与配音平台，支持多语言与情感控制。",
+    "descriptionEn": "High-quality AI voice synthesis and dubbing platform with multilingual and emotional control.",
+    "url": "https://elevenlabs.io",
+    "category": "视频",
+    "freeType": "部分免费",
+    "tags": ["语音合成", "配音", "多语言"],
+    "tagsEn": ["TTS", "Voiceover", "Multilingual"]
+  },
+  {
+    "name": "Gamma",
+    "description": "AI 演示文稿与网页生成工具，可一键生成 PPT 风格页面。",
+    "descriptionEn": "AI tool for generating slide-style presentations and web pages from prompts.",
+    "url": "https://gamma.app",
+    "category": "办公",
+    "freeType": "部分免费",
+    "tags": ["PPT", "演示文稿", "内容生成", "设计"],
+    "tagsEn": ["Slides", "Presentation", "Content Generation", "Design"]
+  },
+  {
+    "name": "Copy.ai",
+    "description": "营销与文案写作向的 AI 工具，支持广告、邮件、社交媒体内容生成。",
+    "descriptionEn": "AI copywriting tool for marketing content such as ads, emails, and social posts.",
+    "url": "https://www.copy.ai",
+    "category": "办公",
+    "freeType": "部分免费",
+    "tags": ["营销文案", "广告", "社交媒体", "营销"],
+    "tagsEn": ["Marketing Copy", "Ads", "Social Media", "Marketing"]
+  },
+  {
+    "name": "Jasper",
+    "description": "面向品牌与团队的 AI 写作助手，支持多渠道内容创作与协作。",
+    "descriptionEn": "AI writing assistant for brands and teams, supporting multi-channel content creation and collaboration.",
+    "url": "https://www.jasper.ai",
+    "category": "办公",
+    "freeType": "部分免费",
+    "tags": ["品牌文案", "团队协作", "营销"],
+    "tagsEn": ["Brand Copy", "Team Collaboration", "Marketing"]
+  },
+  {
+    "name": "Descript",
+    "description": "集文字编辑、音频剪辑和视频剪辑于一体的多媒体编辑工具。",
+    "descriptionEn": "Multimedia editing tool combining text-based editing, audio editing, and video editing.",
+    "url": "https://www.descript.com",
+    "category": "视频",
+    "freeType": "部分免费",
+    "tags": ["音频剪辑", "视频剪辑", "播客"],
+    "tagsEn": ["Audio Editing", "Video Editing", "Podcast"]
+  },
+  {
+    "name": "Synthesia",
+    "description": "AI 虚拟人视频生成平台，可快速生成配音与口播视频。",
+    "descriptionEn": "AI avatar video platform for quickly generating talking-head and narrated videos.",
+    "url": "https://www.synthesia.io",
+    "category": "视频",
+    "freeType": "部分免费",
+    "tags": ["虚拟人", "口播视频", "企业培训"],
+    "tagsEn": ["Avatar", "Talking Head", "Training"]
+  },
+  {
+    "name": "HeyGen",
+    "description": "支持多语言虚拟人和口型同步的 AI 视频生成工具。",
+    "descriptionEn": "AI video generation tool with multilingual avatars and lip-sync capabilities.",
+    "url": "https://www.heygen.com",
+    "category": "视频",
+    "freeType": "部分免费",
+    "tags": ["虚拟人", "视频生成", "多语言"],
+    "tagsEn": ["Avatar", "Video Generation", "Multilingual"]
+  },
+  {
+    "name": "Kling AI",
+    "description": "面向创作者的文本转视频平台，支持多风格短视频生成。",
+    "descriptionEn": "Text-to-video platform for creators, supporting multi-style short video generation.",
+    "url": "https://klingai.com",
+    "category": "视频",
+    "freeType": "免费",
+    "tags": ["文本转视频", "短视频", "创作"],
+    "tagsEn": ["Text-to-Video", "Short Video", "Creative"]
+  },
+  {
+    "name": "Luma AI",
+    "description": "支持 3D 场景与视频生成的多模态创作平台。",
+    "descriptionEn": "Multimodal creation platform for generating 3D scenes and videos.",
+    "url": "https://lumalabs.ai",
+    "category": "视频",
+    "freeType": "部分免费",
+    "tags": ["3D", "视频生成", "多模态"],
+    "tagsEn": ["3D", "Video Generation", "Multimodal"]
+  },
+  {
+    "name": "Ideogram",
+    "description": "擅长文字排版与海报风格的 AI 文生图工具。",
+    "descriptionEn": "Text-to-image tool specialized in typography and poster-style designs.",
+    "url": "https://ideogram.ai",
+    "category": "绘图",
+    "freeType": "部分免费",
+    "tags": ["文字排版", "海报", "图像生成", "艺术"],
+    "tagsEn": ["Typography", "Posters", "Image Generation", "Art", "Generative Art"]
+  },
+  {
+    "name": "Flux AI",
+    "description": "面向高质量创意出图的文生图模型与平台。",
+    "descriptionEn": "Text-to-image model and platform focused on high-quality creative image generation.",
+    "url": "https://flux.ai",
+    "category": "绘图",
+    "freeType": "部分免费",
+    "tags": ["创意出图", "图像生成", "艺术风格", "艺术"],
+    "tagsEn": ["Creative Images", "Image Generation", "Art Style", "Art", "Generative Art"]
+  },
+  {
+    "name": "Recraft",
+    "description": "适合品牌设计与矢量插画的 AI 绘图平台。",
+    "descriptionEn": "AI image platform for brand design, vector illustrations, and icons.",
+    "url": "https://www.recraft.ai",
+    "category": "绘图",
+    "freeType": "部分免费",
+    "tags": ["品牌设计", "矢量插画", "图标", "设计"],
+    "tagsEn": ["Brand Design", "Vector Illustration", "Icons", "Design", "Art"]
   }
 ]
