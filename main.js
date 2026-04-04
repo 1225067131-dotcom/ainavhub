@@ -35,7 +35,7 @@ const I18N = {
     sortLabel: ['默认排序', '最新添加', '名称排序'],
     chips: ['全部', '仅免费', '免费优先', '重置筛选'],
     emptyHints: '试试：chat / image / free',
-    stats: (n) => `当前显示 ${n} 个工具`,
+    stats: (n) => `共找到 ${n} 个工具`,
     clear: '清除',
     empty: '没有找到匹配工具，请尝试其它关键词。',
     submit: '提交工具', about: '关于',
@@ -93,7 +93,7 @@ const I18N = {
     sortLabel: ['Default', 'Latest Added', 'Name A-Z'],
     chips: ['All', 'Free Only', 'Free First', 'Reset Filters'],
     emptyHints: 'Try: chat / image / free',
-    stats: (n) => `${n} tools shown`,
+    stats: (n) => `${n} Tools Found`,
     clear: 'Clear',
     empty: 'No tools found. Try another keyword.',
     submit: 'Submit Tool', about: 'About',
@@ -386,9 +386,9 @@ function updateMoreButtonLabel() {
   if (!lang || !lang.tagLabels) return;
   if (moreExpanded) {
     const label = currentLang === 'zh' ? '收起' : 'Less';
-    btn.innerHTML = `<span class="more-icon">⊖</span><span class="more-label">${label}</span>`;
+    btn.innerHTML = `<span class="more-icon more-icon-minus" aria-hidden="true"></span><span class="more-label">${label}</span>`;
   } else {
-    btn.innerHTML = `<span class="more-icon">⊕</span><span class="more-label">${lang.tagLabels.more}</span>`;
+    btn.innerHTML = `<span class="more-icon more-icon-plus" aria-hidden="true"></span><span class="more-label">${lang.tagLabels.more}</span>`;
   }
 }
 
