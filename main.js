@@ -1,4 +1,4 @@
-const toolGrid = document.getElementById('toolGrid');
+  const toolGrid = document.getElementById('toolGrid');
 const searchInput = document.getElementById('searchInput');
 const sortInline = document.getElementById('sortInline');
 const sortSelect = document.getElementById('sortSelect') || sortInline;
@@ -155,6 +155,11 @@ let moreExpanded = false;
 let activeTagKey = '';
 let priceMode = 'all';
 
+const queryLang = new URLSearchParams(window.location.search).get('lang');
+if (queryLang === 'zh' || queryLang === 'en') {
+  currentLang = queryLang;
+}
+
 const localizedCategory = (zh) => currentLang === 'zh' ? zh : (categoryMap[zh] || zh);
 const badgeClass = (f) => (f === '免费' ? 'badge free' : ((f === '免费试用' || f === '部分免费') ? 'badge freemium' : 'badge paid'));
 const categoryClass = (c) => ({ 对话: 'cat-chat', 作图: 'cat-image', 绘图: 'cat-image', 视频: 'cat-video', 编程: 'cat-code', 办公: 'cat-write' }[c] || 'cat-default');
@@ -168,6 +173,39 @@ const getToolLogoFallback = (url) => { try { const u = new URL(url); return `htt
 const getToolIcon = (url) => { try { const u = new URL(url); return `${u.origin}/favicon.ico`; } catch { return './logo.png'; } };
 const getToolIconFallback = (url) => { try { const u = new URL(url); return `https://icons.duckduckgo.com/ip3/${u.hostname}.ico`; } catch { return './logo.png'; } };
 const normalizeTagText = (value) => (value || '').toString().trim().toLowerCase().replace(/\s+/g, ' ');
+
+function slugifyToolName(name) {
+  return (name || '')
+    .toString()
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '') || 'tool';
+}
+
+function attachToolIdentity(rawTools) {
+  const usedSlugs = new Set();
+  return rawTools.map((tool, idx) => {
+    const base = slugifyToolName(tool.slug || tool.name);
+    let slug = base;
+    let n = 2;
+    while (usedSlugs.has(slug)) {
+      slug = `${base}-${n}`;
+      n += 1;
+    }
+    usedSlugs.add(slug);
+    return { ...tool, id: idx, slug };
+  });
+}
+
+function getDetailUrl(tool) {
+  const detailUrl = new URL('./tool.html', window.location.href);
+  detailUrl.searchParams.set('lang', currentLang);
+  detailUrl.hash = `/${encodeURIComponent(tool.slug)}`;
+  return detailUrl.toString();
+}
 
 function getCategoryAliasSet(tool) {
   const zhCategory = (tool.category || '').toString().trim();
@@ -272,14 +310,15 @@ function render(list) {
 
   list.forEach(tool => {
     const card = document.createElement('article');
+    const detailUrl = getDetailUrl(tool);
     card.className = 'card';
     card.setAttribute('role', 'link');
     card.setAttribute('tabindex', '0');
-    card.addEventListener('click', () => window.open(tool.url, '_blank', 'noopener,noreferrer'));
+    card.addEventListener('click', () => { window.location.href = detailUrl; });
     card.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        window.open(tool.url, '_blank', 'noopener,noreferrer');
+        window.location.href = detailUrl;
       }
     });
 
@@ -428,7 +467,8 @@ function toggleViewMode() {
 async function init() {
   try {
     const res = await fetch('./tools.json');
-    tools = await res.json();
+    const rawTools = await res.json();
+    tools = attachToolIdentity(rawTools);
     updateMetrics(tools);
     applyLanguage();
   } catch (err) {
