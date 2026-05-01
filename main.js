@@ -18,6 +18,7 @@ const mCatsLabel = document.getElementById('mCatsLabel');
 const mTotal = document.getElementById('mTotal');
 const mFree = document.getElementById('mFree');
 const mCats = document.getElementById('mCats');
+const firstVisitHint = document.getElementById('firstVisitHint');
 const toTopBtn = document.getElementById('toTopBtn');
 const viewGridBtn = document.getElementById('viewGridBtn');
 const viewListBtn = document.getElementById('viewListBtn');
@@ -39,7 +40,7 @@ const I18N = {
     clear: '清除',
     empty: '没有找到匹配工具，请尝试其它关键词。',
     submit: '提交工具', about: '关于',
-    totalLabel: '总工具', freeLabel: '免费/免费试用', catsLabel: '分类数',
+    totalLabel: '总工具', freeLabel: '免费/免费试用', catsLabel: '分类数', firstVisitHint: '点击标签或搜索快速定位',
     free: '免费', freemium: '免费试用', paid: '付费',
     priceFilterLabels: {
       all: '全部价格',
@@ -97,7 +98,7 @@ const I18N = {
     clear: 'Clear',
     empty: 'No tools found. Try another keyword.',
     submit: 'Submit Tool', about: 'About',
-    totalLabel: 'Total Tools', freeLabel: 'Free/Freemium', catsLabel: 'Categories',
+    totalLabel: 'Total Tools', freeLabel: 'Free/Freemium', catsLabel: 'Categories', firstVisitHint: 'Click tags or search to find tools faster',
     free: 'Free', freemium: 'Freemium', paid: 'Paid',
     priceFilterLabels: {
       all: 'All Prices',
@@ -154,6 +155,7 @@ let currentLang = 'zh';
 let moreExpanded = false;
 let activeTagKey = '';
 let priceMode = 'all';
+const hasSeenHint = localStorage.getItem('firstVisitHintSeen') === '1';
 
 const queryLang = new URLSearchParams(window.location.search).get('lang');
 if (queryLang === 'zh' || queryLang === 'en') {
@@ -297,6 +299,34 @@ function applySort(list) {
   return cloned;
 }
 
+function renderSkeletonCards(count = 8) {
+  toolGrid.innerHTML = '';
+  emptyState.classList.add('hidden');
+  emptyGuide.classList.add('hidden');
+  if (stats) stats.textContent = '';
+
+  for (let index = 0; index < count; index += 1) {
+    const card = document.createElement('article');
+    card.className = 'card skeleton-card';
+    card.setAttribute('aria-hidden', 'true');
+    card.innerHTML = `
+      <div class="card-media skeleton-block"></div>
+      <div class="card-top">
+        <div class="tool-head">
+          <span class="tool-icon skeleton-block"></span>
+          <span class="skeleton-line skeleton-title"></span>
+        </div>
+        <span class="skeleton-pill"></span>
+      </div>
+      <p class="desc skeleton-line skeleton-desc"></p>
+      <div class="tags">
+        <span class="skeleton-pill skeleton-tag"></span>
+        <span class="skeleton-pill skeleton-tag"></span>
+      </div>`;
+    toolGrid.appendChild(card);
+  }
+}
+
 function render(list) {
   toolGrid.innerHTML = '';
   if (!list.length) {
@@ -402,6 +432,7 @@ function applyLanguage() {
   mFreeLabel.textContent = lang.freeLabel;
   mCatsLabel.textContent = lang.catsLabel;
   if (clearSearchBtn) clearSearchBtn.textContent = lang.clear;
+  if (firstVisitHint) firstVisitHint.textContent = lang.firstVisitHint;
   if (categoryTagRow && lang.tagLabels) {
     const buttons = categoryTagRow.querySelectorAll('.category-tag-btn');
     buttons.forEach(btn => {
@@ -435,9 +466,15 @@ function setMoreExpanded(expanded) {
   moreExpanded = expanded;
   if (!categoryTagRow) return;
   const extraButtons = categoryTagRow.querySelectorAll('.category-tag-extra');
-  extraButtons.forEach(btn => {
-    btn.classList.toggle('hidden', !expanded);
+  extraButtons.forEach((btn) => {
+    btn.classList.remove('hidden');
+    if (expanded) {
+      btn.classList.remove('is-collapsed');
+    } else {
+      btn.classList.add('is-collapsed');
+    }
   });
+
   updateMoreButtonLabel();
   const moreBtn = categoryTagRow.querySelector('[data-i18n-key="more"]');
   if (!moreBtn) return;
@@ -465,11 +502,17 @@ function toggleViewMode() {
 }
 
 async function init() {
+  renderSkeletonCards(8);
   try {
     const res = await fetch('./tools.json');
     const rawTools = await res.json();
     tools = attachToolIdentity(rawTools);
     updateMetrics(tools);
+    setMoreExpanded(false);
+    if (firstVisitHint) {
+      firstVisitHint.classList.toggle('hidden', hasSeenHint);
+      if (!hasSeenHint) localStorage.setItem('firstVisitHintSeen', '1');
+    }
     applyLanguage();
   } catch (err) {
     toolGrid.innerHTML = `<p>Data load failed: ${err?.message || err}</p>`;

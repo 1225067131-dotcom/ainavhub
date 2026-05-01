@@ -159,7 +159,26 @@ input:focus, select:focus { border-color: rgba(141,177,247,.6); }
   font-size: .85rem;
   color: #374151 !important;
   cursor: pointer;
-  transition: background-color .15s ease, border-color .15s ease;
+  transition: background-color .15s ease, border-color .15s ease, opacity .2s ease, transform .2s ease, max-height .2s ease, margin .2s ease, padding .2s ease;
+}
+
+.category-tag-extra {
+  max-height: 44px;
+  opacity: 1;
+  transform: translateY(0);
+  overflow: hidden;
+}
+
+.category-tag-extra.is-collapsed {
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  border-width: 0 !important;
 }
 .category-tag-btn .more-icon {
   position: relative;
@@ -247,6 +266,48 @@ input:focus, select:focus { border-color: rgba(141,177,247,.6); }
   transform: translateY(-2px);
   border-color: rgba(182, 126, 255, .85);
   box-shadow: 0 0 0 1px rgba(182,126,255,.35), 0 0 18px rgba(166, 98, 255, .35), 0 10px 26px rgba(7, 15, 27, .36);
+}
+.skeleton-card {
+  pointer-events: none;
+}
+.skeleton-card:hover {
+  transform: none;
+  border-color: #e5e7eb !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+}
+.skeleton-block,
+.skeleton-line,
+.skeleton-pill {
+  background: linear-gradient(90deg, #eef2f7 25%, #f6f8fb 37%, #eef2f7 63%);
+  background-size: 400% 100%;
+  animation: skeleton-loading 1.4s ease infinite;
+}
+.skeleton-line {
+  display: inline-block;
+  height: 14px;
+  border-radius: 999px;
+}
+.skeleton-title {
+  width: 120px;
+}
+.skeleton-desc {
+  width: 82%;
+  min-height: 14px;
+  margin-top: 2px;
+}
+.skeleton-pill {
+  display: inline-block;
+  width: 54px;
+  height: 20px;
+  border-radius: 999px;
+}
+.skeleton-tag {
+  width: 64px;
+  height: 18px;
+}
+@keyframes skeleton-loading {
+  0% { background-position: 100% 0; }
+  100% { background-position: 0 0; }
 }
 .card-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
 .card h3 { margin: 0; font-size: 1.02rem; }
@@ -533,6 +594,12 @@ a, a:visited, .visit, .submit-entry {
 #mTotalLabel,#mFreeLabel,#mCatsLabel,
 #mTotal,#mFree,#mCats {
   color: #1a1a2e !important;
+}
+.first-visit-hint {
+  margin: 6px 0 0;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 13px;
 }
 
 /* card title and category label neutral colors */
