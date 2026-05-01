@@ -1,4 +1,5 @@
   const toolGrid = document.getElementById('toolGrid');
+  
 const searchInput = document.getElementById('searchInput');
 const sortInline = document.getElementById('sortInline');
 const sortSelect = document.getElementById('sortSelect') || sortInline;
@@ -36,6 +37,8 @@ const I18N = {
     sortLabel: ['默认排序', '最新添加', '名称排序'],
     chips: ['全部', '仅免费', '免费优先', '重置筛选'],
     emptyHints: '试试：chat / image / free',
+    emptySuggestKeywords: ['chat', 'image', 'free'],
+    emptyReset: '重置筛选',
     stats: (n) => `共找到 ${n} 个工具`,
     clear: '清除',
     empty: '没有找到匹配工具，请尝试其它关键词。',
@@ -94,6 +97,8 @@ const I18N = {
     sortLabel: ['Default', 'Latest Added', 'Name A-Z'],
     chips: ['All', 'Free Only', 'Free First', 'Reset Filters'],
     emptyHints: 'Try: chat / image / free',
+    emptySuggestKeywords: ['chat', 'image', 'free'],
+    emptyReset: 'Reset filters',
     stats: (n) => `${n} Tools Found`,
     clear: 'Clear',
     empty: 'No tools found. Try another keyword.',
@@ -327,12 +332,21 @@ function renderSkeletonCards(count = 8) {
   }
 }
 
+function renderEmptyGuide() {
+  if (!emptyGuide) return;
+  const lang = I18N[currentLang];
+  const hints = (lang.emptySuggestKeywords || ['chat', 'image', 'free'])
+    .map((keyword) => `<button type="button" class="empty-suggest-btn" data-keyword="${keyword}">${keyword}</button>`)
+    .join('');
+  emptyGuide.innerHTML = `<div class="empty-guide-wrap">${hints}<button type="button" class="empty-reset-btn" data-action="reset">${lang.emptyReset || lang.clear}</button></div>`;
+}
+
 function render(list) {
   toolGrid.innerHTML = '';
   if (!list.length) {
     emptyState.classList.remove('hidden');
     emptyGuide.classList.remove('hidden');
-    emptyGuide.textContent = I18N[currentLang].emptyHints;
+    renderEmptyGuide();
   } else {
     emptyState.classList.add('hidden');
     emptyGuide.classList.add('hidden');
@@ -545,6 +559,31 @@ if (priceFilter) {
   });
 }
 
+if (emptyGuide) {
+  emptyGuide.addEventListener('click', (event) => {
+    const keywordBtn = event.target.closest('[data-keyword]');
+    if (keywordBtn) {
+      const keyword = (keywordBtn.dataset.keyword || '').trim();
+      if (!keyword) return;
+      activeTagKey = '';
+      searchInput.value = keyword;
+      filterTools();
+      return;
+    }
+
+    const resetBtn = event.target.closest('[data-action="reset"]');
+    if (resetBtn) {
+      activeTagKey = '';
+      searchInput.value = '';
+      priceMode = 'all';
+      if (priceFilter) priceFilter.value = 'all';
+      sortInline.value = 'default';
+      sortSelect.value = 'default';
+      filterTools();
+    }
+  });
+}
+
 if (categoryTagRow) {
   categoryTagRow.addEventListener('click', (event) => {
     const target = event.target.closest('button');
@@ -574,6 +613,9 @@ if (categoryTagRow) {
 window.addEventListener('scroll', () => {
   if (window.scrollY > 300) toTopBtn.classList.add('show');
   else toTopBtn.classList.remove('show');
+
+  if (window.scrollY > 56) document.body.classList.add('header-compact');
+  else document.body.classList.remove('header-compact');
 });
 toTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
