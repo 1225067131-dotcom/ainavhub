@@ -1,5 +1,4 @@
   const toolGrid = document.getElementById('toolGrid');
-  
 const searchInput = document.getElementById('searchInput');
 const sortInline = document.getElementById('sortInline');
 const sortSelect = document.getElementById('sortSelect') || sortInline;
@@ -24,157 +23,53 @@ const toTopBtn = document.getElementById('toTopBtn');
 const viewGridBtn = document.getElementById('viewGridBtn');
 const viewListBtn = document.getElementById('viewListBtn');
 const categoryTagRow = document.getElementById('categoryTagRow');
+const recentToolsRow = document.getElementById('recentToolsRow');
+const pagination = document.getElementById('pagination');
 
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-const I18N = {
-  zh: {
-    langBtn: 'EN',
-    heroLead: '让想法找到<span class="slogan-accent">方向</span>', heroAccent: '', heroSub: '',
-    searchPlaceholder: '按名称、描述、标签搜索...',
-    categories: ['全部', '对话', '作图', '视频', '编程', '办公', '学习'],
-    sortLabel: ['默认排序', '最新添加', '名称排序'],
-    chips: ['全部', '仅免费', '免费优先', '重置筛选'],
-    emptyHints: '试试：chat / image / free',
-    emptySuggestKeywords: ['chat', 'image', 'free'],
-    emptyReset: '重置筛选',
-    stats: (n) => `共找到 ${n} 个工具`,
-    clear: '清除',
-    empty: '没有找到匹配工具，请尝试其它关键词。',
-    submit: '提交工具', about: '关于',
-    totalLabel: '总工具', freeLabel: '免费/免费试用', catsLabel: '分类数', firstVisitHint: '点击标签或搜索快速定位',
-    free: '免费', freemium: '免费试用', paid: '付费',
-    priceFilterLabels: {
-      all: '全部价格',
-      free: '免费',
-      freemium: '部分免费',
-      opensource: '开源',
-      paid: '付费'
-    },
-    priceFilterIcons: {
-      all: '📚',
-      free: '🟢',
-      freemium: '🌓',
-      opensource: '🧩',
-      paid: '💳'
-    },
-    tagLabels: {
-      art: '艺术',
-      browserExtensions: '浏览器扩展',
-      data: '数据',
-      design: '设计',
-      development: '开发',
-      education: '教育',
-      entertainment: '娱乐',
-      finance: '金融',
-      games: '游戏',
-      generativeArt: '生成艺术',
-      more: '更多',
-      marketing: '营销',
-      messaging: '消息',
-      music: '音乐',
-      news: '资讯',
-      other: '其它',
-      research: '研究',
-      seo: 'SEO',
-      shopping: '购物',
-      social: '社交',
-      softwareDevelopment: '软件开发',
-      tasks: '任务',
-      text: '文本',
-      travel: '旅行',
-      userExperience: '用户体验',
-      wireframing: '线框图',
-      writing: '写作'
-    }
-  },
-  en: {
-    langBtn: '中',
-    heroLead: 'Where Ideas Find Their <span class="slogan-accent">Way</span>', heroAccent: '', heroSub: '',
-    searchPlaceholder: 'Search by name, description, or tags...',
-    categories: ['All', 'Chat', 'Image', 'Video', 'Coding', 'Office', 'Learning'],
-    sortLabel: ['Default', 'Latest Added', 'Name A-Z'],
-    chips: ['All', 'Free Only', 'Free First', 'Reset Filters'],
-    emptyHints: 'Try: chat / image / free',
-    emptySuggestKeywords: ['chat', 'image', 'free'],
-    emptyReset: 'Reset filters',
-    stats: (n) => `${n} Tools Found`,
-    clear: 'Clear',
-    empty: 'No tools found. Try another keyword.',
-    submit: 'Submit Tool', about: 'About',
-    totalLabel: 'Total Tools', freeLabel: 'Free/Freemium', catsLabel: 'Categories', firstVisitHint: 'Click tags or search to find tools faster',
-    free: 'Free', freemium: 'Freemium', paid: 'Paid',
-    priceFilterLabels: {
-      all: 'All Prices',
-      free: 'Free',
-      freemium: 'Freemium',
-      opensource: 'Open Source',
-      paid: 'Paid'
-    },
-    priceFilterIcons: {
-      all: '📚',
-      free: '🟢',
-      freemium: '🌓',
-      opensource: '🧩',
-      paid: '💳'
-    },
-    tagLabels: {
-      art: 'Art',
-      browserExtensions: 'Browser Extensions',
-      data: 'Data',
-      design: 'Design',
-      development: 'Development',
-      education: 'Education',
-      entertainment: 'Entertainment',
-      finance: 'Finance',
-      games: 'Games',
-      generativeArt: 'Generative Art',
-      more: 'More',
-      marketing: 'Marketing',
-      messaging: 'Messaging',
-      music: 'Music',
-      news: 'News',
-      other: 'Other',
-      research: 'Research',
-      seo: 'SEO',
-      shopping: 'Shopping',
-      social: 'Social',
-      softwareDevelopment: 'Software Development',
-      tasks: 'Tasks',
-      text: 'Text',
-      travel: 'Travel',
-      userExperience: 'User Experience',
-      wireframing: 'Wireframing',
-      writing: 'Writing'
-    }
-  }
-};
+const I18N = window.AppLocales?.main;
 
-const categoryMap = { 对话: 'Chat', 作图: 'Image', 绘图: 'Image', 视频: 'Video', 编程: 'Coding', 办公: 'Office', 学习: 'Learning' };
+const i18nUtils = window.I18NUtils || {};
+const resolveLang = i18nUtils.resolveLang || ((lang) => (['zh', 'en', 'ja'].includes(lang) ? lang : 'zh'));
+const isNonZhLang = i18nUtils.isNonZhLang || ((lang) => lang !== 'zh');
+const htmlLang = i18nUtils.htmlLang || ((lang) => (lang === 'zh' ? 'zh-CN' : (lang === 'ja' ? 'ja' : 'en')));
+const categoryMap = i18nUtils.CATEGORY_MAP || { 对话: 'Chat', 作图: 'Image', 绘图: 'Image', 视频: 'Video', 编程: 'Coding', 办公: 'Office', 学习: 'Learning' };
 const reverseCategoryMap = Object.fromEntries(Object.entries(categoryMap).map(([k, v]) => [v, k]));
 const categoryIcons = { 对话: '💬', 作图: '🖼️', 绘图: '🖼️', 视频: '🎬', 编程: '💻', 办公: '🧾', 学习: '📚' };
+const LANGUAGE_LABELS = { zh: '中文', en: 'EN', ja: '日本語' };
+const STORAGE_KEYS = {
+  language: 'prefLanguage',
+  viewMode: 'prefViewMode',
+  priceFilter: 'prefPriceFilter',
+  recentViewed: 'recentViewedTools'
+};
+const supportedViewModes = new Set(['grid', 'list']);
+const supportedPriceModes = new Set(['all', 'free', 'freemium', 'opensource', 'paid']);
 
 let tools = [];
 let currentLang = 'zh';
 let moreExpanded = false;
-let activeTagKey = '';
+const activeTagKeys = new Set();
 let priceMode = 'all';
+let currentPage = 1;
+const PAGE_SIZE = 24;
 const hasSeenHint = localStorage.getItem('firstVisitHintSeen') === '1';
 
 const queryLang = new URLSearchParams(window.location.search).get('lang');
-if (queryLang === 'zh' || queryLang === 'en') {
-  currentLang = queryLang;
-}
+const savedLang = localStorage.getItem(STORAGE_KEYS.language);
+currentLang = resolveLang(queryLang || savedLang || currentLang);
 
 const localizedCategory = (zh) => currentLang === 'zh' ? zh : (categoryMap[zh] || zh);
 const badgeClass = (f) => (f === '免费' ? 'badge free' : ((f === '免费试用' || f === '部分免费') ? 'badge freemium' : 'badge paid'));
 const categoryClass = (c) => ({ 对话: 'cat-chat', 作图: 'cat-image', 绘图: 'cat-image', 视频: 'cat-video', 编程: 'cat-code', 办公: 'cat-write' }[c] || 'cat-default');
-const localizedTags = (tool) => currentLang === 'en' ? (tool.tagsEn || tool.tags || []) : (tool.tags || []);
-const localizedDescription = (tool) => currentLang === 'en' ? (tool.descriptionEn || tool.description) : tool.description;
-const localizedFreeType = (f) => currentLang === 'zh' ? f : (f === '免费' ? I18N.en.free : ((f === '免费试用' || f === '部分免费') ? I18N.en.freemium : I18N.en.paid));
+const localizedTags = (tool) => isNonZhLang(currentLang) ? (tool.tagsEn || tool.tags || []) : (tool.tags || []);
+const localizedDescription = (tool) => isNonZhLang(currentLang) ? (tool.descriptionEn || tool.description) : tool.description;
+const localizedFreeType = (f) => currentLang === 'zh' ? f : (f === '免费' ? I18N[currentLang].free : ((f === '免费试用' || f === '部分免费') ? I18N[currentLang].freemium : I18N[currentLang].paid));
 const getToolScreenshot = (url) => { try { const u = new URL(url); return `https://image.thum.io/get/width/800/noanimate/${u.origin}`; } catch { return ''; } };
 const getToolScreenshotFallback = (url) => { try { const u = new URL(url); return `https://s.wordpress.com/mshots/v1/${encodeURIComponent(u.origin)}?w=800`; } catch { return ''; } };
+const getToolScreenshotFallback2 = (url) => { try { const u = new URL(url); return `https://mini.s-shot.ru/1024x768/JPEG/1024/Z100/?${encodeURIComponent(u.origin)}`; } catch { return ''; } };
 const getToolLogo = (url) => { try { const u = new URL(url); return `${u.origin}/favicon.ico`; } catch { return './logo.png'; } };
 const getToolLogoFallback = (url) => { try { const u = new URL(url); return `https://icons.duckduckgo.com/ip3/${u.hostname}.ico`; } catch { return './logo.png'; } };
 const getToolIcon = (url) => { try { const u = new URL(url); return `${u.origin}/favicon.ico`; } catch { return './logo.png'; } };
@@ -251,7 +146,7 @@ function updateMetrics(allTools) {
 }
 
 function setSortOptions() {
-  const labels = I18N[currentLang].sortLabel;
+  const labels = (I18N?.[currentLang]?.sortLabel) || ['Default', 'Latest Added', 'Name A-Z'];
   const map = ['default', 'latest', 'name'];
   const prev = sortInline.value || sortSelect.value || 'default';
   const html = labels.map((l, i) => `<option value="${map[i]}">${l}</option>`).join('');
@@ -341,7 +236,53 @@ function renderEmptyGuide() {
   emptyGuide.innerHTML = `<div class="empty-guide-wrap">${hints}<button type="button" class="empty-reset-btn" data-action="reset">${lang.emptyReset || lang.clear}</button></div>`;
 }
 
-function render(list) {
+function renderPagination(totalItems, totalPages) {
+  if (!pagination) return;
+  if (!totalItems || totalPages <= 1) {
+    pagination.innerHTML = '';
+    return;
+  }
+
+  pagination.style.display = 'flex';
+  pagination.style.justifyContent = 'center';
+  pagination.style.alignItems = 'center';
+  pagination.style.gap = '12px';
+
+  const prevDisabled = currentPage <= 1 ? 'disabled' : '';
+  const nextDisabled = currentPage >= totalPages ? 'disabled' : '';
+  const prevLabel = currentLang === 'zh' ? '上一页' : (currentLang === 'ja' ? '前へ' : 'Prev');
+  const nextLabel = currentLang === 'zh' ? '下一页' : (currentLang === 'ja' ? '次へ' : 'Next');
+  const firstLabel = currentLang === 'zh' ? '回到第一页' : (currentLang === 'ja' ? '最初のページへ' : 'First');
+  const firstBtn = currentPage > 1 ? `<button type="button" class="category-tag-btn" data-page="first">${firstLabel}</button>` : '';
+  pagination.innerHTML = `
+    ${firstBtn}
+    <button type="button" class="category-tag-btn" data-page="prev" ${prevDisabled}>${prevLabel}</button>
+    <span class="category-tag-btn" aria-hidden="true">${currentPage} / ${totalPages}</span>
+    <button type="button" class="category-tag-btn" data-page="next" ${nextDisabled}>${nextLabel}</button>
+  `;
+}
+
+function armScreenshotTimeout(card) {
+  const shot = card.querySelector('.tool-shot');
+  if (!shot) return;
+  window.setTimeout(() => {
+    if (shot.dataset.loaded === '1') return;
+    if (!shot.dataset.fallbackTried && shot.dataset.fallback) {
+      shot.dataset.fallbackTried = '1';
+      shot.src = shot.dataset.fallback;
+      return;
+    }
+    if (!shot.dataset.fallback2Tried && shot.dataset.fallback2) {
+      shot.dataset.fallback2Tried = '1';
+      shot.src = shot.dataset.fallback2;
+      return;
+    }
+    shot.style.display = 'none';
+    if (shot.nextElementSibling) shot.nextElementSibling.style.display = 'flex';
+  }, 6000);
+}
+
+function render(list, totalCount = list.length, totalPages = 1) {
   toolGrid.innerHTML = '';
   if (!list.length) {
     emptyState.classList.remove('hidden');
@@ -358,6 +299,7 @@ function render(list) {
     card.className = 'card';
     card.setAttribute('role', 'link');
     card.setAttribute('tabindex', '0');
+    card.setAttribute('title', localizedDescription(tool));
     card.addEventListener('click', () => { window.location.href = detailUrl; });
     card.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
@@ -369,7 +311,7 @@ function render(list) {
     const tags = getDisplayTags(tool).map(t => `<span class="tag">${t}</span>`).join('');
     card.innerHTML = `
       <div class="card-media">
-        <img class="tool-shot" src="${getToolScreenshot(tool.url)}" data-fallback="${getToolScreenshotFallback(tool.url)}" alt="${tool.name} screenshot" loading="lazy" referrerpolicy="no-referrer" onerror="if(this.dataset.fallbackTried || !this.dataset.fallback){ this.style.display='none'; this.nextElementSibling.style.display='flex'; } else { this.dataset.fallbackTried='1'; this.src=this.dataset.fallback; }" onload="if(!this.naturalWidth || !this.naturalHeight){ this.style.display='none'; this.nextElementSibling.style.display='flex'; }" />
+        <img class="tool-shot" src="${getToolScreenshot(tool.url)}" data-fallback="${getToolScreenshotFallback(tool.url)}" data-fallback2="${getToolScreenshotFallback2(tool.url)}" alt="${tool.name} screenshot" loading="lazy" referrerpolicy="no-referrer" onerror="if(!this.dataset.fallbackTried && this.dataset.fallback){ this.dataset.fallbackTried='1'; this.src=this.dataset.fallback; return; } if(!this.dataset.fallback2Tried && this.dataset.fallback2){ this.dataset.fallback2Tried='1'; this.src=this.dataset.fallback2; return; } this.style.display='none'; this.nextElementSibling.style.display='flex';" onload="if(this.naturalWidth && this.naturalHeight){ this.dataset.loaded='1'; return; } this.style.display='none'; this.nextElementSibling.style.display='flex';" />
         <div class="tool-shot-fallback" style="display:none;"><img class="tool-logo-large" src="${getToolLogo(tool.url)}" data-fallback="${getToolLogoFallback(tool.url)}" alt="${tool.name} logo" loading="lazy" referrerpolicy="no-referrer" onerror="if(this.dataset.fallbackTried){this.onerror=null;this.src='./logo.png';}else{this.dataset.fallbackTried='1';this.src=this.dataset.fallback||'./logo.png';}" /></div>
       </div>
       <div class="card-top">
@@ -380,8 +322,10 @@ function render(list) {
       <div class="tags">${tags}</div>`;
 
     toolGrid.appendChild(card);
+    armScreenshotTimeout(card);
   });
-  stats.textContent = I18N[currentLang].stats(list.length);
+  stats.textContent = I18N[currentLang].stats(totalCount);
+  renderPagination(totalCount, totalPages);
 }
 
 function updateActiveTagUI() {
@@ -394,20 +338,20 @@ function updateActiveTagUI() {
       return;
     }
     const rawKey = (btn.dataset.key || btn.textContent || '').trim().toLowerCase();
-    btn.classList.toggle('is-active', !!activeTagKey && rawKey === activeTagKey);
+    btn.classList.toggle('is-active', activeTagKeys.has(rawKey));
   });
 }
 
 function updateClearButtonVisibility() {
   if (!clearSearchBtn) return;
-  const shouldShow = !!activeTagKey || !!searchInput.value.trim();
+  const shouldShow = activeTagKeys.size > 0 || !!searchInput.value.trim();
   clearSearchBtn.classList.toggle('hidden', !shouldShow);
 }
 
-function filterTools() {
+function filterTools(keepPage = false) {
+  if (!keepPage) currentPage = 1;
   const rawKeyword = searchInput.value.trim().toLowerCase();
-  // 有激活的分类标签时，优先按标签筛选，不强制关键字匹配
-  const keyword = activeTagKey ? '' : rawKeyword;
+  const keyword = rawKeyword;
 
   const filtered = tools.filter(tool => {
     const nameDescTags = [
@@ -422,20 +366,93 @@ function filterTools() {
     ].join(' ').toLowerCase();
 
     const matchKeyword = !keyword || nameDescTags.includes(keyword) || allTagsText.includes(keyword);
-    const matchTag = !activeTagKey || allTagsText.includes(activeTagKey);
+    const matchTag = activeTagKeys.size === 0 || [...activeTagKeys].some((tagKey) => allTagsText.includes(tagKey));
     const matchPrice = matchesPriceFilter(tool);
     return matchKeyword && matchTag && matchPrice;
   });
 
-  render(applySort(filtered));
+  const sorted = applySort(filtered);
+  const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
+  if (currentPage > totalPages) currentPage = totalPages;
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const paged = sorted.slice(start, start + PAGE_SIZE);
+
+  render(paged, sorted.length, totalPages);
   updateActiveTagUI();
   updateClearButtonVisibility();
 }
 
+function formatRecentToolName(item) {
+  const raw = (item?.name || item?.slug || '').toString().trim();
+  return raw.replace(/[_\uFF3F-]+/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function getRecentViewedItems() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEYS.recentViewed);
+    const parsed = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(parsed)) return [];
+
+    const cleaned = parsed
+      .filter((item) => item && item.slug)
+      .map((item) => ({ ...item, name: formatRecentToolName(item) }));
+
+    const before = JSON.stringify(parsed);
+    const after = JSON.stringify(cleaned);
+    if (before !== after) {
+      localStorage.setItem(STORAGE_KEYS.recentViewed, after);
+    }
+
+    return cleaned;
+  } catch {
+    return [];
+  }
+}
+
+function renderRecentViewed() {
+  if (!recentToolsRow) return;
+  const items = getRecentViewedItems();
+  if (!items.length) {
+    recentToolsRow.classList.add('hidden');
+    recentToolsRow.innerHTML = '';
+    return;
+  }
+
+  const title = currentLang === 'zh' ? '最近查看：' : (currentLang === 'ja' ? '最近表示：' : 'Recently viewed:');
+  const links = items.slice(0, 8).map((item) => {
+    const detailUrl = new URL('./tool.html', window.location.href);
+    detailUrl.searchParams.set('lang', currentLang);
+    detailUrl.hash = `/${encodeURIComponent(item.slug)}`;
+    const text = formatRecentToolName(item);
+    const icon = item.url ? getToolIcon(item.url) : './logo.png';
+    const iconFallback = item.url ? getToolIconFallback(item.url) : './logo.png';
+    return `<a class="category-tag-btn" href="${detailUrl.toString()}" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;"><img class="tool-icon" src="${icon}" data-fallback="${iconFallback}" alt="${text} icon" loading="lazy" referrerpolicy="no-referrer" onerror="if(this.dataset.fallbackTried){this.onerror=null;this.src='./logo.png';}else{this.dataset.fallbackTried='1';this.src=this.dataset.fallback||'./logo.png';}" />${text}</a>`;
+  }).join('');
+
+  recentToolsRow.style.display = 'flex';
+  recentToolsRow.style.justifyContent = 'center';
+  recentToolsRow.style.alignItems = 'center';
+  recentToolsRow.style.flexWrap = 'wrap';
+  recentToolsRow.style.gap = '16px';
+  recentToolsRow.innerHTML = `<span class="category-tag-btn" aria-hidden="true">${title}</span>${links}`;
+  recentToolsRow.classList.remove('hidden');
+}
+
+function updateLanguageDropdownCheck(dropdown) {
+  if (!dropdown) return;
+  const buttons = dropdown.querySelectorAll('[data-lang]');
+  buttons.forEach((button) => {
+    const code = button.dataset.lang || '';
+    const label = LANGUAGE_LABELS[code] || code;
+    button.textContent = code === currentLang ? `✓ ${label}` : label;
+  });
+}
+
 function applyLanguage() {
-  document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : 'en';
-  const lang = I18N[currentLang];
-  langToggle.textContent = lang.langBtn;
+  document.documentElement.lang = htmlLang(currentLang);
+  const lang = I18N?.[currentLang] || I18N?.zh || I18N?.en;
+  if (!lang) return;
+  langToggle.textContent = LANGUAGE_LABELS[currentLang] || '中文';
   heroTitle.innerHTML = lang.heroAccent ? `${lang.heroLead} <span class="accent">${lang.heroAccent}</span>` : lang.heroLead;
   heroSub.textContent = lang.heroSub;
   searchInput.placeholder = lang.searchPlaceholder;
@@ -459,6 +476,7 @@ function applyLanguage() {
   updateMoreButtonLabel();
   setSortOptions();
   setPriceFilterOptions();
+  renderRecentViewed();
   filterTools();
 }
 
@@ -466,10 +484,10 @@ function updateMoreButtonLabel() {
   if (!categoryTagRow) return;
   const btn = categoryTagRow.querySelector('[data-i18n-key="more"]');
   if (!btn) return;
-  const lang = I18N[currentLang];
+  const lang = I18N?.[currentLang] || I18N?.zh || I18N?.en;
   if (!lang || !lang.tagLabels) return;
   if (moreExpanded) {
-    const label = currentLang === 'zh' ? '收起' : 'Less';
+    const label = currentLang === 'zh' ? '收起' : (currentLang === 'ja' ? '閉じる' : 'Less');
     btn.innerHTML = `<span class="more-icon more-icon-minus" aria-hidden="true"></span><span class="more-label">${label}</span>`;
   } else {
     btn.innerHTML = `<span class="more-icon more-icon-plus" aria-hidden="true"></span><span class="more-label">${lang.tagLabels.more}</span>`;
@@ -502,24 +520,36 @@ function setMoreExpanded(expanded) {
   }
 }
 
-function toggleViewMode() {
-  const isList = toolGrid.classList.contains('list-mode');
+function applyViewMode(mode) {
+  const isList = mode === 'list';
   if (isList) {
-    toolGrid.classList.remove('list-mode');
-    viewGridBtn.classList.add('active');
-    viewListBtn.classList.remove('active');
-  } else {
     toolGrid.classList.add('list-mode');
     viewListBtn.classList.add('active');
     viewGridBtn.classList.remove('active');
+  } else {
+    toolGrid.classList.remove('list-mode');
+    viewGridBtn.classList.add('active');
+    viewListBtn.classList.remove('active');
   }
+}
+
+function toggleViewMode() {
+  const nextMode = toolGrid.classList.contains('list-mode') ? 'grid' : 'list';
+  applyViewMode(nextMode);
+  localStorage.setItem(STORAGE_KEYS.viewMode, nextMode);
 }
 
 async function init() {
   renderSkeletonCards(8);
   try {
     const res = await fetch('./tools.json');
+    if (!res.ok) {
+      throw new Error(`fetch tools.json failed: HTTP ${res.status} ${res.statusText}`);
+    }
     const rawTools = await res.json();
+    if (!Array.isArray(rawTools)) {
+      throw new Error(`tools.json format error: expected array, got ${typeof rawTools}`);
+    }
     tools = attachToolIdentity(rawTools);
     updateMetrics(tools);
     setMoreExpanded(false);
@@ -527,6 +557,13 @@ async function init() {
       firstVisitHint.classList.toggle('hidden', hasSeenHint);
       if (!hasSeenHint) localStorage.setItem('firstVisitHintSeen', '1');
     }
+
+    const savedPriceMode = localStorage.getItem(STORAGE_KEYS.priceFilter);
+    if (supportedPriceModes.has(savedPriceMode)) priceMode = savedPriceMode;
+
+    const savedViewMode = localStorage.getItem(STORAGE_KEYS.viewMode);
+    applyViewMode(supportedViewModes.has(savedViewMode) ? savedViewMode : 'grid');
+
     applyLanguage();
   } catch (err) {
     toolGrid.innerHTML = `<p>Data load failed: ${err?.message || err}</p>`;
@@ -535,12 +572,11 @@ async function init() {
 }
 
 searchInput.addEventListener('input', () => {
-  activeTagKey = '';
   filterTools();
 });
 if (clearSearchBtn) {
   clearSearchBtn.addEventListener('click', () => {
-    activeTagKey = '';
+    activeTagKeys.clear();
     searchInput.value = '';
     filterTools();
     searchInput.focus();
@@ -550,11 +586,50 @@ sortSelect.addEventListener('change', () => { sortInline.value = sortSelect.valu
 sortInline.addEventListener('change', () => { sortSelect.value = sortInline.value; filterTools(); });
 viewGridBtn.addEventListener('click', toggleViewMode);
 viewListBtn.addEventListener('click', toggleViewMode);
-langToggle.addEventListener('click', () => { currentLang = currentLang === 'zh' ? 'en' : 'zh'; applyLanguage(); });
+
+function initLanguageDropdown() {
+  const dropdown = document.createElement('div');
+  dropdown.className = 'lang-menu hidden';
+  dropdown.innerHTML = `
+    <button type="button" data-lang="zh">中文</button>
+    <button type="button" data-lang="en">EN</button>
+    <button type="button" data-lang="ja">日本語</button>
+  `;
+  updateLanguageDropdownCheck(dropdown);
+  langToggle.classList.add('lang-toggle-dropdown');
+  langToggle.insertAdjacentElement('afterend', dropdown);
+
+  langToggle.addEventListener('click', (event) => {
+    event.stopPropagation();
+    updateLanguageDropdownCheck(dropdown);
+    dropdown.classList.toggle('hidden');
+  });
+
+  dropdown.addEventListener('click', (event) => {
+    const target = event.target.closest('[data-lang]');
+    if (!target) return;
+    const nextLang = resolveLang(target.dataset.lang || 'zh');
+    if (nextLang !== currentLang) {
+      currentLang = nextLang;
+      localStorage.setItem(STORAGE_KEYS.language, currentLang);
+      applyLanguage();
+    }
+    updateLanguageDropdownCheck(dropdown);
+    dropdown.classList.add('hidden');
+  });
+
+  document.addEventListener('click', (event) => {
+    if (event.target === langToggle || dropdown.contains(event.target)) return;
+    dropdown.classList.add('hidden');
+  });
+}
+
+initLanguageDropdown();
 
 if (priceFilter) {
   priceFilter.addEventListener('change', () => {
     priceMode = priceFilter.value || 'all';
+    localStorage.setItem(STORAGE_KEYS.priceFilter, priceMode);
     filterTools();
   });
 }
@@ -565,7 +640,7 @@ if (emptyGuide) {
     if (keywordBtn) {
       const keyword = (keywordBtn.dataset.keyword || '').trim();
       if (!keyword) return;
-      activeTagKey = '';
+      activeTagKeys.clear();
       searchInput.value = keyword;
       filterTools();
       return;
@@ -573,9 +648,10 @@ if (emptyGuide) {
 
     const resetBtn = event.target.closest('[data-action="reset"]');
     if (resetBtn) {
-      activeTagKey = '';
+      activeTagKeys.clear();
       searchInput.value = '';
       priceMode = 'all';
+      localStorage.setItem(STORAGE_KEYS.priceFilter, priceMode);
       if (priceFilter) priceFilter.value = 'all';
       sortInline.value = 'default';
       sortSelect.value = 'default';
@@ -597,16 +673,24 @@ if (categoryTagRow) {
     const displayText = (target.textContent || '').trim();
     const keyForMatch = (rawKey || displayText).toLowerCase();
     if (!keyForMatch) return;
-    // 再次点击同一个标签则清空筛选
-    if (activeTagKey === keyForMatch) {
-      activeTagKey = '';
-      searchInput.value = '';
+    if (activeTagKeys.has(keyForMatch)) {
+      activeTagKeys.delete(keyForMatch);
     } else {
-      activeTagKey = keyForMatch;
-      // 搜索框始终显示当前语言下的标签文本
-      searchInput.value = displayText;
+      activeTagKeys.add(keyForMatch);
     }
     filterTools();
+  });
+}
+
+if (pagination) {
+  pagination.addEventListener('click', (event) => {
+    const target = event.target.closest('[data-page]');
+    if (!target) return;
+    const action = target.dataset.page;
+    if (action === 'first') currentPage = 1;
+    if (action === 'prev') currentPage = Math.max(1, currentPage - 1);
+    if (action === 'next') currentPage += 1;
+    filterTools(true);
   });
 }
 

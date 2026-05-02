@@ -7,7 +7,21 @@
     "category": "对话",
     "freeType": "部分免费",
     "tags": ["多用途", "写作", "问答"],
-    "tagsEn": ["Multi-purpose", "Writing", "Q&A"]
+    "tagsEn": ["Multi-purpose", "Writing", "Q&A"],
+    "bestFor": "通用问答、写作草稿、学习辅导",
+    "bestForEn": "General Q&A, drafting, and learning support",
+    "pricingNote": "免费版可用，进阶模型与更高额度需订阅",
+    "pricingNoteEn": "Free tier available; advanced models and higher limits require subscription",
+    "updatedAt": "2026-05",
+    "platforms": ["Web", "iOS", "Android", "Desktop"],
+    "features": ["多轮对话与上下文理解", "文本改写/总结/翻译", "支持代码解释与生成"],
+    "featuresEn": ["Multi-turn conversation with context", "Rewrite, summarize, and translate text", "Code explanation and generation"],
+    "pros": ["通用能力强", "响应速度快", "生态完善"],
+    "prosEn": ["Strong general capability", "Fast responses", "Mature ecosystem"],
+    "cons": ["高阶能力依赖订阅", "回答偶有不准确"],
+    "consEn": ["Advanced capability often requires subscription", "Occasional factual inaccuracies"],
+    "alternatives": ["Claude", "Gemini", "DeepSeek"],
+    "alternativesEn": ["Claude", "Gemini", "DeepSeek"]
   },
   {
     "name": "Claude",
@@ -17,7 +31,21 @@
     "category": "对话",
     "freeType": "部分免费",
     "tags": ["长文本", "总结", "对话"],
-    "tagsEn": ["Long Context", "Summarization", "Chat"]
+    "tagsEn": ["Long Context", "Summarization", "Chat"],
+    "bestFor": "论文/合同/长文档阅读与总结",
+    "bestForEn": "Reading and summarizing papers, contracts, and long documents",
+    "pricingNote": "提供免费体验，高额度与团队功能需付费",
+    "pricingNoteEn": "Free access available; higher usage and team features are paid",
+    "updatedAt": "2026-05",
+    "platforms": ["Web"],
+    "features": ["超长上下文处理", "结构化总结与提纲", "文风重写与润色"],
+    "featuresEn": ["Long-context handling", "Structured summaries and outlines", "Tone rewrite and polishing"],
+    "pros": ["长文理解稳定", "总结质量高"],
+    "prosEn": ["Reliable long-document understanding", "High-quality summarization"],
+    "cons": ["部分地区可用性受限", "高峰期速度波动"],
+    "consEn": ["Availability may vary by region", "Response speed can vary at peak times"],
+    "alternatives": ["ChatGPT", "Gemini", "Perplexity"],
+    "alternativesEn": ["ChatGPT", "Gemini", "Perplexity"]
   },
   {
     "name": "Gemini",
@@ -27,7 +55,21 @@
     "category": "对话",
     "freeType": "部分免费",
     "tags": ["多模态", "Google", "助手"],
-    "tagsEn": ["Multimodal", "Google", "Assistant"]
+    "tagsEn": ["Multimodal", "Google", "Assistant"],
+    "bestFor": "Google 生态协同、图文混合理解",
+    "bestForEn": "Google ecosystem workflows and multimodal understanding",
+    "pricingNote": "基础功能可免费使用，进阶模型和企业能力需订阅",
+    "pricingNoteEn": "Core features are free; advanced models and enterprise capabilities require subscription",
+    "updatedAt": "2026-05",
+    "platforms": ["Web", "Android", "iOS"],
+    "features": ["图文多模态输入", "与 Google 服务联动", "实时信息问答能力"],
+    "featuresEn": ["Multimodal text-image input", "Integrates with Google services", "Strong real-time information Q&A"],
+    "pros": ["生态整合好", "多模态体验自然"],
+    "prosEn": ["Great ecosystem integration", "Natural multimodal experience"],
+    "cons": ["部分功能地区限制", "高级能力需要付费"],
+    "consEn": ["Some features are region-limited", "Advanced capabilities require paid plan"],
+    "alternatives": ["ChatGPT", "Claude", "Perplexity"],
+    "alternativesEn": ["ChatGPT", "Claude", "Perplexity"]
   },
   {
     "name": "Midjourney",
@@ -348,5 +390,205 @@
     "freeType": "部分免费",
     "tags": ["品牌设计", "矢量插画", "图标", "设计"],
     "tagsEn": ["Brand Design", "Vector Illustration", "Icons", "Design", "Art"]
+  },
+  {
+    "name": "Google AI Studio",
+    "description": "面向开发者的 Gemini 调试与 API 原型平台。",
+    "descriptionEn": "Gemini playground and API prototyping platform for developers.",
+    "url": "https://aistudio.google.com",
+    "category": "编程",
+    "freeType": "部分免费",
+    "tags": ["API", "开发", "原型", "软件开发"],
+    "tagsEn": ["API", "Development", "Prototyping", "Software Development"]
+  },
+  {
+    "name": "OpenRouter",
+    "description": "聚合多家大模型 API 的统一调用平台。",
+    "descriptionEn": "Unified API gateway for multiple LLM providers.",
+    "url": "https://openrouter.ai",
+    "category": "编程",
+    "freeType": "部分免费",
+    "tags": ["模型聚合", "API", "开发", "软件开发"],
+    "tagsEn": ["Model Aggregation", "API", "Development", "Software Development"]
+  },
+  {
+    "name": "Hugging Face",
+    "description": "开源模型与数据集社区，支持在线推理与部署。",
+    "descriptionEn": "Open-source model and dataset hub with inference and deployment tools.",
+    "url": "https://huggingface.co",
+    "category": "数据",
+    "freeType": "部分免费",
+    "tags": ["开源", "模型", "数据集", "研究"],
+    "tagsEn": ["Open Source", "Models", "Datasets", "Research", "Data"]
+  },
+  {
+    "name": "Mistral Le Chat",
+    "description": "Mistral 官方对话助手，响应快，适合日常问答。",
+    "descriptionEn": "Official Mistral chat assistant for fast everyday Q&A.",
+    "url": "https://chat.mistral.ai",
+    "category": "对话",
+    "freeType": "部分免费",
+    "tags": ["对话", "问答", "助手"],
+    "tagsEn": ["Chat", "Q&A", "Assistant"]
+  },
+  {
+    "name": "Grok",
+    "description": "xAI 对话助手，擅长实时热点与网页信息问答。",
+    "descriptionEn": "xAI assistant focused on real-time topics and web-grounded Q&A.",
+    "url": "https://grok.com",
+    "category": "对话",
+    "freeType": "部分免费",
+    "tags": ["实时信息", "对话", "问答"],
+    "tagsEn": ["Real-time Info", "Chat", "Q&A"]
+  },
+  {
+    "name": "Character.AI",
+    "description": "角色扮演与陪伴对话平台，适合娱乐和创意写作。",
+    "descriptionEn": "Roleplay and companion chat platform for entertainment and creative writing.",
+    "url": "https://character.ai",
+    "category": "娱乐",
+    "freeType": "部分免费",
+    "tags": ["角色扮演", "陪伴", "创作"],
+    "tagsEn": ["Roleplay", "Companion", "Creative"]
+  },
+  {
+    "name": "Poe",
+    "description": "聚合多模型的聊天平台，可快速切换不同助手。",
+    "descriptionEn": "Multi-model chat platform with quick assistant switching.",
+    "url": "https://poe.com",
+    "category": "对话",
+    "freeType": "部分免费",
+    "tags": ["多模型", "对话", "助手"],
+    "tagsEn": ["Multi-model", "Chat", "Assistant"]
+  },
+  {
+    "name": "Phind",
+    "description": "面向开发者的问题解答与代码搜索助手。",
+    "descriptionEn": "Developer-focused Q&A and code search assistant.",
+    "url": "https://www.phind.com",
+    "category": "编程",
+    "freeType": "部分免费",
+    "tags": ["编程问答", "代码搜索", "开发", "软件开发"],
+    "tagsEn": ["Coding Q&A", "Code Search", "Development", "Software Development"]
+  },
+  {
+    "name": "Tabnine",
+    "description": "企业级 AI 代码补全工具，注重安全与私有化。",
+    "descriptionEn": "Enterprise AI code completion focused on security and private deployment.",
+    "url": "https://www.tabnine.com",
+    "category": "编程",
+    "freeType": "部分免费",
+    "tags": ["代码补全", "企业", "安全", "软件开发"],
+    "tagsEn": ["Code Completion", "Enterprise", "Security", "Software Development"]
+  },
+  {
+    "name": "Amazon CodeWhisperer",
+    "description": "AWS 推出的编程助手，适合云开发场景。",
+    "descriptionEn": "AWS coding assistant for cloud development workflows.",
+    "url": "https://aws.amazon.com/codewhisperer",
+    "category": "编程",
+    "freeType": "部分免费",
+    "tags": ["云开发", "代码补全", "AWS", "软件开发"],
+    "tagsEn": ["Cloud Development", "Code Completion", "AWS", "Software Development"]
+  },
+  {
+    "name": "Dify",
+    "description": "开源 LLM 应用开发平台，支持工作流与知识库。",
+    "descriptionEn": "Open-source LLM app platform with workflows and knowledge bases.",
+    "url": "https://dify.ai",
+    "category": "编程",
+    "freeType": "免费",
+    "tags": ["开源", "工作流", "知识库", "软件开发"],
+    "tagsEn": ["Open Source", "Workflow", "Knowledge Base", "Software Development"]
+  },
+  {
+    "name": "n8n",
+    "description": "自动化工作流平台，可结合 AI 节点搭建智能流程。",
+    "descriptionEn": "Workflow automation platform with AI nodes for intelligent pipelines.",
+    "url": "https://n8n.io",
+    "category": "办公",
+    "freeType": "部分免费",
+    "tags": ["自动化", "工作流", "效率", "任务"],
+    "tagsEn": ["Automation", "Workflow", "Productivity", "Tasks"]
+  },
+  {
+    "name": "Zapier AI",
+    "description": "通过自然语言配置自动化，连接常见办公应用。",
+    "descriptionEn": "Natural-language automation setup connecting common productivity apps.",
+    "url": "https://zapier.com/ai",
+    "category": "办公",
+    "freeType": "部分免费",
+    "tags": ["自动化", "办公", "效率", "任务"],
+    "tagsEn": ["Automation", "Office", "Productivity", "Tasks"]
+  },
+  {
+    "name": "Figma AI",
+    "description": "Figma 内置 AI 设计能力，支持原型与文案生成。",
+    "descriptionEn": "Built-in Figma AI for design, prototyping, and content generation.",
+    "url": "https://www.figma.com/ai",
+    "category": "设计",
+    "freeType": "部分免费",
+    "tags": ["UI设计", "原型", "协作", "设计"],
+    "tagsEn": ["UI Design", "Prototype", "Collaboration", "Design"]
+  },
+  {
+    "name": "Adobe Firefly",
+    "description": "Adobe 官方生成式 AI，适合图像与设计素材生成。",
+    "descriptionEn": "Adobe's generative AI for image and design asset creation.",
+    "url": "https://firefly.adobe.com",
+    "category": "绘图",
+    "freeType": "部分免费",
+    "tags": ["图像生成", "设计素材", "创意", "艺术"],
+    "tagsEn": ["Image Generation", "Design Assets", "Creative", "Art", "Generative Art"]
+  },
+  {
+    "name": "remove.bg",
+    "description": "AI 一键抠图工具，适合电商与设计快速处理。",
+    "descriptionEn": "One-click AI background removal for e-commerce and design workflows.",
+    "url": "https://www.remove.bg",
+    "category": "设计",
+    "freeType": "部分免费",
+    "tags": ["抠图", "设计", "图片处理"],
+    "tagsEn": ["Background Removal", "Design", "Image Editing"]
+  },
+  {
+    "name": "VEED",
+    "description": "在线视频编辑平台，集成字幕、配音与 AI 剪辑。",
+    "descriptionEn": "Online video editor with subtitles, voiceover, and AI editing tools.",
+    "url": "https://www.veed.io",
+    "category": "视频",
+    "freeType": "部分免费",
+    "tags": ["视频编辑", "字幕", "配音"],
+    "tagsEn": ["Video Editing", "Subtitles", "Voiceover"]
+  },
+  {
+    "name": "Otter.ai",
+    "description": "会议实时转录与总结工具，适合团队协作记录。",
+    "descriptionEn": "Meeting transcription and summarization tool for team collaboration.",
+    "url": "https://otter.ai",
+    "category": "办公",
+    "freeType": "部分免费",
+    "tags": ["会议纪要", "转录", "总结"],
+    "tagsEn": ["Meeting Notes", "Transcription", "Summarization"]
+  },
+  {
+    "name": "NotebookLM",
+    "description": "Google 知识笔记助手，可基于资料生成总结与问答。",
+    "descriptionEn": "Google knowledge notebook assistant for source-based summaries and Q&A.",
+    "url": "https://notebooklm.google.com",
+    "category": "学习",
+    "freeType": "部分免费",
+    "tags": ["学习", "笔记", "资料总结", "研究"],
+    "tagsEn": ["Learning", "Notes", "Summaries", "Research"]
+  },
+  {
+    "name": "Wolfram|Alpha",
+    "description": "计算与知识引擎，擅长数学、科学和数据推理。",
+    "descriptionEn": "Computational knowledge engine strong in math, science, and data reasoning.",
+    "url": "https://www.wolframalpha.com",
+    "category": "学习",
+    "freeType": "部分免费",
+    "tags": ["数学", "科学", "计算", "数据"],
+    "tagsEn": ["Math", "Science", "Computation", "Data"]
   }
 ]

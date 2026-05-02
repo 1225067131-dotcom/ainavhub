@@ -20,33 +20,17 @@ function getSlugFromPathname() {
   return '';
 }
 
+const { resolveLang, isNonZhLang, htmlLang, CATEGORY_MAP } = window.I18NUtils;
+
 const toolSlug = getSlugFromHash() || getSlugFromPathname() || (query.get('slug') || '').trim().toLowerCase();
-let currentLang = query.get('lang') === 'en' ? 'en' : 'zh';
+let currentLang = resolveLang(query.get('lang'));
 
-const I18N = {
-  zh: {
-    pageTitle: '工具详情 - Navify AI',
-    back: '返回列表',
-    visit: '访问官网',
-    notFound: '未找到该工具，请返回列表重试。',
-    loadError: '加载失败，请稍后再试。',
-    category: '分类',
-    price: '价格类型',
-    tags: '标签'
-  },
-  en: {
-    pageTitle: 'Tool Detail - Navify AI',
-    back: 'Back to List',
-    visit: 'Visit Official Site',
-    notFound: 'Tool not found. Please return to the list.',
-    loadError: 'Failed to load data. Please try again later.',
-    category: 'Category',
-    price: 'Pricing',
-    tags: 'Tags'
-  }
-};
+const I18N = window.AppLocales.detail;
 
-const categoryMap = { 对话: 'Chat', 作图: 'Image', 绘图: 'Image', 视频: 'Video', 编程: 'Coding', 办公: 'Office', 学习: 'Learning' };
+const categoryMap = CATEGORY_MAP;
+const LANGUAGE_LABELS = { zh: '中文', en: 'EN', ja: '日本語' };
+const RECENT_VIEWED_KEY = 'recentViewedTools';
+const RECENT_VIEWED_LIMIT = 8;
 
 function slugifyToolName(name) {
   return (name || '')
@@ -74,14 +58,28 @@ function attachToolIdentity(rawTools) {
   });
 }
 
-const localizedDescription = (tool) => currentLang === 'en' ? (tool.descriptionEn || tool.description) : tool.description;
-const localizedTags = (tool) => currentLang === 'en' ? (tool.tagsEn || tool.tags || []) : (tool.tags || []);
+const localizedDescription = (tool) => isNonZhLang(currentLang) ? (tool.descriptionEn || tool.description) : tool.description;
+const localizedTags = (tool) => isNonZhLang(currentLang) ? (tool.tagsEn || tool.tags || []) : (tool.tags || []);
+const localizedField = (tool, field) => {
+  const key = isNonZhLang(currentLang) ? `${field}En` : field;
+  const fallbackKey = isNonZhLang(currentLang) ? field : `${field}En`;
+  return tool[key] ?? tool[fallbackKey] ?? '';
+};
+const localizedListField = (tool, field) => {
+  const value = localizedField(tool, field);
+  return Array.isArray(value) ? value.filter(Boolean) : [];
+};
 const localizedCategory = (tool) => {
   if (currentLang === 'zh') return tool.category || '';
   return categoryMap[tool.category] || tool.category || '';
 };
 const localizedFreeType = (freeType) => {
   if (currentLang === 'zh') return freeType || '';
+  if (currentLang === 'ja') {
+    if (freeType === '免费') return '無料';
+    if (freeType === '免费试用' || freeType === '部分免费') return 'フリーミアム';
+    return '有料';
+  }
   if (freeType === '免费') return 'Free';
   if (freeType === '免费试用' || freeType === '部分免费') return 'Freemium';
   return 'Paid';
@@ -105,11 +103,21 @@ const getToolScreenshotFallback = (url) => {
   }
 };
 
+function updateLanguageDropdownCheck(dropdown) {
+  if (!dropdown) return;
+  const buttons = dropdown.querySelectorAll('[data-lang]');
+  buttons.forEach((button) => {
+    const code = button.dataset.lang || '';
+    const label = LANGUAGE_LABELS[code] || code;
+    button.textContent = code === currentLang ? `✓ ${label}` : label;
+  });
+}
+
 function updateStaticText() {
   const lang = I18N[currentLang];
-  document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : 'en';
+  document.documentElement.lang = htmlLang(currentLang);
   document.title = lang.pageTitle;
-  detailLangToggle.textContent = currentLang === 'zh' ? 'EN' : '中';
+  detailLangToggle.textContent = LANGUAGE_LABELS[currentLang] || '中文';
   backListTop.textContent = lang.back;
   backListTop.href = `./index.html?lang=${encodeURIComponent(currentLang)}`;
 }
@@ -129,12 +137,38 @@ function renderError(message) {
   detailCard.innerHTML = `<p class="detail-loading">${message}</p>`;
 }
 
+function rememberRecentlyViewed(tool) {
+  if (!tool || !tool.slug) return;
+  const nextItem = { slug: tool.slug, name: tool.name, url: tool.url };
+  let prev = [];
+  try {
+    const raw = localStorage.getItem(RECENT_VIEWED_KEY);
+    prev = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(prev)) prev = [];
+  } catch {
+    prev = [];
+  }
+
+  const merged = [nextItem, ...prev.filter((item) => item && item.slug && item.slug !== tool.slug)];
+  localStorage.setItem(RECENT_VIEWED_KEY, JSON.stringify(merged.slice(0, RECENT_VIEWED_LIMIT)));
+}
+
 function renderTool(tool) {
   const lang = I18N[currentLang];
+  rememberRecentlyViewed(tool);
   updateDocumentMeta(tool);
   const tags = localizedTags(tool).map((tag) => `<span class="tag">${tag}</span>`).join('');
   const screenshot = getToolScreenshot(tool.url);
   const screenshotFallback = getToolScreenshotFallback(tool.url);
+
+  const bestFor = localizedField(tool, 'bestFor');
+  const pricingNote = localizedField(tool, 'pricingNote');
+  const updatedAt = localizedField(tool, 'updatedAt');
+  const platforms = localizedListField(tool, 'platforms').join(' · ');
+  const features = localizedListField(tool, 'features').map((item) => `<li>${item}</li>`).join('');
+  const pros = localizedListField(tool, 'pros').map((item) => `<li>${item}</li>`).join('');
+  const cons = localizedListField(tool, 'cons').map((item) => `<li>${item}</li>`).join('');
+  const alternatives = localizedListField(tool, 'alternatives').join(' · ');
 
   detailCard.innerHTML = `
     <div class="detail-media">
@@ -146,6 +180,14 @@ function renderTool(tool) {
       <div class="detail-meta-row"><strong>${lang.category}:</strong><span>${localizedCategory(tool)}</span></div>
       <div class="detail-meta-row"><strong>${lang.price}:</strong><span>${localizedFreeType(tool.freeType)}</span></div>
       <div class="detail-meta-row"><strong>${lang.tags}:</strong><span class="detail-tags">${tags}</span></div>
+      ${bestFor ? `<div class="detail-meta-row"><strong>${lang.bestFor}:</strong><span>${bestFor}</span></div>` : ''}
+      ${pricingNote ? `<div class="detail-meta-row"><strong>${lang.pricingNote}:</strong><span>${pricingNote}</span></div>` : ''}
+      ${updatedAt ? `<div class="detail-meta-row"><strong>${lang.updatedAt}:</strong><span>${updatedAt}</span></div>` : ''}
+      ${platforms ? `<div class="detail-meta-row"><strong>${lang.platforms}:</strong><span>${platforms}</span></div>` : ''}
+      ${features ? `<div class="detail-meta-row"><strong>${lang.features}:</strong><span><ul>${features}</ul></span></div>` : ''}
+      ${pros ? `<div class="detail-meta-row"><strong>${lang.pros}:</strong><span><ul>${pros}</ul></span></div>` : ''}
+      ${cons ? `<div class="detail-meta-row"><strong>${lang.cons}:</strong><span><ul>${cons}</ul></span></div>` : ''}
+      ${alternatives ? `<div class="detail-meta-row"><strong>${lang.alternatives}:</strong><span>${alternatives}</span></div>` : ''}
       <div class="detail-actions">
         <a class="btn btn-primary" href="${tool.url}" target="_blank" rel="noopener noreferrer">${lang.visit}</a>
         <a class="btn btn-ghost" href="./index.html?lang=${encodeURIComponent(currentLang)}">${lang.back}</a>
@@ -181,11 +223,45 @@ async function loadTool() {
   }
 }
 
-detailLangToggle.addEventListener('click', () => {
-  currentLang = currentLang === 'zh' ? 'en' : 'zh';
-  const next = new URL(window.location.href);
-  next.searchParams.set('lang', currentLang);
-  window.location.href = next.toString();
-});
+function initDetailLanguageDropdown() {
+  const dropdown = document.createElement('div');
+  dropdown.className = 'lang-menu hidden';
+  dropdown.innerHTML = `
+    <button type="button" data-lang="zh">中文</button>
+    <button type="button" data-lang="en">EN</button>
+    <button type="button" data-lang="ja">日本語</button>
+  `;
+  updateLanguageDropdownCheck(dropdown);
+  detailLangToggle.classList.add('lang-toggle-dropdown');
+  detailLangToggle.insertAdjacentElement('afterend', dropdown);
 
+  detailLangToggle.addEventListener('click', (event) => {
+    event.stopPropagation();
+    updateLanguageDropdownCheck(dropdown);
+    dropdown.classList.toggle('hidden');
+  });
+
+  dropdown.addEventListener('click', (event) => {
+    const target = event.target.closest('[data-lang]');
+    if (!target) return;
+    const nextLang = resolveLang(target.dataset.lang || 'zh');
+    if (nextLang !== currentLang) {
+      currentLang = nextLang;
+      updateLanguageDropdownCheck(dropdown);
+      const next = new URL(window.location.href);
+      next.searchParams.set('lang', currentLang);
+      window.location.href = next.toString();
+      return;
+    }
+    updateLanguageDropdownCheck(dropdown);
+    dropdown.classList.add('hidden');
+  });
+
+  document.addEventListener('click', (event) => {
+    if (event.target === detailLangToggle || dropdown.contains(event.target)) return;
+    dropdown.classList.add('hidden');
+  });
+}
+
+initDetailLanguageDropdown();
 loadTool();

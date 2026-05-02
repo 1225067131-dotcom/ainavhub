@@ -74,6 +74,7 @@
       <article class="metric"><span id="mCatsLabel">分类数</span><strong id="mCats">0</strong></article>
     </section>
     <p id="firstVisitHint" class="first-visit-hint hidden">点击标签或搜索快速定位</p>
+    <div id="recentToolsRow" class="category-tags hidden"></div>
 
     <section class="list-toolbar">
       <div class="stats-row">
@@ -90,6 +91,7 @@
     </section>
 
     <section id="toolGrid" class="tool-grid"></section>
+    <div id="pagination" class="stats"></div>
     <p id="emptyState" class="empty hidden">没有找到匹配工具，请尝试其它关键词。</p>
     <div id="emptyGuide" class="empty-guide hidden"></div>
   </main>
@@ -103,6 +105,8 @@
 
   <button id="toTopBtn" class="to-top" type="button" aria-label="Back to top">↑</button>
 
+  <script src="./i18n.js" defer></script>
+  <script src="./locales.js" defer></script>
   <script src="./main.js" defer></script>
 </body>
 </html>
