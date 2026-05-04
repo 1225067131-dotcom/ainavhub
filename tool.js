@@ -30,7 +30,7 @@ const I18N = window.AppLocales.detail;
 const categoryMap = CATEGORY_MAP;
 const LANGUAGE_LABELS = { zh: '中文', en: 'EN', ja: '日本語' };
 const RECENT_VIEWED_KEY = 'recentViewedTools';
-const RECENT_VIEWED_LIMIT = 8;
+const RECENT_VIEWED_LIMIT = 5;
 
 function slugifyToolName(name) {
   return (name || '')
@@ -155,6 +155,9 @@ function rememberRecentlyViewed(tool) {
 
 function renderTool(tool) {
   const lang = I18N[currentLang];
+  const sectionOverview = currentLang === 'zh' ? '概览信息' : (currentLang === 'ja' ? '概要' : 'Overview');
+  const sectionHighlights = currentLang === 'zh' ? '亮点与注意点' : (currentLang === 'ja' ? 'ハイライト' : 'Highlights');
+  const sectionAlternatives = currentLang === 'zh' ? '替代工具' : (currentLang === 'ja' ? '代替ツール' : 'Alternatives');
   rememberRecentlyViewed(tool);
   updateDocumentMeta(tool);
   const tags = localizedTags(tool).map((tag) => `<span class="tag">${tag}</span>`).join('');
@@ -177,17 +180,38 @@ function renderTool(tool) {
     <div class="detail-body">
       <h2 class="detail-title">${tool.name}</h2>
       <p class="detail-desc">${localizedDescription(tool)}</p>
-      <div class="detail-meta-row"><strong>${lang.category}:</strong><span>${localizedCategory(tool)}</span></div>
-      <div class="detail-meta-row"><strong>${lang.price}:</strong><span>${localizedFreeType(tool.freeType)}</span></div>
-      <div class="detail-meta-row"><strong>${lang.tags}:</strong><span class="detail-tags">${tags}</span></div>
-      ${bestFor ? `<div class="detail-meta-row"><strong>${lang.bestFor}:</strong><span>${bestFor}</span></div>` : ''}
-      ${pricingNote ? `<div class="detail-meta-row"><strong>${lang.pricingNote}:</strong><span>${pricingNote}</span></div>` : ''}
-      ${updatedAt ? `<div class="detail-meta-row"><strong>${lang.updatedAt}:</strong><span>${updatedAt}</span></div>` : ''}
-      ${platforms ? `<div class="detail-meta-row"><strong>${lang.platforms}:</strong><span>${platforms}</span></div>` : ''}
-      ${features ? `<div class="detail-meta-row"><strong>${lang.features}:</strong><span><ul>${features}</ul></span></div>` : ''}
-      ${pros ? `<div class="detail-meta-row"><strong>${lang.pros}:</strong><span><ul>${pros}</ul></span></div>` : ''}
-      ${cons ? `<div class="detail-meta-row"><strong>${lang.cons}:</strong><span><ul>${cons}</ul></span></div>` : ''}
-      ${alternatives ? `<div class="detail-meta-row"><strong>${lang.alternatives}:</strong><span>${alternatives}</span></div>` : ''}
+
+      <section class="detail-section">
+        <h3 class="detail-section-title">${sectionOverview}</h3>
+        <div class="detail-meta-grid">
+          <div class="detail-meta-row"><strong>${lang.category}:</strong><span>${localizedCategory(tool)}</span></div>
+          <div class="detail-meta-row"><strong>${lang.price}:</strong><span>${localizedFreeType(tool.freeType)}</span></div>
+          <div class="detail-meta-row detail-meta-row-full"><strong>${lang.tags}:</strong><span class="detail-tags">${tags}</span></div>
+          ${bestFor ? `<div class="detail-meta-row detail-meta-row-full"><strong>${lang.bestFor}:</strong><span>${bestFor}</span></div>` : ''}
+          ${pricingNote ? `<div class="detail-meta-row detail-meta-row-full"><strong>${lang.pricingNote}:</strong><span>${pricingNote}</span></div>` : ''}
+          ${updatedAt ? `<div class="detail-meta-row"><strong>${lang.updatedAt}:</strong><span>${updatedAt}</span></div>` : ''}
+          ${platforms ? `<div class="detail-meta-row"><strong>${lang.platforms}:</strong><span>${platforms}</span></div>` : ''}
+        </div>
+      </section>
+
+      ${(features || pros || cons) ? `
+      <section class="detail-section">
+        <h3 class="detail-section-title">${sectionHighlights}</h3>
+        <div class="detail-meta-grid">
+          ${features ? `<div class="detail-meta-row detail-meta-row-full"><strong>${lang.features}:</strong><span><ul>${features}</ul></span></div>` : ''}
+          ${pros ? `<div class="detail-meta-row"><strong>${lang.pros}:</strong><span><ul>${pros}</ul></span></div>` : ''}
+          ${cons ? `<div class="detail-meta-row"><strong>${lang.cons}:</strong><span><ul>${cons}</ul></span></div>` : ''}
+        </div>
+      </section>` : ''}
+
+      ${alternatives ? `
+      <section class="detail-section">
+        <h3 class="detail-section-title">${sectionAlternatives}</h3>
+        <div class="detail-meta-grid">
+          <div class="detail-meta-row detail-meta-row-full"><strong>${lang.alternatives}:</strong><span>${alternatives}</span></div>
+        </div>
+      </section>` : ''}
+
       <div class="detail-actions">
         <a class="btn btn-primary" href="${tool.url}" target="_blank" rel="noopener noreferrer">${lang.visit}</a>
         <a class="btn btn-ghost" href="./index.html?lang=${encodeURIComponent(currentLang)}">${lang.back}</a>

@@ -66,14 +66,30 @@ const badgeClass = (f) => (f === '免费' ? 'badge free' : ((f === '免费试用
 const categoryClass = (c) => ({ 对话: 'cat-chat', 作图: 'cat-image', 绘图: 'cat-image', 视频: 'cat-video', 编程: 'cat-code', 办公: 'cat-write' }[c] || 'cat-default');
 const localizedTags = (tool) => isNonZhLang(currentLang) ? (tool.tagsEn || tool.tags || []) : (tool.tags || []);
 const localizedDescription = (tool) => isNonZhLang(currentLang) ? (tool.descriptionEn || tool.description) : tool.description;
-const localizedFreeType = (f) => currentLang === 'zh' ? f : (f === '免费' ? I18N[currentLang].free : ((f === '免费试用' || f === '部分免费') ? I18N[currentLang].freemium : I18N[currentLang].paid));
+const localizedFreeType = (f) => {
+  if (currentLang === 'zh') {
+    if (f === '免费') return '免费';
+    if (f === '免费试用' || f === '部分免费') return '试用';
+    return '付费';
+  }
+  if (currentLang === 'ja') {
+    if (f === '免费') return '無料';
+    if (f === '免费试用' || f === '部分免费') return '体験';
+    return '有料';
+  }
+  if (f === '免费') return 'Free';
+  if (f === '免费试用' || f === '部分免费') return 'Trial';
+  return 'Paid';
+};
 const getToolScreenshot = (url) => { try { const u = new URL(url); return `https://image.thum.io/get/width/800/noanimate/${u.origin}`; } catch { return ''; } };
 const getToolScreenshotFallback = (url) => { try { const u = new URL(url); return `https://s.wordpress.com/mshots/v1/${encodeURIComponent(u.origin)}?w=800`; } catch { return ''; } };
 const getToolScreenshotFallback2 = (url) => { try { const u = new URL(url); return `https://mini.s-shot.ru/1024x768/JPEG/1024/Z100/?${encodeURIComponent(u.origin)}`; } catch { return ''; } };
 const getToolLogo = (url) => { try { const u = new URL(url); return `${u.origin}/favicon.ico`; } catch { return './logo.png'; } };
 const getToolLogoFallback = (url) => { try { const u = new URL(url); return `https://icons.duckduckgo.com/ip3/${u.hostname}.ico`; } catch { return './logo.png'; } };
+const getToolLogoFallback2 = (url) => { try { const u = new URL(url); return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(u.hostname)}&sz=64`; } catch { return './logo.png'; } };
 const getToolIcon = (url) => { try { const u = new URL(url); return `${u.origin}/favicon.ico`; } catch { return './logo.png'; } };
 const getToolIconFallback = (url) => { try { const u = new URL(url); return `https://icons.duckduckgo.com/ip3/${u.hostname}.ico`; } catch { return './logo.png'; } };
+const getToolIconFallback2 = (url) => { try { const u = new URL(url); return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(u.hostname)}&sz=64`; } catch { return './logo.png'; } };
 const normalizeTagText = (value) => (value || '').toString().trim().toLowerCase().replace(/\s+/g, ' ');
 
 function slugifyToolName(name) {
@@ -140,9 +156,9 @@ function getDisplayTags(tool, maxCount = 3) {
 }
 
 function updateMetrics(allTools) {
-  mTotal.textContent = allTools.length;
-  mFree.textContent = allTools.filter(t => t.freeType === '免费' || t.freeType === '免费试用' || t.freeType === '部分免费').length;
-  mCats.textContent = new Set(allTools.map(t => t.category)).size;
+  if (mTotal) mTotal.textContent = allTools.length;
+  if (mFree) mFree.textContent = allTools.filter(t => t.freeType === '免费' || t.freeType === '免费试用' || t.freeType === '部分免费').length;
+  if (mCats) mCats.textContent = new Set(allTools.map(t => t.category)).size;
 }
 
 function setSortOptions() {
@@ -312,10 +328,10 @@ function render(list, totalCount = list.length, totalPages = 1) {
     card.innerHTML = `
       <div class="card-media">
         <img class="tool-shot" src="${getToolScreenshot(tool.url)}" data-fallback="${getToolScreenshotFallback(tool.url)}" data-fallback2="${getToolScreenshotFallback2(tool.url)}" alt="${tool.name} screenshot" loading="lazy" referrerpolicy="no-referrer" onerror="if(!this.dataset.fallbackTried && this.dataset.fallback){ this.dataset.fallbackTried='1'; this.src=this.dataset.fallback; return; } if(!this.dataset.fallback2Tried && this.dataset.fallback2){ this.dataset.fallback2Tried='1'; this.src=this.dataset.fallback2; return; } this.style.display='none'; this.nextElementSibling.style.display='flex';" onload="if(this.naturalWidth && this.naturalHeight){ this.dataset.loaded='1'; return; } this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-        <div class="tool-shot-fallback" style="display:none;"><img class="tool-logo-large" src="${getToolLogo(tool.url)}" data-fallback="${getToolLogoFallback(tool.url)}" alt="${tool.name} logo" loading="lazy" referrerpolicy="no-referrer" onerror="if(this.dataset.fallbackTried){this.onerror=null;this.src='./logo.png';}else{this.dataset.fallbackTried='1';this.src=this.dataset.fallback||'./logo.png';}" /></div>
+        <div class="tool-shot-fallback" style="display:none;"><img class="tool-logo-large" src="${getToolLogo(tool.url)}" data-fallback="${getToolLogoFallback(tool.url)}" data-fallback2="${getToolLogoFallback2(tool.url)}" alt="${tool.name} logo" loading="lazy" referrerpolicy="no-referrer" onerror="if(!this.dataset.fallbackTried){this.dataset.fallbackTried='1';this.src=this.dataset.fallback||'./logo.png';return;}if(!this.dataset.fallback2Tried){this.dataset.fallback2Tried='1';this.src=this.dataset.fallback2||'./logo.png';return;}this.onerror=null;this.src='./logo.png';" /></div>
       </div>
       <div class="card-top">
-        <div class="tool-head"><img class="tool-icon" src="${getToolIcon(tool.url)}" data-fallback="${getToolIconFallback(tool.url)}" alt="${tool.name} icon" loading="lazy" referrerpolicy="no-referrer" onerror="if(this.dataset.fallbackTried){this.onerror=null;this.src='./logo.png';}else{this.dataset.fallbackTried='1';this.src=this.dataset.fallback||'./logo.png';}" /><h3>${tool.name}</h3></div>
+        <div class="tool-head"><img class="tool-icon" src="${getToolIcon(tool.url)}" data-fallback="${getToolIconFallback(tool.url)}" data-fallback2="${getToolIconFallback2(tool.url)}" alt="${tool.name} icon" loading="lazy" referrerpolicy="no-referrer" onerror="if(!this.dataset.fallbackTried){this.dataset.fallbackTried='1';this.src=this.dataset.fallback||'./logo.png';return;}if(!this.dataset.fallback2Tried){this.dataset.fallback2Tried='1';this.src=this.dataset.fallback2||'./logo.png';return;}this.onerror=null;this.src='./logo.png';" /><h3>${tool.name}</h3></div>
         <span class="${badgeClass(tool.freeType)}">${localizedFreeType(tool.freeType)}</span>
       </div>
       <p class="desc">${localizedDescription(tool)}</p>
@@ -395,7 +411,14 @@ function getRecentViewedItems() {
 
     const cleaned = parsed
       .filter((item) => item && item.slug)
-      .map((item) => ({ ...item, name: formatRecentToolName(item) }));
+      .map((item) => {
+        const matchedTool = tools.find((tool) => tool.slug === item.slug);
+        return {
+          ...item,
+          url: item.url || matchedTool?.url || '',
+          name: formatRecentToolName(item)
+        };
+      });
 
     const before = JSON.stringify(parsed);
     const after = JSON.stringify(cleaned);
@@ -419,14 +442,20 @@ function renderRecentViewed() {
   }
 
   const title = currentLang === 'zh' ? '最近查看：' : (currentLang === 'ja' ? '最近表示：' : 'Recently viewed:');
-  const links = items.slice(0, 8).map((item) => {
+  const links = items.slice(0, 5).map((item) => {
     const detailUrl = new URL('./tool.html', window.location.href);
     detailUrl.searchParams.set('lang', currentLang);
     detailUrl.hash = `/${encodeURIComponent(item.slug)}`;
+
+    const normalizedSlug = (item.slug || '').toString().trim().toLowerCase();
+    const matchedTool = tools.find((tool) => (tool.slug || '').toString().trim().toLowerCase() === normalizedSlug);
+    const sourceUrl = item.url || matchedTool?.url || '';
+
     const text = formatRecentToolName(item);
-    const icon = item.url ? getToolIcon(item.url) : './logo.png';
-    const iconFallback = item.url ? getToolIconFallback(item.url) : './logo.png';
-    return `<a class="category-tag-btn" href="${detailUrl.toString()}" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;"><img class="tool-icon" src="${icon}" data-fallback="${iconFallback}" alt="${text} icon" loading="lazy" referrerpolicy="no-referrer" onerror="if(this.dataset.fallbackTried){this.onerror=null;this.src='./logo.png';}else{this.dataset.fallbackTried='1';this.src=this.dataset.fallback||'./logo.png';}" />${text}</a>`;
+    const icon = sourceUrl ? getToolIcon(sourceUrl) : './logo.png';
+    const iconFallback = sourceUrl ? getToolIconFallback(sourceUrl) : './logo.png';
+    const iconFallback2 = sourceUrl ? getToolIconFallback2(sourceUrl) : './logo.png';
+    return `<a class="category-tag-btn" href="${detailUrl.toString()}" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;"><img class="tool-icon" src="${icon}" data-fallback="${iconFallback}" data-fallback2="${iconFallback2}" alt="${text} icon" loading="lazy" referrerpolicy="no-referrer" onerror="if(!this.dataset.fallbackTried){this.dataset.fallbackTried='1';this.src=this.dataset.fallback||'./logo.png';return;}if(!this.dataset.fallback2Tried){this.dataset.fallback2Tried='1';this.src=this.dataset.fallback2||'./logo.png';return;}this.onerror=null;this.src='./logo.png';" />${text}</a>`;
   }).join('');
 
   recentToolsRow.style.display = 'flex';
@@ -459,9 +488,9 @@ function applyLanguage() {
   emptyState.textContent = lang.empty;
   submitEntry.textContent = lang.submit;
   aboutEntry.textContent = lang.about;
-  mTotalLabel.textContent = lang.totalLabel;
-  mFreeLabel.textContent = lang.freeLabel;
-  mCatsLabel.textContent = lang.catsLabel;
+  if (mTotalLabel) mTotalLabel.textContent = lang.totalLabel;
+  if (mFreeLabel) mFreeLabel.textContent = lang.freeLabel;
+  if (mCatsLabel) mCatsLabel.textContent = lang.catsLabel;
   if (clearSearchBtn) clearSearchBtn.textContent = lang.clear;
   if (firstVisitHint) firstVisitHint.textContent = lang.firstVisitHint;
   if (categoryTagRow && lang.tagLabels) {
@@ -494,30 +523,119 @@ function updateMoreButtonLabel() {
   }
 }
 
-function setMoreExpanded(expanded) {
-  moreExpanded = expanded;
-  if (!categoryTagRow) return;
-  const extraButtons = categoryTagRow.querySelectorAll('.category-tag-extra');
-  extraButtons.forEach((btn) => {
-    btn.classList.remove('hidden');
-    if (expanded) {
-      btn.classList.remove('is-collapsed');
-    } else {
-      btn.classList.add('is-collapsed');
-    }
-  });
+function getCollapsedCategoryTagRowHeight() {
+  if (!categoryTagRow) return 0;
+  const buttons = [...categoryTagRow.querySelectorAll('.category-tag-btn')]
+    .filter((btn) => !btn.classList.contains('category-tag-extra'));
+  if (!buttons.length) return 0;
 
-  updateMoreButtonLabel();
-  const moreBtn = categoryTagRow.querySelector('[data-i18n-key="more"]');
-  if (!moreBtn) return;
+  const rowTops = [];
+  buttons.forEach((btn) => {
+    const top = btn.offsetTop;
+    if (!rowTops.includes(top)) rowTops.push(top);
+  });
+  rowTops.sort((a, b) => a - b);
+
+  const thirdRowTop = rowTops[Math.min(2, rowTops.length - 1)];
+  const thirdRowButtons = buttons.filter((btn) => btn.offsetTop === thirdRowTop);
+  const maxBottom = Math.max(...thirdRowButtons.map((btn) => btn.offsetTop + btn.offsetHeight));
+  return Math.ceil(maxBottom);
+}
+
+function getExtraCategoryButtons() {
+  return categoryTagRow ? [...categoryTagRow.querySelectorAll('.category-tag-extra')] : [];
+}
+
+function setExtraButtonsDetached(buttons, detached) {
+  buttons.forEach((btn) => {
+    btn.style.position = detached ? 'absolute' : '';
+    btn.style.visibility = detached ? 'hidden' : '';
+    btn.style.pointerEvents = detached ? 'none' : '';
+    btn.style.inset = detached ? '0 auto auto 0' : '';
+  });
+}
+
+function setExtraButtonsState(buttons, expanded) {
+  buttons.forEach((btn) => {
+    btn.classList.toggle('hidden', !expanded);
+    btn.classList.toggle('is-collapsed', !expanded);
+  });
+}
+
+function getExpandedCategoryTagRowHeight() {
+  if (!categoryTagRow) return 0;
+  return Math.ceil(categoryTagRow.scrollHeight);
+}
+
+function syncCategoryTagRowHeight() {
+  if (!categoryTagRow) return;
+  categoryTagRow.style.height = 'auto';
+  categoryTagRow.style.maxHeight = moreExpanded
+    ? `${getExpandedCategoryTagRowHeight()}px`
+    : `${getCollapsedCategoryTagRowHeight()}px`;
+}
+
+function placeMoreButton(expanded, moreBtn, extraButtons) {
+  if (!categoryTagRow || !moreBtn) return;
   if (expanded) {
     categoryTagRow.appendChild(moreBtn);
-  } else {
-    const extras = categoryTagRow.querySelectorAll('.category-tag-extra');
-    if (extras.length) {
-      categoryTagRow.insertBefore(moreBtn, extras[0]);
-    }
+    return;
   }
+  if (extraButtons.length) {
+    categoryTagRow.insertBefore(moreBtn, extraButtons[0]);
+  }
+}
+
+function setMoreExpanded(expanded, animate = true) {
+  moreExpanded = expanded;
+  if (!categoryTagRow) return;
+
+  const extraButtons = getExtraCategoryButtons();
+  const moreBtn = categoryTagRow.querySelector('[data-i18n-key="more"]');
+  if (!moreBtn) return;
+
+  placeMoreButton(expanded, moreBtn, extraButtons);
+  updateMoreButtonLabel();
+  categoryTagRow.classList.toggle('is-expanded', expanded);
+
+  if (!animate) {
+    setExtraButtonsDetached(extraButtons, false);
+    setExtraButtonsState(extraButtons, expanded);
+    syncCategoryTagRowHeight();
+    return;
+  }
+
+  const currentHeight = Math.ceil(categoryTagRow.getBoundingClientRect().height);
+  categoryTagRow.style.height = 'auto';
+  categoryTagRow.style.maxHeight = `${currentHeight}px`;
+
+  if (expanded) {
+    setExtraButtonsDetached(extraButtons, false);
+    extraButtons.forEach((btn) => {
+      btn.classList.remove('hidden');
+      btn.classList.add('is-collapsed');
+    });
+
+    window.requestAnimationFrame(() => {
+      extraButtons.forEach((btn) => btn.classList.remove('is-collapsed'));
+      window.requestAnimationFrame(() => {
+        categoryTagRow.style.maxHeight = `${getExpandedCategoryTagRowHeight()}px`;
+      });
+    });
+  } else {
+    extraButtons.forEach((btn) => btn.classList.add('is-collapsed'));
+    window.requestAnimationFrame(() => {
+      setExtraButtonsDetached(extraButtons, true);
+      categoryTagRow.style.maxHeight = `${getCollapsedCategoryTagRowHeight()}px`;
+    });
+  }
+
+  categoryTagRow.addEventListener('transitionend', (event) => {
+    if (event.propertyName !== 'max-height') return;
+    setExtraButtonsDetached(extraButtons, false);
+    setExtraButtonsState(extraButtons, moreExpanded);
+    syncCategoryTagRowHeight();
+  }, { once: true });
 }
 
 function applyViewMode(mode) {
@@ -552,7 +670,7 @@ async function init() {
     }
     tools = attachToolIdentity(rawTools);
     updateMetrics(tools);
-    setMoreExpanded(false);
+    setMoreExpanded(false, false);
     if (firstVisitHint) {
       firstVisitHint.classList.toggle('hidden', hasSeenHint);
       if (!hasSeenHint) localStorage.setItem('firstVisitHintSeen', '1');
@@ -625,6 +743,11 @@ function initLanguageDropdown() {
 }
 
 initLanguageDropdown();
+
+window.addEventListener('resize', () => {
+  if (!categoryTagRow) return;
+  syncCategoryTagRowHeight();
+});
 
 if (priceFilter) {
   priceFilter.addEventListener('change', () => {
